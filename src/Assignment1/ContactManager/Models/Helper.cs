@@ -34,6 +34,26 @@ namespace ContactManager.Models
                 return null;
             }
         }
+        /// <summary>
+        /// Determines whether the specified string represents a valid integer.
+        /// </summary>
+        /// <param name="detailtxt">The string to evaluate.</param>
+        /// <returns>true if the string is a valid integer; otherwise, false.</returns>
+        public bool IsNumchice(string? detailtxt)
+        {
+            if (string.IsNullOrEmpty(detailtxt) || string.IsNullOrWhiteSpace(detailtxt))
+            {
+                return false;
+            }
+            else if (!int.TryParse(detailtxt, out var c))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
 
         /// <summary>
         /// Validates a text input value.
@@ -120,6 +140,15 @@ namespace ContactManager.Models
             {
                 return null;
             }
+        }
+
+        /// <summary>
+        /// This checks if the contact list is empty and displays a message if no contacts are found.
+        /// </summary>
+        internal void IscontactsEmpty()
+        {
+            Console.WriteLine("No contacts found.");
+            return;
         }
     }
 }

@@ -31,6 +31,7 @@ namespace ContactManager
                 {
                     char.TryParse(input, out character);
                 }
+
                 switch (character)
                 {
                     case 'A' or 'a':

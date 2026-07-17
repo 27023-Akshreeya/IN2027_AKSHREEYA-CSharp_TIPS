@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using ContactManager.ConsoleView;
 using ContactManager.Models;
 using ContactManager.Repository;
 
@@ -12,6 +13,8 @@ namespace ContactManager.Service
     internal class ContactService
     {
         private Repo _repo;
+        private Helper _strval = new Helper();
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ContactService"/> class.
         /// </summary>
@@ -22,8 +25,9 @@ namespace ContactManager.Service
         /// <returns>The joined names.</returns>
         public ContactService(Repo repo)
         {
-            this._repo = _repo;
+            this._repo = repo;
         }
+
         /// <summary>
         /// add contact
         /// </summary>
@@ -31,52 +35,55 @@ namespace ContactManager.Service
         public void AddContact(ContactInfo contact)
         {
             contact.Id = Guid.NewGuid();
-            _repo.Add(contact);
+            this._repo.Add(contact);
         }
+
         /// <summary>
         /// remove
         /// </summary>
         /// <param name="name">name</param>
         public void RemoveContact(string? name)
         {
-            Guid id = GetGuidByName(name);
-            _repo.RemoveByname(id);
+            Guid id = this.GetGuidByName(name);
+            this._repo.RemoveByname(id);
         }
+
         /// <summary>
-        /// edit 
+        /// edit
         /// </summary>
         /// <param name="contact">contact</param>
         /// <param name="guid">id</param>
         public void EditContact(ContactInfo contact, Guid guid)
         {
-            _repo.Update(contact, guid);
+            this._repo.Update(contact, guid);
         }
+
         /// <summary>
         /// search
         /// </summary>
         /// <param name="name">name</param>
         public void SearchContact(string? name)
         {
-            Guid id = GetGuidByName(name);
-            SearchByName(id);
+            Guid id = this.GetGuidByName(name);
+            this.SearchByName(id);
         }
+
         /// <summary>
         /// view
         /// </summary>
         internal void ViewContact()
         {
-            List<ContactInfo> contacts = _repo.GetAllContacts();
+            List<ContactInfo> contacts = this._repo.GetAllContacts();
             if (contacts.Count == 0)
             {
-                Console.WriteLine("No contacts found.");
+                this._strval.IscontactsEmpty();
                 return;
             }
+
             var sortedContacts = contacts.OrderBy(c => c.Name).ToList();
-            foreach (var contact in sortedContacts)
-            {
-                Console.WriteLine($"Name: {contact.Name}, \nPhone Number: {contact.PhoneNumber}, \nEmail Id: {contact.EmailId}, \nNotes: {contact.Notes}");
-            }
+            UserConsole.Displaylist(sortedContacts);
         }
+
         /// <summary>
         /// get id
         /// </summary>
@@ -84,13 +91,20 @@ namespace ContactManager.Service
         /// <returns>returning</returns>
         internal Guid GetGuidByName(string? name)
         {
-            List<ContactInfo> contacts = _repo.GetAllContacts();
+            List<ContactInfo> contacts = this._repo.GetAllContacts();
             if (contacts.Count == 0)
             {
-                Console.WriteLine("No contacts found.");
+                this._strval.IscontactsEmpty();
                 return Guid.Empty;
             }
+
             ContactInfo findName = contacts.Find(c => c.Name == name);
+            if (findName == null)
+            {
+                this._strval.IscontactsEmpty();
+                return Guid.Empty;
+            }
+
             return findName.Id;
         }
 
@@ -99,42 +113,47 @@ namespace ContactManager.Service
             List<ContactInfo> contacts = repo.GetAllContacts();
             contacts.ForEach(c => Console.WriteLine($"Name: {c.Name}, \nPhone Number: {c.PhoneNumber}, \nEmail Id: {c.EmailId}, \nNotes: {c.Notes}"));
         }*/
+
         /// <summary>
-        /// contact 
+        /// contact
         /// </summary>
         /// <param name="name">name</param>
         /// <returns>info</returns>
-        internal ContactInfo GetContactByName(string? name)
+        internal ContactInfo? GetContactByName(string? name)
         {
-            List<ContactInfo> contacts = _repo.GetAllContacts();
+            List<ContactInfo> contacts = this._repo.GetAllContacts();
             if (contacts.Count == 0)
             {
-                Console.WriteLine("No contacts found.");
+                this._strval.IscontactsEmpty();
                 return null;
             }
+
             ContactInfo findName = contacts.Find(c => c.Name == name);
 
             return findName;
         }
+
         /// <summary>
         /// search
         /// </summary>
         /// <param name="id">id</param>
         internal void SearchByName(Guid id)
         {
-            List<ContactInfo> contacts = _repo.GetAllContacts();
+            List<ContactInfo> contacts = this._repo.GetAllContacts();
 
             if (contacts.Count == 0)
             {
-                Console.WriteLine("No contacts found.");
-                return;
+               this._strval.IscontactsEmpty();
+               return;
             }
 
             ContactInfo findId = contacts.Find(c => c.Id == id);
-            Console.WriteLine($"Name: {findId.Name}\n");
-            Console.WriteLine($"Name: {findId.PhoneNumber}\n");
-            Console.WriteLine($"Name: {findId.EmailId}\n");
-            Console.WriteLine($"Name: {findId.Notes}");
+            if (findId == null)
+            {
+                return;
+            }
+
+            UserConsole.Display(findId);
         }
     }
 }

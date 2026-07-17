@@ -1,4 +1,8 @@
-﻿using ContactManager.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Xml.Linq;
+using ContactManager.Models;
 
 namespace ContactManager.Repository
 {
@@ -10,7 +14,7 @@ namespace ContactManager.Repository
         private List<ContactInfo> _contacts = new List<ContactInfo>();
 
         /// <summary>
-        /// This method adds object to the repository.
+        /// This method adds object to the repository
         /// </summary>
         /// <param name="contact">the argument refers to contact info</param>
         public void Add(ContactInfo contact)
@@ -33,13 +37,8 @@ namespace ContactManager.Repository
         /// <param name="id">gets the corresponding id and removes </param>
         internal void RemoveByname(Guid id)
         {
-#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
-            ContactInfo? findId = this._contacts.Find(c => c.Id == id);
-#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
-            if (findId != null)
-            {
-                this._contacts.Remove(item: findId);
-            }
+            ContactInfo findId = this._contacts.Find(c => c.Id == id);
+            this._contacts.Remove(findId);
         }
 
         /// <summary>
@@ -49,9 +48,9 @@ namespace ContactManager.Repository
         /// <param name="id">updates by id</param>
         internal void Update(ContactInfo contact, Guid id)
         {
-            ContactInfo? findId = this._contacts.Find(c => c.Id == id);
-            if (findId != null)
+            if (id != null)
             {
+                ContactInfo? findId = this._contacts.Find(c => c.Id == id);
                 findId.Name = contact.Name;
                 findId.PhoneNumber = contact.PhoneNumber;
                 findId.EmailId = contact.EmailId;

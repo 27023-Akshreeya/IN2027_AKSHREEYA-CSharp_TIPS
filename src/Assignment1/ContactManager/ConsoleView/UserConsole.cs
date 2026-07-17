@@ -20,6 +20,30 @@ namespace ContactManager.ConsoleView
         private ContactService _con = new ContactService(repo);
 
         /// <summary>
+        /// This displays the details of a contact based on the provided ContactInfo object.
+        /// </summary>
+        /// <param name="id">This points to the searched id</param>
+        public static void Display(ContactInfo id)
+        {
+            Console.WriteLine($"Name: {id.Name}\n");
+            Console.WriteLine($"Name: {id.PhoneNumber}\n");
+            Console.WriteLine($"Name: {id.EmailId}\n");
+            Console.WriteLine($"Name: {id.Notes}");
+        }
+
+        /// <summary>
+        /// Displays a list of contacts in a formatted manner.
+        /// </summary>
+        /// <param name="sortedContacts">recives the list</param>
+        public static void Displaylist(List<ContactInfo> sortedContacts)
+        {
+            foreach (var contact in sortedContacts)
+            {
+                Console.WriteLine($"Name: {contact.Name}, \nPhone Number: {contact.PhoneNumber}, \nEmail Id: {contact.EmailId}, \nNotes: {contact.Notes}");
+            }
+        }
+
+        /// <summary>
         /// Displays the main menu options to the user.
         /// </summary>
         public void Menu()
@@ -46,7 +70,7 @@ namespace ContactManager.ConsoleView
             Console.Write("Enter a choice:");
             string? userChoice = Console.ReadLine();
 
-            string outChoice = _strval.IsChoiceValid(userChoice);
+            string? outChoice = this._strval.IsChoiceValid(userChoice);
 
             if (outChoice == null)
             {
@@ -61,10 +85,10 @@ namespace ContactManager.ConsoleView
         /// </summary>
         public void GetAdd()
         {
-            Console.WriteLine("Enter your name");
+            Console.Write("Enter your name:");
             string? name = Console.ReadLine();
 
-            string resName = _strval.CheckStrValidity(name);
+            string? resName = this._strval.CheckStrValidity(name);
 
             if (resName != null)
             {
@@ -72,10 +96,10 @@ namespace ContactManager.ConsoleView
                 return;
             }
 
-            Console.WriteLine("Enter your Phone number");
+            Console.Write("Enter your Phone number:");
             string? phoneNumStr = Console.ReadLine();
 
-            string resNum = _strval.CheckNumValidity(phoneNumStr);
+            string? resNum = this._strval.CheckNumValidity(phoneNumStr);
 
             if (resNum != null)
             {
@@ -85,10 +109,10 @@ namespace ContactManager.ConsoleView
 
             long phoneNumber = Convert.ToInt64(phoneNumStr);
 
-            Console.WriteLine("Enter your email address");
+            Console.Write("Enter your email address:");
             string? emailAddress = Console.ReadLine();
 
-            string resEA = _strval.CheckEmailValidity(emailAddress);
+            string? resEA = this._strval.CheckEmailValidity(emailAddress);
 
             if (resEA != null)
             {
@@ -96,10 +120,10 @@ namespace ContactManager.ConsoleView
                 return;
             }
 
-            Console.WriteLine("Enter additional notes");
+            Console.Write("Enter additional notes:");
             string? addNotes = Console.ReadLine();
 
-            string resAN = _strval.CheckNoteslValidity(addNotes);
+            string? resAN = this._strval.CheckNoteslValidity(addNotes);
 
             if (resAN != null)
             {
@@ -110,7 +134,7 @@ namespace ContactManager.ConsoleView
             ContactInfo contact =
                 new ContactInfo(name, phoneNumber, emailAddress, addNotes);
 
-            _con.AddContact(contact);
+            this._con.AddContact(contact);
         }
 
         /// <summary>
@@ -118,26 +142,29 @@ namespace ContactManager.ConsoleView
         /// </summary>
         public void GetEdit()
         {
-            Console.WriteLine("Enter the name of the contact you want to edit");
+            Console.Write("Enter the name of the contact you want to edit:");
 
             string? name = Console.ReadLine();
 
-            ContactInfo contact = _con.GetContactByName(name);
-            Guid contact1 = _con.GetGuidByName(name);
+            ContactInfo contact = this._con.GetContactByName(name);
+            Guid contact1 = this._con.GetGuidByName(name);
 
             if (contact != null)
             {
-                Console.WriteLine(
-                    "Enter the detail you want to edit.\n1.Name\n2.Phone Number\n3.Email address\n4.Notes\nEnter the option number:");
+                Console.Write("Enter the detail you want to edit.\n1.Name\n2.Phone Number\n3.Email address\n4.Notes\nEnter the option number:");
 
-                int detail = Convert.ToInt32(Console.ReadLine());
-
+                string detailtxt = Console.ReadLine();
+                if(_strval.IsNumchice(detailtxt) == false)
+                {
+                    Console.WriteLine("Invalid input");
+                    return;
+                }
+                int detail = Convert.ToInt32(detailtxt);
                 if (detail == 1)
                 {
-                    Console.WriteLine("Enter new name");
-
+                    Console.Write("Enter new name:");
                     string? editName = Console.ReadLine();
-                    string resName = _strval.CheckStrValidity(editName);
+                    string? resName = this._strval.CheckStrValidity(editName);
 
                     if (resName != null)
                     {
@@ -146,14 +173,14 @@ namespace ContactManager.ConsoleView
                     }
 
                     contact.Name = editName;
-                    _con.EditContact(contact, contact1);
+                    this._con.EditContact(contact, contact1);
                 }
                 else if (detail == 2)
                 {
-                    Console.WriteLine("Enter new phone number");
+                    Console.Write("Enter new phone number:");
 
                     string? editphnNumstr = Console.ReadLine();
-                    string resNum = _strval.CheckNumValidity(editphnNumstr);
+                    string? resNum = this._strval.CheckNumValidity(editphnNumstr);
 
                     if (resNum != null)
                     {
@@ -164,14 +191,14 @@ namespace ContactManager.ConsoleView
                     long editPhoneNumber = Convert.ToInt64(editphnNumstr);
                     contact.PhoneNumber = editPhoneNumber;
 
-                    _con.EditContact(contact, contact1);
+                    this._con.EditContact(contact, contact1);
                 }
                 else if (detail == 3)
                 {
-                    Console.WriteLine("Enter new email address");
+                    Console.Write("Enter new email address:");
 
                     string? editEmailAddress = Console.ReadLine();
-                    string resEA = _strval.CheckEmailValidity(editEmailAddress);
+                    string? resEA = this._strval.CheckEmailValidity(editEmailAddress);
 
                     if (resEA != null)
                     {
@@ -180,14 +207,14 @@ namespace ContactManager.ConsoleView
                     }
 
                     contact.EmailId = editEmailAddress;
-                    _con.EditContact(contact, contact1);
+                    this._con.EditContact(contact, contact1);
                 }
                 else if (detail == 4)
                 {
-                    Console.WriteLine("Enter new notes");
+                    Console.Write("Enter new notes:");
 
                     string? editNotes = Console.ReadLine();
-                    string resAN = _strval.CheckNoteslValidity(editNotes);
+                    string? resAN = this._strval.CheckNoteslValidity(editNotes);
 
                     if (resAN != null)
                     {
@@ -196,7 +223,7 @@ namespace ContactManager.ConsoleView
                     }
 
                     contact.Notes = editNotes;
-                    _con.EditContact(contact, contact1);
+                    this._con.EditContact(contact, contact1);
                 }
                 else
                 {
@@ -216,7 +243,16 @@ namespace ContactManager.ConsoleView
         /// </summary>
         internal void GetView()
         {
-            _con.ViewContact();
+            this._con.ViewContact();
+        }
+
+        /// <summary>
+        /// This checks if the contact list is empty and displays a message if no contacts are found.
+        /// </summary>
+        internal void IscontactsEmpty()
+        {
+            Console.WriteLine("No contacts found.");
+            return;
         }
 
         /// <summary>
@@ -228,7 +264,7 @@ namespace ContactManager.ConsoleView
 
             string? name = Console.ReadLine();
 
-            string resName = _strval.CheckStrValidity(name);
+            string? resName = this._strval.CheckStrValidity(name);
 
             if (resName != null)
             {
@@ -236,8 +272,9 @@ namespace ContactManager.ConsoleView
                 return;
             }
 
-            _con.SearchContact(name);
+            this._con.SearchContact(name);
         }
+
         /// <summary>
         /// Removes a contact from the system by name.
         /// </summary>
@@ -247,7 +284,7 @@ namespace ContactManager.ConsoleView
 
             string? name = Console.ReadLine();
 
-            string resName = _strval.CheckStrValidity(name);
+            string? resName = this._strval.CheckStrValidity(name);
 
             if (resName != null)
             {
@@ -255,7 +292,7 @@ namespace ContactManager.ConsoleView
                 return;
             }
 
-            _con.RemoveContact(name);
+            this._con.RemoveContact(name);
         }
     }
 }
