@@ -149,6 +149,3 @@ dotnet_diagnostic.SA1629.severity = silent
 dotnet_diagnostic.SA1309.severity = silent
 dotnet_diagnostic.SA1633.severity = silent
 dotnet_diagnostic.SA1200.severity = silent
-
-# CS8600: Converting null literal or possible null value to non-nullable type.
-dotnet_diagnostic.CS8600.severity = none
