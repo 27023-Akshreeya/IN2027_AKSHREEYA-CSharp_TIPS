@@ -48,7 +48,7 @@ namespace ContactManager.Models
         /// <value>
         /// The contact's name.
         /// </value>
-        public string? Name { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// Gets or sets the phone number of the contact.
@@ -56,7 +56,7 @@ namespace ContactManager.Models
         /// <value>
         /// The contact's phone number.
         /// </value>
-        public long? PhoneNumber { get; set; }
+        public long PhoneNumber { get; set; }
 
         /// <summary>
         /// Gets or sets the email address of the contact.
@@ -64,7 +64,7 @@ namespace ContactManager.Models
         /// <value>
         /// The contact's email address.
         /// </value>
-        public string? EmailId { get; set; }
+        public string EmailId { get; set; }
 
         /// <summary>
         /// Gets or sets additional notes about the contact.
@@ -72,6 +72,6 @@ namespace ContactManager.Models
         /// <value>
         /// Additional information related to the contact.
         /// </value>
-        public string? Notes { get; set; }
+        public string Notes { get; set; }
     }
 }
