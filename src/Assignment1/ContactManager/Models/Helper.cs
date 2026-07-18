@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace ContactManager.Models
@@ -19,33 +20,34 @@ namespace ContactManager.Models
         /// <returns>
         /// An error message if the choice is invalid; otherwise, <c>null</c>.
         /// </returns>
-        public string? IsChoiceValid(string choice)
+        public bool IsChoiceValid(string choice)
         {
             if (string.IsNullOrEmpty(choice) || string.IsNullOrWhiteSpace(choice))
             {
-                return "Error! Invalid choice";
+                return false;
             }
             else if (!char.TryParse(choice, out var c))
             {
-                return "Enter valid character";
+                return false;
             }
             else
             {
-                return null;
+                return true;
             }
         }
+
         /// <summary>
         /// Determines whether the specified string represents a valid integer.
         /// </summary>
-        /// <param name="detailtxt">The string to evaluate.</param>
+        /// <param name="contactDetail">The string to evaluate.</param>
         /// <returns>true if the string is a valid integer; otherwise, false.</returns>
-        public bool IsNumchice(string? detailtxt)
+        public bool IsEditValid(string contactDetail)
         {
-            if (string.IsNullOrEmpty(detailtxt) || string.IsNullOrWhiteSpace(detailtxt))
+            if (string.IsNullOrEmpty(contactDetail) || string.IsNullOrWhiteSpace(contactDetail))
             {
                 return false;
             }
-            else if (!int.TryParse(detailtxt, out var c))
+            else if (!int.TryParse(contactDetail, out var c))
             {
                 return false;
             }
@@ -64,15 +66,15 @@ namespace ContactManager.Models
         /// <returns>
         /// An error message if the input is invalid; otherwise, <c>null</c>.
         /// </returns>
-        public string? CheckStrValidity(string str)
+        public bool CheckStringValid(string str)
         {
-            if (string.IsNullOrEmpty(str) || string.IsNullOrWhiteSpace(str))
+            if (string.IsNullOrEmpty(str) || string.IsNullOrWhiteSpace(str) || !str.All(char.IsLetter))
             {
-                return "Invalid input";
+                return false;
             }
             else
             {
-                return null;
+                return true;
             }
         }
 
@@ -85,15 +87,15 @@ namespace ContactManager.Models
         /// <returns>
         /// An error message if the phone number is invalid; otherwise, <c>null</c>.
         /// </returns>
-        public string? CheckNumValidity(string num)
+        public bool CheckNoValid(string num)
         {
             if (num.Length != 10 || !num.All(char.IsDigit))
             {
-                return "Invalid input";
+                return false;
             }
             else
             {
-                return null;
+                return true;
             }
         }
 
@@ -106,18 +108,18 @@ namespace ContactManager.Models
         /// <returns>
         /// An error message if the email address is invalid; otherwise, <c>null</c>.
         /// </returns>
-        public string? CheckEmailValidity(string email)
+        public bool CheckEmailValid(string email)
         {
             if (string.IsNullOrWhiteSpace(email) ||
                 string.IsNullOrEmpty(email) ||
                 char.IsSymbol(email[0]) ||
                 !email.Contains('@'))
             {
-                return "Invalid input";
+                return false;
             }
             else
             {
-                return null;
+                return true;
             }
         }
 
@@ -130,16 +132,17 @@ namespace ContactManager.Models
         /// <returns>
         /// An error message if the notes are invalid; otherwise, <c>null</c>.
         /// </returns>
-        public string? CheckNoteslValidity(string notes)
+        public bool CheckNotesValid(string notes)
         {
-            if (string.IsNullOrEmpty(notes))
+            /*if (string.IsNullOrEmpty(notes))
             {
-                return "Invalid input";
+                return false;
             }
             else
             {
-                return null;
-            }
+                return true;
+            }*/
+            return true;
         }
 
         /// <summary>

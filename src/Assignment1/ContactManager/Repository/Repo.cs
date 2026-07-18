@@ -17,7 +17,7 @@ namespace ContactManager.Repository
         /// This method adds object to the repository
         /// </summary>
         /// <param name="contact">the argument refers to contact info</param>
-        public void Add(ContactInfo contact)
+        public void AddContactList(ContactInfo contact)
         {
             this._contacts.Add(contact);
         }
@@ -46,16 +46,13 @@ namespace ContactManager.Repository
         /// </summary>
         /// <param name="contact">contact refers to the object structure</param>
         /// <param name="id">updates by id</param>
-        internal void Update(ContactInfo contact, Guid id)
+        internal void UpdateContactList(ContactInfo contact, Guid id)
         {
-            if (id != null)
-            {
-                ContactInfo? findId = this._contacts.Find(c => c.Id == id);
-                findId.Name = contact.Name;
-                findId.PhoneNumber = contact.PhoneNumber;
-                findId.EmailId = contact.EmailId;
-                findId.Notes = contact.Notes;
-            }
+            ContactInfo findId = this._contacts.Find(c => c.Id == id);
+            findId.Name = contact.Name;
+            findId.PhoneNumber = contact.PhoneNumber;
+            findId.EmailId = contact.EmailId;
+            findId.Notes = contact.Notes;
         }
     }
 }

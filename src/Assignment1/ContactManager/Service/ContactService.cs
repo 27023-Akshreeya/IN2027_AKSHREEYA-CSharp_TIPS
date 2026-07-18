@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using ContactManager.ConsoleView;
 using ContactManager.Models;
@@ -13,7 +14,7 @@ namespace ContactManager.Service
     internal class ContactService
     {
         private Repo _repo;
-        private Helper _strval = new Helper();
+        private Helper _validate = new Helper();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ContactService"/> class.
@@ -34,15 +35,14 @@ namespace ContactManager.Service
         /// <param name="contact">add</param>
         public void AddContact(ContactInfo contact)
         {
-            contact.Id = Guid.NewGuid();
-            this._repo.Add(contact);
+            this._repo.AddContactList(contact);
         }
 
         /// <summary>
         /// remove
         /// </summary>
         /// <param name="name">name</param>
-        public void RemoveContact(string? name)
+        public void RemoveContact(string name)
         {
             Guid id = this.GetGuidByName(name);
             this._repo.RemoveByname(id);
@@ -55,14 +55,14 @@ namespace ContactManager.Service
         /// <param name="guid">id</param>
         public void EditContact(ContactInfo contact, Guid guid)
         {
-            this._repo.Update(contact, guid);
+            this._repo.UpdateContactList(contact, guid);
         }
 
         /// <summary>
         /// search
         /// </summary>
         /// <param name="name">name</param>
-        public void SearchContact(string? name)
+        public void SearchContact(string name)
         {
             Guid id = this.GetGuidByName(name);
             this.SearchByName(id);
@@ -76,12 +76,12 @@ namespace ContactManager.Service
             List<ContactInfo> contacts = this._repo.GetAllContacts();
             if (contacts.Count == 0)
             {
-                this._strval.IscontactsEmpty();
+                this._validate.IscontactsEmpty();
                 return;
             }
 
             var sortedContacts = contacts.OrderBy(c => c.Name).ToList();
-            UserConsole.Displaylist(sortedContacts);
+            UserConsole.DisplayAllContacts(sortedContacts);
         }
 
         /// <summary>
@@ -89,42 +89,42 @@ namespace ContactManager.Service
         /// </summary>
         /// <param name="name">name</param>
         /// <returns>returning</returns>
-        internal Guid GetGuidByName(string? name)
+        internal Guid GetGuidByName(string name)
         {
             List<ContactInfo> contacts = this._repo.GetAllContacts();
             if (contacts.Count == 0)
             {
-                this._strval.IscontactsEmpty();
+                this._validate.IscontactsEmpty();
                 return Guid.Empty;
             }
 
             ContactInfo findName = contacts.Find(c => c.Name == name);
-            if (findName == null)
+            if (findName == null || name == string.Empty)
             {
-                this._strval.IscontactsEmpty();
+                this._validate.IscontactsEmpty();
                 return Guid.Empty;
             }
 
             return findName.Id;
         }
 
-        /*internal void Display()
-        {
-            List<ContactInfo> contacts = repo.GetAllContacts();
-            contacts.ForEach(c => Console.WriteLine($"Name: {c.Name}, \nPhone Number: {c.PhoneNumber}, \nEmail Id: {c.EmailId}, \nNotes: {c.Notes}"));
-        }*/
-
         /// <summary>
         /// contact
         /// </summary>
         /// <param name="name">name</param>
         /// <returns>info</returns>
-        internal ContactInfo? GetContactByName(string? name)
+        internal ContactInfo GetContactByName(string name)
         {
             List<ContactInfo> contacts = this._repo.GetAllContacts();
             if (contacts.Count == 0)
             {
-                this._strval.IscontactsEmpty();
+                this._validate.IscontactsEmpty();
+                return null;
+            }
+
+            if (name == string.Empty)
+            {
+                this._validate.IscontactsEmpty();
                 return null;
             }
 
@@ -143,7 +143,7 @@ namespace ContactManager.Service
 
             if (contacts.Count == 0)
             {
-               this._strval.IscontactsEmpty();
+               this._validate.IscontactsEmpty();
                return;
             }
 
@@ -153,7 +153,7 @@ namespace ContactManager.Service
                 return;
             }
 
-            UserConsole.Display(findId);
+            UserConsole.DisplaySingleContact(findId);
         }
     }
 }
