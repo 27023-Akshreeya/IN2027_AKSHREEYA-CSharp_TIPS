@@ -1,6 +1,5 @@
-﻿using Oops_basic.Model;
-using Oops_basic.View;
-using ShapeHierarchy.Model;
+﻿using ShapeHierarchy.Model;
+using ShapeHierarchy.View;
 using System;
 using System.Collections.Generic;
 using System.Text;

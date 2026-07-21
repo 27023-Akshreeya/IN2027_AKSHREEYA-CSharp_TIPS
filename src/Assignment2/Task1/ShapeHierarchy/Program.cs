@@ -1,5 +1,4 @@
-﻿using Oops_basic.View;
-using ShapeHierarchy.Controller;
+﻿using ShapeHierarchy.Controller;
 
 namespace ShapeHierarchy
 {

@@ -4,10 +4,9 @@ using System.Linq;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
-using Oops_basic.Model;
 using ShapeHierarchy.Model;
 
-namespace Oops_basic.View
+namespace ShapeHierarchy.View
 {
     /// <summary>
     /// This class is responsible for handling user interactions in the console application. It provides methods to display menus, alert users of invalid choices, and gather shape details from the user.

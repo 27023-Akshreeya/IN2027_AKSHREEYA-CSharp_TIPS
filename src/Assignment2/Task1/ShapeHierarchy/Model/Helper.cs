@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Oops_basic.Model
+namespace ShapeHierarchy.Model
 {
     /// <summary>
     /// This class provides helper methods for validating user inputs related to shape selection, color, and dimensions. It includes methods to check if a choice is valid, if a color is defined in the KnownColor enumeration, and if a dimension input is a positive number.

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Oops_basic.Model
+namespace ShapeHierarchy.Model
 {
     /// <summary>
     /// This abstract class serves as a base for different shape types, providing common properties and methods for calculating and printing the area of shapes. It defines an abstract method for area calculation that must be implemented by derived classes.
