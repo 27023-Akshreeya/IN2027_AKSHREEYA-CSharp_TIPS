@@ -6,22 +6,44 @@ using System.Threading.Tasks;
 
 namespace EmployeeHierarchy.Model
 {
+    /// <summary>
+    /// Represents a manager employee within the organization hierarchy.
+    /// Inherits base characteristics from the <see cref="Employee"/> class.
     public class Manager : Employee
     {
+        /// <summary>
+        /// The fixed bonus percentage rate applied to the manager's base salary (10%).
+        /// </summary>
         private const double V = 0.10;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Manager"/> class with a specified name, salary, and position.
+        /// </summary>
+        /// <param name="name">The legal or preferred name of the manager.</param>
+        /// <param name="salary">The annual or monthly base salary amount.</param>
+        /// <param name="position">The specific leadership position or title assigned to the manager.</param>
         public Manager(string name, double salary, string position)
         {
-            Name = name;
-            Salary = salary;
-            Position = position;
+            this.Name = name;
+            this.Salary = salary;
+            this.Position = position;
         }
 
-        public string? Position { get; set; }
+        /// <summary>
+        /// Gets or sets the specific management role, level, or title of the manager.
+        /// </summary>
+        /// <value>
+        /// A <see cref="string"/> containing the position title, or null if unassigned.
+        /// </value>
+        public new string? Position { get; set; }
 
+        /// <summary>
+        /// Calculates the performance or annual bonus specific to a manager based on their salary.
+        /// </summary>
+        /// <returns>A <see cref="double"/> value representing 10% of the manager's base salary.</returns>
         public override double CalculateBonus()
         {
-            return Salary * V;
+            return this.Salary * V;
         }
     }
 }

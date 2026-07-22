@@ -9,17 +9,17 @@ namespace ShapeHierarchy.Model
     /// <summary>
     /// This class contains the details of rectangle, is child class from shapeinfo
     /// </summary>
-    public class RectangleInfo : ShapeInfo
+    public class Rectangle : Shape
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="RectangleInfo"/> class.
+        /// Initializes a new instance of the <see cref="Rectangle"/> class.
         /// This is the consructor of the rectangle info class.
         /// </summary>
         /// <param name="shapeName">argument : shape info</param>
         /// <param name="color">argument  : color</param>
         /// <param name="length">argument : length</param>
         /// <param name="width">argument : width </param>
-        public RectangleInfo(string shapeName, string color, double length, double width)
+        public Rectangle(string shapeName, string color, double length, double width)
         {
             this.ShapeName = shapeName;
             this.Color = color;

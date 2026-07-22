@@ -1,4 +1,4 @@
-﻿using EmployeeHierarchy.Controller;
+﻿using EmployeeHierarchy.ConsoleService;
 using EmployeeHierarchy.View;
 
 namespace Assignments

@@ -1,4 +1,4 @@
-﻿using ShapeHierarchy.Controller;
+﻿using ShapeHierarchy.ConsoleService;
 
 namespace ShapeHierarchy
 {
@@ -14,7 +14,7 @@ namespace ShapeHierarchy
         public static void Main(string[] args)
         {
             Service service = new Service();
-            service.UserOperation();
+            service.StartOperation();
         }
     }
 }

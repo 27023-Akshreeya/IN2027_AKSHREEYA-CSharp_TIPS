@@ -6,36 +6,46 @@ using System.Threading.Tasks;
 using EmployeeHierarchy.Model;
 using EmployeeHierarchy.View;
 
-namespace EmployeeHierarchy.Controller
+namespace EmployeeHierarchy.ConsoleService
 {
+    /// <summary>
+    /// This is the class where all service operations are implemented.
+    /// </summary>
     public class Service
     {
+        /// <summary>
+        /// new object is created for user console.
+        /// </summary>
         private UserConsole _userConsole = new UserConsole();
 
+        /// <summary>
+        /// Handles user operations for employee management, including input for employee name, position, and salary.
+        /// </summary>
+        /// <remarks>Continues to prompt the user until they choose to exit.</remarks>
         public void UserOperation()
         {
             bool exit = false;
             while (!exit)
             {
-                _userConsole.DisplayMenu();
-                string name = _userConsole.GetEmployeeName();
+                this._userConsole.DisplayMenu();
+                string? name = this._userConsole.GetEmployeeName();
                 if (name == null)
                 {
-                    exit = _userConsole.GetUserChoice();
+                    exit = this._userConsole.GetUserChoice();
                     continue;
                 }
 
-                string position = _userConsole.GetEmployeeDescription();
+                string? position = this._userConsole.GetEmployeeDescription();
                 if (position == null)
                 {
-                    exit = _userConsole.GetUserChoice();
+                    exit = this._userConsole.GetUserChoice();
                     continue;
                 }
 
-                double salary = _userConsole.GetSalary();
+                double salary = this._userConsole.GetSalary();
                 if (salary <= 0)
                 {
-                    exit = _userConsole.GetUserChoice();
+                    exit = this._userConsole.GetUserChoice();
                     continue;
                 }
 
@@ -50,7 +60,7 @@ namespace EmployeeHierarchy.Controller
                     developer.PrintDetails();
                 }
 
-                exit = _userConsole.GetUserChoice();
+                exit = this._userConsole.GetUserChoice();
             }
         }
     }

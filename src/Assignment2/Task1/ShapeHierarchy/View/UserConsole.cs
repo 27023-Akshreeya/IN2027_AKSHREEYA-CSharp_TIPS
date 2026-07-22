@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
+using ShapeHierarchy.Helper;
 using ShapeHierarchy.Model;
 
 namespace ShapeHierarchy.View
@@ -26,33 +27,33 @@ namespace ShapeHierarchy.View
         /// </summary>
         public void UserAlert()
         {
-            Console.WriteLine("Invalid choice. Please select a valid option.");
+            Console.WriteLine("Invalid choice. Please select a valid option.\n");
         }
 
         /// <summary>
         /// This method gathers details for a circle from the user, including color and radius. It validates the inputs and returns a CircleInfo object containing the shape's details.
         /// </summary>
         /// <returns>This returns an object</returns>
-        public CircleInfo GetCircleDetails()
+        public Circle GetCircleDetails()
         {
             Console.Write("Enter the color of the circle:");
             var color = Console.ReadLine();
-            if (!Helper.IsColorValid(color))
+            if (color is null || !Helper.Validater.IsColorValid(color))
             {
-                Console.WriteLine("Invalid color. Please enter a valid color.");
-                return GetCircleDetails();
+                Console.WriteLine("Invalid color. Please enter a valid color.\n");
+                return this.GetCircleDetails();
             }
 
             Console.Write("Enter the radius of the circle:");
             var radiusInput = Console.ReadLine();
-            if (!Helper.IsDimensionValid(radiusInput))
+            if (!Helper.Validater.IsDimensionValid(radiusInput))
             {
-                Console.WriteLine("Invalid radius. Please enter a positive number.");
-                return GetCircleDetails();
+                Console.WriteLine("Invalid radius. Please enter a positive number.\n");
+                return this.GetCircleDetails();
             }
 
             int radius = (int)Convert.ToDouble(radiusInput);
-            CircleInfo shapeInfo = new CircleInfo("Circle", color, radius);
+            Circle shapeInfo = new Circle("Circle", color, radius);
             return shapeInfo;
         }
 
@@ -60,38 +61,38 @@ namespace ShapeHierarchy.View
         /// This method gathers details for a rectangle from the user, including color, length, and height. It validates the inputs and returns a RectangleInfo object containing the shape's details.
         /// </summary>
         /// <returns>This returns the rectangle object</returns>
-        public RectangleInfo GetRectangleDetails()
+        public Rectangle GetRectangleDetails()
         {
             Console.Write("Enter the color of the rectangle:");
             var color = Console.ReadLine();
-            if (!Helper.IsColorValid(color))
+            if (color is null || !Helper.Validater.IsColorValid(color))
             {
-                Console.WriteLine("Invalid color. Please enter a valid color.");
-                return GetRectangleDetails();
+                Console.WriteLine("Invalid color. Please enter a valid color.\n");
+                return this.GetRectangleDetails();
             }
 
             Console.Write("Enter the length of the rectangle:");
 
             var lengthInput = Console.ReadLine();
-            if (!Helper.IsDimensionValid(lengthInput))
+            if (!Helper.Validater.IsDimensionValid(lengthInput))
             {
-                Console.WriteLine("Invalid length. Please enter a positive number.");
-                return GetRectangleDetails();
+                Console.WriteLine("Invalid length. Please enter a positive number.\n");
+                return this.GetRectangleDetails();
             }
 
             int length = (int)Convert.ToDouble(lengthInput);
 
             Console.Write("Enter the height of the rectangle:");
             var heightInput = Console.ReadLine();
-            if (!Helper.IsDimensionValid(heightInput))
+            if (!Helper.Validater.IsDimensionValid(heightInput))
             {
-                Console.WriteLine("Invalid height. Please enter a positive number.");
-                return GetRectangleDetails();
+                Console.WriteLine("Invalid height. Please enter a positive number.\n");
+                return this.GetRectangleDetails();
             }
 
             int height = (int)Convert.ToDouble(heightInput);
 
-            RectangleInfo shapeInfo = new RectangleInfo("Rectangle", color, length, height);
+            Rectangle shapeInfo = new Rectangle("Rectangle", color, length, height);
             return shapeInfo;
         }
     }

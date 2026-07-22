@@ -1,10 +1,11 @@
-﻿using ShapeHierarchy.Model;
-using ShapeHierarchy.View;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using ShapeHierarchy.Helper;
+using ShapeHierarchy.Model;
+using ShapeHierarchy.View;
 
-namespace ShapeHierarchy.Controller
+namespace ShapeHierarchy.ConsoleService
 {
     /// <summary>
     /// This is service class where all control operations take place
@@ -19,15 +20,15 @@ namespace ShapeHierarchy.Controller
         /// <summary>
         /// This is the main operation
         /// </summary>
-        public void UserOperation()
+        public void StartOperation()
         {
-            bool exit = true;
-            while (exit)
+            bool exit = false;
+            while (!exit)
             {
                 this._userConsole.DisplayMenu();
 
                 string? choice = Console.ReadLine();
-                if (!Helper.IsChoiceValid(choice))
+                if (choice is null || !Helper.Validater.IsChoiceValid(choice))
                 {
                     this._userConsole.UserAlert();
                     continue;
@@ -36,15 +37,15 @@ namespace ShapeHierarchy.Controller
                 switch (choice)
                 {
                     case "1":
-                        RectangleInfo rectangle = this._userConsole.GetRectangleDetails();
+                        Rectangle rectangle = this._userConsole.GetRectangleDetails();
                         rectangle.PrintArea();
                         break;
                     case "2":
-                        CircleInfo circle = this._userConsole.GetCircleDetails();
+                        Circle circle = this._userConsole.GetCircleDetails();
                         circle.PrintArea();
                         break;
                     case "3":
-                        exit = false;
+                        exit = true;
                         break;
                     default:
                         this._userConsole.UserAlert();
