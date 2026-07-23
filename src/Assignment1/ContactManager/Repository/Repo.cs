@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml.Linq;
 using ContactManager.Models;
+using ContactManager.View;
 
 namespace ContactManager.Repository
 {
@@ -11,22 +12,23 @@ namespace ContactManager.Repository
     /// </summary>
     public class Repo
     {
-        private List<ContactInfo> _contacts = new List<ContactInfo>();
+        private List<Contact> _contacts = new List<Contact>();
 
         /// <summary>
         /// This method adds object to the repository
         /// </summary>
         /// <param name="contact">the argument refers to contact info</param>
-        public void AddContactList(ContactInfo contact)
+        public void AddContact(Contact contact)
         {
             this._contacts.Add(contact);
+            UserConsole.Wrapper("added new contact!");
         }
 
         /// <summary>
         /// this gets the list from repo to other classes
         /// </summary>
         /// <returns>returns the list</returns>
-        public List<ContactInfo> GetAllContacts()
+        public List<Contact> GetAllContacts()
         {
             return this._contacts;
         }
@@ -35,10 +37,11 @@ namespace ContactManager.Repository
         /// Remove by name gets the name and removes from the repo
         /// </summary>
         /// <param name="id">gets the corresponding id and removes </param>
-        internal void RemoveByname(Guid id)
+        internal void RemoveContact(Guid id)
         {
-            ContactInfo findId = this._contacts.Find(c => c.Id == id);
-            this._contacts.Remove(findId);
+            Contact existingContact = this._contacts.Find(c => c.Id == id);
+            this._contacts.Remove(existingContact);
+            UserConsole.Wrapper("removed contact!");
         }
 
         /// <summary>
@@ -46,13 +49,14 @@ namespace ContactManager.Repository
         /// </summary>
         /// <param name="contact">contact refers to the object structure</param>
         /// <param name="id">updates by id</param>
-        internal void UpdateContactList(ContactInfo contact, Guid id)
+        internal void UpdateContact(Contact contact, Guid id)
         {
-            ContactInfo findId = this._contacts.Find(c => c.Id == id);
-            findId.Name = contact.Name;
-            findId.PhoneNumber = contact.PhoneNumber;
-            findId.EmailId = contact.EmailId;
-            findId.Notes = contact.Notes;
+            Contact existingContact = this._contacts.Find(c => c.Id == id);
+            existingContact.Name = contact.Name;
+            existingContact.PhoneNumber = contact.PhoneNumber;
+            existingContact.EmailId = contact.EmailId;
+            existingContact.Notes = contact.Notes;
+            UserConsole.Wrapper("updated contact!");
         }
     }
 }

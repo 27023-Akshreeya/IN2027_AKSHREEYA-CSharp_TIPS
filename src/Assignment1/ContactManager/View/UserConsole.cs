@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Net.Mail;
 using System.Text;
+using ContactManager.Helper;
 using ContactManager.Models;
 using ContactManager.Repository;
 using ContactManager.Service;
 
-namespace ContactManager.ConsoleView
+namespace ContactManager.View
 {
     /// <summary>
     /// Provides the console-based user interface for interacting with
@@ -16,28 +17,37 @@ namespace ContactManager.ConsoleView
     public class UserConsole
     {
         private static Repo repo = new Repo();
-        private Helper _validate = new Helper();
+        private Validator _helper = new Validator();
         private ContactService _contactService = new ContactService(repo);
 
         /// <summary>
-        /// This displays the details of a contact based on the provided ContactInfo object.
+        /// This displays the details of a contact based on the provided Contact object.
         /// </summary>
         /// <param name="id">This points to the searched id</param>
-        public static void DisplaySingleContact(ContactInfo id)
+        public static void DisplaySingleContact(Contact id)
         {
-            Console.WriteLine($"Name: {id.Name}\nPhone Number: {id.PhoneNumber}\nEmail Address: {id.EmailId}\nNotes: {id.Notes}");
+            Console.WriteLine($"\nName: {id.Name}\nPhone Number: {id.PhoneNumber}\nEmail Address: {id.EmailId}\nNotes: {id.Notes}");
         }
 
         /// <summary>
         /// Displays a list of contacts in a formatted manner.
         /// </summary>
         /// <param name="sortedContacts">recives the list</param>
-        public static void DisplayAllContacts(List<ContactInfo> sortedContacts)
+        public static void DisplayAllContacts(List<Contact> sortedContacts)
         {
             foreach (var contact in sortedContacts)
             {
-                Console.WriteLine($"Name: {contact.Name}\nPhone Number: {contact.PhoneNumber}\nEmail Id: {contact.EmailId}\nNotes: {contact.Notes}");
+                Console.WriteLine($"\nName: {contact.Name}\nPhone Number: {contact.PhoneNumber}\nEmail Id: {contact.EmailId}\nNotes: {contact.Notes}");
             }
+        }
+
+        /// <summary>
+        /// This method lets user know if an operation is succussfully completed
+        /// </summary>
+        /// <param name="operationPerformed">the operation that is performed</param>
+        public static void Wrapper(string operationPerformed)
+        {
+            Console.WriteLine($"\nSuccessfully {operationPerformed}!\n");
         }
 
         /// <summary>
@@ -68,22 +78,22 @@ namespace ContactManager.ConsoleView
                 switch (userChoice.ToLower())
                 {
                     case "a":
-                        var addContact = this.GetContactDetails();
-                        if (addContact == null)
+                        var newContact = this.GetContactDetails();
+                        if (newContact is null)
                         {
                             continue;
                         }
 
-                        this._contactService.AddContact(addContact);
+                        this._contactService.AddNewContact(newContact);
                         break;
                     case "s":
                         string searchContact = this.GetSearchDetails();
-                        this._contactService.SearchContact(searchContact);
-                        if (searchContact == null)
+                        if (searchContact is null)
                         {
                             continue;
                         }
 
+                        this._contactService.SearchContact(searchContact);
                         Console.WriteLine();
                         break;
                     case "v":
@@ -96,12 +106,12 @@ namespace ContactManager.ConsoleView
                         break;
                     case "r":
                         var removeContact = this.GetRemoveDetails();
-                        if (removeContact == null)
+                        if (removeContact == 0)
                         {
                             continue;
                         }
 
-                        this._contactService.RemoveContact(removeContact);
+                        this._contactService.RemoveContactByPhoneNumber(removeContact);
                         Console.WriteLine();
                         break;
                     case "c":
@@ -125,9 +135,9 @@ namespace ContactManager.ConsoleView
             Console.Write("Enter a choice:");
             var userChoice = Console.ReadLine();
 
-            bool validChoice = this._validate.IsChoiceValid(userChoice);
+            bool isValidChoice = this._helper.IsChoiceValid(userChoice);
 
-            if (validChoice == true)
+            if (isValidChoice == true)
             {
                 return userChoice;
             }
@@ -139,35 +149,35 @@ namespace ContactManager.ConsoleView
         }
 
         /// <summary>
-        /// Collects and validates contact details from the user.
+        /// Gets and validates contact details from the user.
         /// </summary>
-        /// <returns>A ContactInfo object containing the validated contact details, or null if validation fails.</returns>
-        public ContactInfo GetContactDetails()
+        /// <returns>A Contact object containing the validated contact details, or null if validation fails.</returns>
+        public Contact GetContactDetails()
         {
             Console.Write("Enter your name:");
             var name = Console.ReadLine();
 
-            if (!this._validate.CheckStringValid(name))
+            if (!this._helper.CheckStringValid(name))
             {
                 Console.WriteLine("Invalid name. Please try again.");
                 return null;
             }
 
             Console.Write("Enter your Phone number:");
-            var inputNumber = Console.ReadLine();
+            var inputPhoneNumber = Console.ReadLine();
 
-            if (!this._validate.CheckNoValid(inputNumber))
+            if (!this._helper.CheckValidPhoneNumber(inputPhoneNumber))
             {
                 Console.WriteLine("Invalid phone number. Please try again.");
                 return null;
             }
 
-            long phoneNumber = Convert.ToInt64(inputNumber);
+            long phoneNumber = Convert.ToInt64(inputPhoneNumber);
 
             Console.Write("Enter your email address:");
             var emailAddress = Console.ReadLine();
 
-            if (!this._validate.CheckEmailValid(emailAddress))
+            if (!this._helper.CheckEmailValid(emailAddress))
             {
                 Console.WriteLine("Invalid email address. Please try again.");
                 return null;
@@ -176,14 +186,14 @@ namespace ContactManager.ConsoleView
             Console.Write("Enter additional notes:");
             var addNotes = Console.ReadLine();
 
-            if (!this._validate.CheckNotesValid(addNotes))
+            if (!this._helper.CheckNotesValid(addNotes))
             {
                 Console.WriteLine("Invalid notes. Please try again.");
                 return null;
             }
 
-            ContactInfo contact =
-                new ContactInfo(name, phoneNumber, emailAddress, addNotes);
+            Contact contact =
+                new Contact(name, phoneNumber, emailAddress, addNotes);
 
             contact.Id = Guid.NewGuid();
 
@@ -191,7 +201,7 @@ namespace ContactManager.ConsoleView
         }
 
         /// <summary>
-        /// Allows the user to modify details of an existing contact.
+        /// Gets contact details to modify details of an existing contact.
         /// </summary>
         public void GetEditDetails()
         {
@@ -199,7 +209,7 @@ namespace ContactManager.ConsoleView
 
             var name = Console.ReadLine();
 
-            ContactInfo contact = this._contactService.GetContactByName(name);
+            Contact contact = this._contactService.GetContactByName(name);
             Guid contactId = this._contactService.GetGuidByName(name);
 
             if (contact != null)
@@ -207,7 +217,7 @@ namespace ContactManager.ConsoleView
                 Console.Write("Enter the detail you want to edit.\n1.Name\n2.Phone Number\n3.Email address\n4.Notes\nEnter the option number:");
 
                 string contactDetail = Console.ReadLine();
-                if (this._validate.IsEditValid(contactDetail) == false)
+                if (this._helper.IsValidInteger(contactDetail) == false)
                 {
                     Console.WriteLine("Invalid input");
                     return;
@@ -219,7 +229,7 @@ namespace ContactManager.ConsoleView
                     Console.Write("Enter new name:");
                     var editName = Console.ReadLine();
 
-                    if (!this._validate.CheckStringValid(editName))
+                    if (!this._helper.CheckStringValid(editName))
                     {
                         Console.WriteLine("Invalid name try again");
                         return;
@@ -234,7 +244,7 @@ namespace ContactManager.ConsoleView
 
                     var editNumber = Console.ReadLine();
 
-                    if (!this._validate.CheckNoValid(editNumber))
+                    if (!this._helper.CheckValidPhoneNumber(editNumber))
                     {
                         Console.WriteLine("Invalid phone number try again");
                         return;
@@ -251,7 +261,7 @@ namespace ContactManager.ConsoleView
 
                     var editEmailAddress = Console.ReadLine();
 
-                    if (!this._validate.CheckEmailValid(editEmailAddress))
+                    if (!this._helper.CheckEmailValid(editEmailAddress))
                     {
                         Console.WriteLine("Invalid email address try again");
                         return;
@@ -266,7 +276,7 @@ namespace ContactManager.ConsoleView
 
                     var editNotes = Console.ReadLine();
 
-                    if (!this._validate.CheckNotesValid(editNotes))
+                    if (!this._helper.CheckNotesValid(editNotes))
                     {
                         Console.WriteLine("Invalid notes try again");
                         return;
@@ -306,7 +316,7 @@ namespace ContactManager.ConsoleView
 
             var name = Console.ReadLine();
 
-            if (!this._validate.CheckStringValid(name))
+            if (!this._helper.CheckStringValid(name))
             {
                 Console.WriteLine("Invalid name. Please try again.");
                 return null;
@@ -319,21 +329,22 @@ namespace ContactManager.ConsoleView
         /// This method prompts the user to enter the name of a contact they wish to remove and validates the input.
         /// </summary>
         /// <returns>it returns a string of name</returns>
-        internal string GetRemoveDetails()
+        internal long GetRemoveDetails()
         {
-            Console.WriteLine("Enter the name of the contact you want to remove");
+            Console.Write("Enter the phone number of the contact you want to remove:");
 
-            var name = Console.ReadLine();
+            var inputPhoneNumber = Console.ReadLine();
 
-            bool contactName = this._validate.CheckStringValid(name);
+            bool contactPhoneNumber = this._helper.CheckValidPhoneNumber(inputPhoneNumber);
 
-            if (contactName != true)
+            if (contactPhoneNumber != true)
             {
-                Console.WriteLine("Invalid name. Please try again.");
-                return null;
+                Console.WriteLine("Invalid PhoneNumber. Please try again.");
+                return 0;
             }
 
-            return name;
+            long phoneNumber = Convert.ToInt64(inputPhoneNumber);
+            return phoneNumber;
         }
     }
 }

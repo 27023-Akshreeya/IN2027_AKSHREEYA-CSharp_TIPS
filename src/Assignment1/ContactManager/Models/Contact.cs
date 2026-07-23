@@ -9,10 +9,10 @@ namespace ContactManager.Models
     /// Represents a contact and stores personal information such as
     /// name, phone number, email address, and notes.
     /// </summary>
-    public class ContactInfo
+    public class Contact
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ContactInfo"/> class.
+        /// Initializes a new instance of the <see cref="Contact"/> class.
         /// </summary>
         /// <param name="name">
         /// The name of the contact.
@@ -26,7 +26,7 @@ namespace ContactManager.Models
         /// <param name="notes">
         /// Additional notes associated with the contact.
         /// </param>
-        public ContactInfo(string name, long phoneNumber, string emailId, string notes)
+        public Contact(string name, long phoneNumber, string emailId, string notes)
         {
             this.Name = name;
             this.PhoneNumber = phoneNumber;

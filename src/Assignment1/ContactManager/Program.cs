@@ -1,6 +1,6 @@
 ﻿using System;
-using ContactManager.ConsoleView;
 using ContactManager.Service;
+using ContactManager.View;
 
 namespace ContactManager
 {

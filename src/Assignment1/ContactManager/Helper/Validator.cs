@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ContactManager.Models
+namespace ContactManager.Helper
 {
     /// <summary>
     /// Provides validation methods for user input such as menu choices,
     /// names, phone numbers, email addresses, and notes.
     /// </summary>
-    public class Helper
+    public class Validator
     {
         /// <summary>
         /// Validates the user's menu choice.
@@ -41,7 +41,7 @@ namespace ContactManager.Models
         /// </summary>
         /// <param name="contactDetail">The string to evaluate.</param>
         /// <returns>true if the string is a valid integer; otherwise, false.</returns>
-        public bool IsEditValid(string contactDetail)
+        public bool IsValidInteger(string contactDetail)
         {
             if (string.IsNullOrEmpty(contactDetail) || string.IsNullOrWhiteSpace(contactDetail))
             {
@@ -68,7 +68,7 @@ namespace ContactManager.Models
         /// </returns>
         public bool CheckStringValid(string str)
         {
-            if (string.IsNullOrEmpty(str) || string.IsNullOrWhiteSpace(str) || !str.All(char.IsLetter))
+            if (string.IsNullOrEmpty(str) || string.IsNullOrWhiteSpace(str) || !str.All(char.IsLetterOrDigit))
             {
                 return false;
             }
@@ -87,7 +87,7 @@ namespace ContactManager.Models
         /// <returns>
         /// An error message if the phone number is invalid; otherwise, <c>null</c>.
         /// </returns>
-        public bool CheckNoValid(string num)
+        public bool CheckValidPhoneNumber(string num)
         {
             if (num.Length != 10 || !num.All(char.IsDigit))
             {
