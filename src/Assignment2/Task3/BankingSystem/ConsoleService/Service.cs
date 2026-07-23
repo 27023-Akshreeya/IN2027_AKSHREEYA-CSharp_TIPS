@@ -38,7 +38,7 @@ namespace BankingSystem.ConsoleService
             {
                 this._userConsole.Menu();
                 var newAccountDetails = this._userConsole.GetAccountDetails();
-                if (newAccountDetails.accountNumber == null || newAccountDetails.accountType == null)
+                if (newAccountDetails.accountNumber == string.Empty || newAccountDetails.accountType == string.Empty)
                 {
                     flag = this._userConsole.GetExitChoice();
                     continue;

@@ -52,12 +52,12 @@ namespace EmployeeHierarchy.ConsoleService
                 if (position == "manager")
                 {
                     Manager manager = new Manager(name, salary, position);
-                    manager.PrintDetails();
+                    manager.PrintDetails("manager");
                 }
                 else
                 {
                     Developer developer = new Developer(name, salary, position);
-                    developer.PrintDetails();
+                    developer.PrintDetails("developer");
                 }
 
                 exit = this._userConsole.GetUserChoice();

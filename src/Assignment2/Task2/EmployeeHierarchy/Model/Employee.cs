@@ -45,10 +45,11 @@ namespace EmployeeHierarchy.Model
         /// <summary>
         /// Prints the formatted details of the employee, including their calculated bonus, to the console.
         /// </summary>
-        public void PrintDetails()
+        /// <param name="position">The position of the employee</param>
+        public void PrintDetails(string position)
         {
             double bonus = this.CalculateBonus();
-            Console.WriteLine($"|---Bonus---|\nName:{this.Name}\nPosition:{this.Position}\nSalary:{this.Salary}\nBonus:{bonus}");
+            Console.WriteLine($"|---Bonus---|\nName:{this.Name}\nPosition:{position}\nSalary:{this.Salary}\nBonus:{bonus}");
         }
     }
 }
