@@ -98,5 +98,17 @@ namespace EmployeeHierarchy.View
                 return false;
             }
         }
+
+        /// <summary>
+        /// This prints the details to user.
+        /// </summary>
+        /// <param name="name"> Name of the employee </param>
+        /// <param name="position"> position of the employee </param>
+        /// <param name="bonus"> bonus of the employee </param>
+        /// <param name="salary"> Salary of the employee </param>
+        internal void PrintDetailsToUser(string? name, string position, double bonus, double salary)
+        {
+            Console.WriteLine($"|---Bonus---|\nName:{name}\nPosition:{position}\nSalary:{salary}\nBonus:{bonus}");
+        }
     }
 }

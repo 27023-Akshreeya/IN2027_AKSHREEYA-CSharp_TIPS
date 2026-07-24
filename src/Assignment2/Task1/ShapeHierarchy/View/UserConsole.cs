@@ -52,7 +52,7 @@ namespace ShapeHierarchy.View
                 return this.GetCircleDetails();
             }
 
-            int radius = (int)Convert.ToDouble(radiusInput);
+            double radius = Convert.ToDouble(radiusInput);
             Circle shapeInfo = new Circle("Circle", color, radius);
             return shapeInfo;
         }
@@ -80,7 +80,7 @@ namespace ShapeHierarchy.View
                 return this.GetRectangleDetails();
             }
 
-            int length = (int)Convert.ToDouble(lengthInput);
+            double length = Convert.ToDouble(lengthInput);
 
             Console.Write("Enter the height of the rectangle:");
             var heightInput = Console.ReadLine();
@@ -90,10 +90,21 @@ namespace ShapeHierarchy.View
                 return this.GetRectangleDetails();
             }
 
-            int height = (int)Convert.ToDouble(heightInput);
+            double height = Convert.ToDouble(heightInput);
 
             Rectangle shapeInfo = new Rectangle("Rectangle", color, length, height);
             return shapeInfo;
+        }
+
+        /// <summary>
+        /// This method prints the details of the shape.
+        /// </summary>
+        /// <param name="shapeName">name of the shape</param>
+        /// <param name="color">color of the shape</param>
+        /// <param name="area">area of the shape</param>
+        internal void PrintDetails(string? shapeName, string? color, double area)
+        {
+            Console.WriteLine($"\nThe color of the {shapeName}: {color}\nThe area of the {shapeName}: {area}");
         }
     }
 }

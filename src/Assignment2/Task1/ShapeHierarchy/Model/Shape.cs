@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ShapeHierarchy.View;
 
 namespace ShapeHierarchy.Model
 {
@@ -12,6 +7,8 @@ namespace ShapeHierarchy.Model
     /// </summary>
     public abstract class Shape
     {
+        private UserConsole _userConsole = new UserConsole();
+
         /// <summary>
         /// Gets or sets this contains the fields and methods of the parent class.
         /// </summary>
@@ -33,12 +30,12 @@ namespace ShapeHierarchy.Model
         public abstract double CalculateArea();
 
         /// <summary>
-        /// This i
+        /// This is method prints the details of the shape.
         /// </summary>
         public void PrintArea()
         {
             double area = this.CalculateArea();
-            Console.WriteLine($"\nThe color of the {this.ShapeName}: {this.Color}\nThe area of the {this.ShapeName}: {area}");
+            this._userConsole.PrintDetails(this.ShapeName, this.Color, area);
         }
     }
 }

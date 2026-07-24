@@ -20,7 +20,7 @@ namespace ShapeHierarchy.ConsoleService
         /// <summary>
         /// This is the main operation
         /// </summary>
-        public void StartOperation()
+        internal void StartOperation()
         {
             bool exit = false;
             while (!exit)

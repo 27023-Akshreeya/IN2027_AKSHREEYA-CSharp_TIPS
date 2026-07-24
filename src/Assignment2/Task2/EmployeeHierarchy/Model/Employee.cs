@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using EmployeeHierarchy.View;
 
 namespace EmployeeHierarchy.Model
 {
@@ -12,6 +8,8 @@ namespace EmployeeHierarchy.Model
     /// </summary>
     public abstract class Employee
     {
+        private UserConsole _userConsole = new UserConsole();
+
         /// <summary>
         /// Gets or sets the full name of the employee.
         /// </summary>
@@ -49,7 +47,7 @@ namespace EmployeeHierarchy.Model
         public void PrintDetails(string position)
         {
             double bonus = this.CalculateBonus();
-            Console.WriteLine($"|---Bonus---|\nName:{this.Name}\nPosition:{position}\nSalary:{this.Salary}\nBonus:{bonus}");
+            this._userConsole.PrintDetailsToUser(this.Name, position, bonus, this.Salary);
         }
     }
 }

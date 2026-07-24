@@ -31,7 +31,7 @@ namespace BankingSystem.ConsoleService
         /// <summary>
         /// Handles user interactions for banking operations, including account creation and transaction management.
         /// </summary>
-        public void BankingOperation()
+        internal void BankingOperation()
         {
             bool flag = false;
             while (!flag)
