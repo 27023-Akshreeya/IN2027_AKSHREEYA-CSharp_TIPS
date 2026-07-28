@@ -14,7 +14,7 @@ namespace ContactManager.View
     /// Provides the console-based user interface for interacting with
     /// the Contact Manager application.
     /// </summary>
-    public class UserConsole
+    public class ContactViewer
     {
         private static Repo repo = new Repo();
         private Validator _helper = new Validator();
@@ -47,7 +47,16 @@ namespace ContactManager.View
         /// <param name="operationPerformed">the operation that is performed</param>
         public static void Wrapper(string operationPerformed)
         {
-            Console.WriteLine($"\nSuccessfully {operationPerformed}!\n");
+            Console.WriteLine($"\nSuccessfully {operationPerformed}\n");
+        }
+
+        /// <summary>
+        /// This checks if the contact list is empty and displays a message if no contacts are found.
+        /// </summary>
+        public static void DisplayContactsIsEmpty()
+        {
+            Console.WriteLine("No contacts found.");
+            return;
         }
 
         /// <summary>
@@ -59,16 +68,7 @@ namespace ContactManager.View
 
             while (flag)
             {
-                Console.WriteLine("------------------");
-                Console.WriteLine("MENU");
-                Console.WriteLine("[A]dd contact");
-                Console.WriteLine("[S]earch contact");
-                Console.WriteLine("[V]iew all contact");
-                Console.WriteLine("[E]dit contact");
-                Console.WriteLine("[R]emove contact");
-                Console.WriteLine("[C]lose contact");
-                Console.WriteLine("------------------");
-
+                Console.WriteLine("------------------\nMENU\n[A]dd contact\n[S]earch contact\n[V]iew all contact\n[E]dit contact\n[R]emove contact\n[C]lose contact\n------------------");
                 string userChoice = this.GetUserChoice();
                 if (userChoice == null)
                 {
@@ -84,7 +84,11 @@ namespace ContactManager.View
                             continue;
                         }
 
-                        this._contactService.AddNewContact(newContact);
+                        if (this._contactService.AddNewContact(newContact))
+                        {
+                            Wrapper("added contact");
+                        }
+
                         break;
                     case "s":
                         string searchContact = this.GetSearchDetails();
@@ -97,21 +101,25 @@ namespace ContactManager.View
                         Console.WriteLine();
                         break;
                     case "v":
-                        this.GetViewDetails();
+                        this.GetSortedContactsToDisplay();
                         Console.WriteLine();
                         break;
                     case "e":
-                        this.GetEditDetails();
+                        this.GetUpdatedContactDetails();
                         Console.WriteLine();
                         break;
                     case "r":
-                        var removeContact = this.GetRemoveDetails();
+                        var removeContact = this.GetContactToRemove();
                         if (removeContact == 0)
                         {
                             continue;
                         }
 
-                        this._contactService.RemoveContactByPhoneNumber(removeContact);
+                        if (this._contactService.RemoveContactByPhoneNumber(removeContact))
+                        {
+                            Wrapper("removed contact");
+                        }
+
                         Console.WriteLine();
                         break;
                     case "c":
@@ -203,7 +211,7 @@ namespace ContactManager.View
         /// <summary>
         /// Gets contact details to modify details of an existing contact.
         /// </summary>
-        public void GetEditDetails()
+        public void GetUpdatedContactDetails()
         {
             Console.Write("Enter the name of the contact you want to edit:");
 
@@ -211,6 +219,10 @@ namespace ContactManager.View
 
             Contact contact = this._contactService.GetContactByName(name);
             Guid contactId = this._contactService.GetGuidByName(name);
+            if (contactId == Guid.Empty)
+            {
+                return;
+            }
 
             if (contact != null)
             {
@@ -236,7 +248,11 @@ namespace ContactManager.View
                     }
 
                     contact.Name = editName;
-                    this._contactService.EditContact(contact, contactId);
+
+                    if (this._contactService.EditContact(contact, contactId))
+                    {
+                        Wrapper("Contact updated");
+                    }
                 }
                 else if (editChoice == 2)
                 {
@@ -253,7 +269,10 @@ namespace ContactManager.View
                     long editPhoneNumber = Convert.ToInt64(editNumber);
                     contact.PhoneNumber = editPhoneNumber;
 
-                    this._contactService.EditContact(contact, contactId);
+                    if (this._contactService.EditContact(contact, contactId))
+                    {
+                        Wrapper("Contact updated");
+                    }
                 }
                 else if (editChoice == 3)
                 {
@@ -268,7 +287,10 @@ namespace ContactManager.View
                     }
 
                     contact.EmailId = editEmailAddress;
-                    this._contactService.EditContact(contact, contactId);
+                    if (this._contactService.EditContact(contact, contactId))
+                    {
+                        Wrapper("Contact updated");
+                    }
                 }
                 else if (editChoice == 4)
                 {
@@ -283,14 +305,15 @@ namespace ContactManager.View
                     }
 
                     contact.Notes = editNotes;
-                    this._contactService.EditContact(contact, contactId);
+                    if (this._contactService.EditContact(contact, contactId))
+                    {
+                        Wrapper("Contact updated");
+                    }
                 }
                 else
                 {
                     Console.WriteLine("Invalid option");
                 }
-
-                Console.WriteLine("Contact updated successfully");
             }
             else
             {
@@ -301,7 +324,7 @@ namespace ContactManager.View
         /// <summary>
         /// Displays all contacts stored in the system.
         /// </summary>
-        internal void GetViewDetails()
+        internal void GetSortedContactsToDisplay()
         {
             this._contactService.ViewContact();
         }
@@ -329,15 +352,13 @@ namespace ContactManager.View
         /// This method prompts the user to enter the name of a contact they wish to remove and validates the input.
         /// </summary>
         /// <returns>it returns a string of name</returns>
-        internal long GetRemoveDetails()
+        internal long GetContactToRemove()
         {
             Console.Write("Enter the phone number of the contact you want to remove:");
 
             var inputPhoneNumber = Console.ReadLine();
 
-            bool contactPhoneNumber = this._helper.CheckValidPhoneNumber(inputPhoneNumber);
-
-            if (contactPhoneNumber != true)
+            if (!this._helper.CheckValidPhoneNumber(inputPhoneNumber))
             {
                 Console.WriteLine("Invalid PhoneNumber. Please try again.");
                 return 0;

@@ -15,7 +15,7 @@ namespace ContactManager
         /// <param name="args">argumenrs</param>
         public static void Main(string[] args)
         {
-            UserConsole userConsole = new UserConsole();
+            ContactViewer userConsole = new ContactViewer();
             userConsole.Menu();
         }
     }

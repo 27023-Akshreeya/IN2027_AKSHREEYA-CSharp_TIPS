@@ -31,32 +31,43 @@ namespace ContactManager.Service
         }
 
         /// <summary>
-        /// add contact
+        /// Adds the specified contact to the repository.
         /// </summary>
-        /// <param name="contact">add</param>
-        public void AddNewContact(Contact contact)
+        /// <param name="contact">The contact to add.</param>
+        /// <returns>true if the contact was added successfully; otherwise, false.</returns>
+        public bool AddNewContact(Contact contact)
         {
-            this._repo.AddContact(contact);
+            return this._repo.AddContact(contact);
         }
 
         /// <summary>
-        /// remove
+        /// Removes the specific contact to the repository.
         /// </summary>
-        /// <param name="phoneNumber">name</param>
-        public void RemoveContactByPhoneNumber(long phoneNumber)
+        /// <param name="phoneNumber">The contact to remove.</param>
+        /// <returns>true if the contact was removed successfully; otherwise, false.</returns>
+        public bool RemoveContactByPhoneNumber(long phoneNumber)
         {
             Guid id = this.GetGuidByPhoneNumber(phoneNumber);
-            this._repo.RemoveContact(id);
+            if (id != Guid.Empty)
+            {
+                return this._repo.RemoveContact(id);
+            }
+            else
+            {
+                ContactViewer.DisplayContactsIsEmpty();
+                return false;
+            }
         }
 
         /// <summary>
-        /// edit
+        /// Updates a contact with the specified information.
         /// </summary>
-        /// <param name="contact">contact</param>
-        /// <param name="guid">id</param>
-        public void EditContact(Contact contact, Guid guid)
+        /// <param name="contact">The contact containing updated details.</param>
+        /// <param name="guid">The unique identifier of the contact to update.</param>
+        /// <returns>true if the contact was updated successfully; otherwise, false.</returns>
+        public bool EditContact(Contact contact, Guid guid)
         {
-            this._repo.UpdateContact(contact, guid);
+            return this._repo.UpdateContact(contact, guid);
         }
 
         /// <summary>
@@ -76,12 +87,12 @@ namespace ContactManager.Service
             List<Contact> contacts = this._repo.GetAllContacts();
             if (contacts.Count == 0)
             {
-                this._helper.IscontactsEmpty();
+                ContactViewer.DisplayContactsIsEmpty();
                 return;
             }
 
             var sortedContacts = contacts.OrderBy(c => c.Name).ToList();
-            UserConsole.DisplayAllContacts(sortedContacts);
+            ContactViewer.DisplayAllContacts(sortedContacts);
         }
 
         /// <summary>
@@ -94,14 +105,14 @@ namespace ContactManager.Service
             List<Contact> contacts = this._repo.GetAllContacts();
             if (contacts.Count == 0)
             {
-                this._helper.IscontactsEmpty();
+                ContactViewer.DisplayContactsIsEmpty();
                 return Guid.Empty;
             }
 
             Contact findName = contacts.Find(c => c.Name == name);
             if (findName == null || name == string.Empty)
             {
-                this._helper.IscontactsEmpty();
+                ContactViewer.DisplayContactsIsEmpty();
                 return Guid.Empty;
             }
 
@@ -118,14 +129,12 @@ namespace ContactManager.Service
             List<Contact> contacts = this._repo.GetAllContacts();
             if (contacts.Count == 0)
             {
-                this._helper.IscontactsEmpty();
                 return Guid.Empty;
             }
 
             Contact findphoneNumber = contacts.Find(c => c.PhoneNumber == phoneNumber);
             if (findphoneNumber == null)
             {
-                this._helper.IscontactsEmpty();
                 return Guid.Empty;
             }
 
@@ -142,13 +151,13 @@ namespace ContactManager.Service
             List<Contact> contacts = this._repo.GetAllContacts();
             if (contacts.Count == 0)
             {
-                this._helper.IscontactsEmpty();
+                ContactViewer.DisplayContactsIsEmpty();
                 return null;
             }
 
             if (name == string.Empty)
             {
-                this._helper.IscontactsEmpty();
+                ContactViewer.DisplayContactsIsEmpty();
                 return null;
             }
 
@@ -167,7 +176,7 @@ namespace ContactManager.Service
 
             if (contacts.Count == 0)
             {
-               this._helper.IscontactsEmpty();
+               ContactViewer.DisplayContactsIsEmpty();
                return;
             }
 
@@ -177,7 +186,7 @@ namespace ContactManager.Service
                 return;
             }
 
-            UserConsole.DisplayAllContacts(matchingContacts);
+            ContactViewer.DisplayAllContacts(matchingContacts);
         }
     }
 }

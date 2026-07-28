@@ -144,14 +144,5 @@ namespace ContactManager.Helper
             }*/
             return true;
         }
-
-        /// <summary>
-        /// This checks if the contact list is empty and displays a message if no contacts are found.
-        /// </summary>
-        internal void IscontactsEmpty()
-        {
-            Console.WriteLine("No contacts found.");
-            return;
-        }
     }
 }
