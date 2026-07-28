@@ -1,45 +1,45 @@
-﻿using InventoryManager.Model;
-
-namespace InventoryManager.Repository
+﻿namespace InventoryManager.Repository
 {
+    using InventoryManager.Model;
+
     /// <summary>
-    /// 
+    /// Manages the in-memory data store and CRUD operations for the product inventory.
     /// </summary>
     internal class Repo
     {
         /// <summary>
-        /// 
+        /// The internal list storing all active products in the inventory system.
         /// </summary>
-        private List<Product> Products = new List<Product>();
+        private List<Product> products = new List<Product>();
 
         /// <summary>
-        /// 
+        /// Retrieves the entire collection of products stored in the repository.
         /// </summary>
-        /// <returns></returns>
-        public List<Product> GetAllProducts() => this.Products;
+        /// <returns>A list containing all current <see cref="Product"/> instances.</returns>
+        public List<Product> GetAllProducts() => this.products;
 
         /// <summary>
-        /// 
+        /// Appends a new product to the inventory data store collection.
         /// </summary>
-        /// <param name="newproduct"></param>
-        /// <returns></returns>
+        /// <param name="newproduct">The instance of the product data model to add.</param>
+        /// <returns>True if the product item was successfully added; otherwise, false.</returns>
         internal bool AddProduct(Product newproduct)
         {
-            this.Products.Add(newproduct);
+            this.products.Add(newproduct);
             return true;
         }
 
         /// <summary>
-        /// 
+        /// Removes a specific product from the data collection using its unique tracking identifier.
         /// </summary>
-        /// <param name="productId"></param>
-        /// <returns></returns>
+        /// <param name="productId">The unique identifier alphanumeric string for the product to delete.</param>
+        /// <returns>True if the deletion operation finishes successfully; otherwise, false.</returns>
         internal bool DeleteProduct(string productId)
         {
-            var deleteContact = this.Products.Find(x => x.ProductId == productId);
+            var deleteContact = this.products.Find(x => x.ProductId == productId);
             if (deleteContact != null)
             {
-                this.Products.Remove(deleteContact);
+                this.products.Remove(deleteContact);
             }
 
             return true;
@@ -53,7 +53,7 @@ namespace InventoryManager.Repository
         /// <returns>true if the product was updated; otherwise, false.</returns>
         internal bool UpdateProduct(Product productToUpdate, string productId)
         {
-            var findProductId = this.Products.Find(p => p.ProductId == productId);
+            var findProductId = this.products.Find(p => p.ProductId == productId);
             if (findProductId != null)
             {
                 findProductId.ProductId = productToUpdate.ProductId;

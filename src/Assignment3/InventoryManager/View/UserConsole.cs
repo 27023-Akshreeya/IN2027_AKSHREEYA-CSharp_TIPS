@@ -1,20 +1,20 @@
-﻿using InventoryManager.ConsoleService;
-using InventoryManager.Model;
-
-namespace InventoryManager.View
+﻿namespace InventoryManager.View
 {
+    using InventoryManager.ConsoleService;
+    using InventoryManager.Model;
+
     /// <summary>
-    /// 
+    /// Handles user interaction, manages the console menu loop, and processes command-line inputs for the inventory system.
     /// </summary>
     internal class UserConsole
     {
         /// <summary>
-        /// 
+        /// The business logic service instance used to route inventory management actions.
         /// </summary>
-        Service Service = new Service();
+        private Service service = new Service();
 
         /// <summary>
-        /// 
+        /// Displays the main application interface loop, accepts user choices, and executes corresponding inventory workflows.
         /// </summary>
         public void Menu()
         {
@@ -45,14 +45,14 @@ namespace InventoryManager.View
                             continue;
                         }
 
-                        if (this.Service.AddNewProduct(newProductDetails))
+                        if (this.service.AddNewProduct(newProductDetails))
                         {
                             Console.WriteLine(InventoryManagerResource.WrapperSuccess + " product added");
                         }
 
                         break;
                     case "2":
-                        var allProducts = this.Service.ViewAllProducts();
+                        var allProducts = this.service.ViewAllProducts();
                         if (allProducts == null || allProducts.Count == 0)
                         {
                             Console.WriteLine(InventoryManagerResource.EmptyInventory);
@@ -70,7 +70,7 @@ namespace InventoryManager.View
                             continue;
                         }
 
-                        var productDetails = this.Service.SearchByProductId(searchProductId);
+                        var productDetails = this.service.SearchByProductId(searchProductId);
                         if (productDetails == null)
                         {
                             Console.WriteLine(InventoryManagerResource.ProductNotFound);
@@ -88,9 +88,9 @@ namespace InventoryManager.View
                             continue;
                         }
 
-                        if (this.Service.DoesProductExisits(deleteproductId))
+                        if (this.service.DoesProductExisits(deleteproductId))
                         {
-                            if (this.Service.DeleteProductById(deleteproductId))
+                            if (this.service.DeleteProductById(deleteproductId))
                             {
                                 Console.WriteLine(InventoryManagerResource.WrapperSuccess + " product deleted");
                             }
@@ -111,7 +111,7 @@ namespace InventoryManager.View
                             continue;
                         }
 
-                        if (!this.Service.DoesProductExisits(editProductId))
+                        if (!this.service.DoesProductExisits(editProductId))
                         {
                             Console.WriteLine(InventoryManagerResource.ProductNotFound);
                             continue;
@@ -149,11 +149,11 @@ namespace InventoryManager.View
         }
 
         /// <summary>
-        /// 
+        /// Prompts the user for new property values based on their choice and updates the designated product.
         /// </summary>
-        /// <param name="userEditChoice"></param>
-        /// <param name="productId"></param>
-        /// <returns></returns>
+        /// <param name="userEditChoice">The choice string indicating which property to modify (1 = Name, 2 = ID, 3 = Price, 4 = Quantity).</param>
+        /// <param name="productId">The unique tracking identifier of the product targeted for modification.</param>
+        /// <returns>True if the validation passes and the modification task executes successfully; otherwise, false.</returns>
         private bool GetProductEditDetails(string userEditChoice, string productId)
         {
             switch (userEditChoice)
@@ -167,7 +167,7 @@ namespace InventoryManager.View
                         return false;
                     }
 
-                    return this.Service.UpdateProductByProductID(newProductName, productId, 1);
+                    return this.service.UpdateProductByProductID(newProductName, productId, 1);
                 case "2":
                     Console.Write(InventoryManagerResource.ProductID);
                     string newProductId = Console.ReadLine() ?? string.Empty;
@@ -176,13 +176,13 @@ namespace InventoryManager.View
                         return false;
                     }
 
-                    if (this.Service.DoesProductExisits(newProductId))
+                    if (this.service.DoesProductExisits(newProductId))
                     {
                         Console.WriteLine(InventoryManagerResource.ProductExists);
                         return false;
                     }
 
-                    return this.Service.UpdateProductByProductID(newProductId, productId, 2);
+                    return this.service.UpdateProductByProductID(newProductId, productId, 2);
                 case "3":
                     Console.Write(InventoryManagerResource.ProductPrice);
                     string newProductPrice = Console.ReadLine() ?? string.Empty;
@@ -192,7 +192,7 @@ namespace InventoryManager.View
                         return false;
                     }
 
-                    return this.Service.UpdateProductByProductID(newProductPrice, productId, 3);
+                    return this.service.UpdateProductByProductID(newProductPrice, productId, 3);
                 case "4":
                     Console.Write(InventoryManagerResource.ProductQuantity);
                     string newProductQuantity = Console.ReadLine() ?? string.Empty;
@@ -202,7 +202,7 @@ namespace InventoryManager.View
                         return false;
                     }
 
-                    return this.Service.UpdateProductByProductID(newProductQuantity, productId, 4);
+                    return this.service.UpdateProductByProductID(newProductQuantity, productId, 4);
                 default:
                     Console.WriteLine(InventoryManagerResource.InvalidInput + " at default");
                     return false;
@@ -210,9 +210,9 @@ namespace InventoryManager.View
         }
 
         /// <summary>
-        /// 
+        /// Outputs the descriptive properties and total calculated inventory cost of a single matched search product.
         /// </summary>
-        /// <param name="productDetails"></param>
+        /// <param name="productDetails">The target product object instance containing data parameters to print.</param>
         private void DisplaySearchDetailsToUser(Product productDetails)
         {
             Console.WriteLine($"Product name : {productDetails.ProductName}\nProduct ID : {productDetails.ProductId}\nPrice : {productDetails.Price}\nQuantity : {productDetails.Quantity}\nTotal Cost : {productDetails.Price * productDetails.Quantity}");
@@ -228,9 +228,9 @@ namespace InventoryManager.View
         }
 
         /// <summary>
-        /// 
+        /// Iterates through a structured list collection of products and displays their details to the terminal interface.
         /// </summary>
-        /// <returns></returns>
+        /// <param name="allProducts">A list configuration of target product entities to print out.</param>
         private (string productName, string productID, decimal price, int quantity) GetNewProductDetails()
         {
             Console.Write(InventoryManagerResource.ProductName);
@@ -247,7 +247,7 @@ namespace InventoryManager.View
                 return (string.Empty, string.Empty, 0, 0);
             }
 
-            if (this.Service.DoesProductExisits(productId))
+            if (this.service.DoesProductExisits(productId))
             {
                 Console.WriteLine(InventoryManagerResource.ProductExists);
                 return (string.Empty, string.Empty, 0, 0);
