@@ -59,7 +59,7 @@ namespace ContactManager.Repository
         /// <returns>true if the contact was updated successfully; otherwise, false.</returns>
         internal bool UpdateContact(Contact contact, Guid id)
         {
-            Contact existingContact = this._contacts.Find(c => c.Id == id);
+            var existingContact = this._contacts.Find(c => c.Id == id);
             existingContact.Name = contact.Name;
             existingContact.PhoneNumber = contact.PhoneNumber;
             existingContact.EmailId = contact.EmailId;

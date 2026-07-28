@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Dynamic;
-using System.Net.Mail;
-using System.Text;
 using ContactManager.Helper;
 using ContactManager.Models;
 using ContactManager.Repository;
@@ -26,7 +23,8 @@ namespace ContactManager.View
         /// <param name="id">This points to the searched id</param>
         public static void DisplaySingleContact(Contact id)
         {
-            Console.WriteLine($"\nName: {id.Name}\nPhone Number: {id.PhoneNumber}\nEmail Address: {id.EmailId}\nNotes: {id.Notes}");
+            Console.WriteLine($"\nName: {id.Name}\nPhone Number: " +
+                $"{id.PhoneNumber}\nEmail Address: {id.EmailId}\nNotes: {id.Notes}");
         }
 
         /// <summary>
@@ -37,7 +35,8 @@ namespace ContactManager.View
         {
             foreach (var contact in sortedContacts)
             {
-                Console.WriteLine($"\nName: {contact.Name}\nPhone Number: {contact.PhoneNumber}\nEmail Id: {contact.EmailId}\nNotes: {contact.Notes}");
+                Console.WriteLine($"\nName: {contact.Name}\nPhone Number: " +
+                    $"{contact.PhoneNumber}\nEmail Id: {contact.EmailId}\nNotes: {contact.Notes}");
             }
         }
 
@@ -68,7 +67,9 @@ namespace ContactManager.View
 
             while (flag)
             {
-                Console.WriteLine("------------------\nMENU\n[A]dd contact\n[S]earch contact\n[V]iew all contact\n[E]dit contact\n[R]emove contact\n[C]lose contact\n------------------");
+                Console.WriteLine("------------------\nMENU\n[A]dd contact" +
+                    "\n[S]earch contact\n[V]iew all contact\n[E]dit contact\n" +
+                    "[R]emove contact\n[C]lose contact\n------------------");
                 string userChoice = this.GetUserChoice();
                 if (userChoice == null)
                 {
@@ -226,7 +227,8 @@ namespace ContactManager.View
 
             if (contact != null)
             {
-                Console.Write("Enter the detail you want to edit.\n1.Name\n2.Phone Number\n3.Email address\n4.Notes\nEnter the option number:");
+                Console.Write("Enter the detail you want to edit.\n1.Name\n" +
+                    "2.Phone Number\n3.Email address\n4.Notes\nEnter the option number:");
 
                 string contactDetail = Console.ReadLine();
                 if (this._helper.IsValidInteger(contactDetail) == false)
