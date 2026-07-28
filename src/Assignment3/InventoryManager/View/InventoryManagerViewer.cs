@@ -6,7 +6,7 @@
     /// <summary>
     /// Handles user interaction, manages the console menu loop, and processes command-line inputs for the inventory system.
     /// </summary>
-    internal class UserConsole
+    internal class InventoryManagerViewer
     {
         /// <summary>
         /// The business logic service instance used to route inventory management actions.
@@ -26,7 +26,7 @@
                 Console.Write(InventoryManagerResource.UserChoice + InventoryManagerResource.InputChoices);
                 string userChoice = Console.ReadLine() ?? string.Empty;
 
-                if (!Helper.Validator.IsChoiceValid(userChoice))
+                if (!Helper.Validator.IsUserChoiceValid(userChoice))
                 {
                     Console.WriteLine(InventoryManagerResource.InvalidInput);
                     continue;
@@ -121,7 +121,7 @@
 
                         string userEditChoice = Console.ReadLine() ?? string.Empty;
 
-                        if (!Helper.Validator.IsChoiceValid(userEditChoice))
+                        if (!Helper.Validator.IsUserChoiceValid(userEditChoice))
                         {
                             Console.WriteLine(InventoryManagerResource.InvalidInput + " at choice");
                             continue;

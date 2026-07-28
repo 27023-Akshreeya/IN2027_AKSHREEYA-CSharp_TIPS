@@ -10,7 +10,7 @@
         /// </summary>
         /// <param name="userChoice">The input string representing the user's choice.</param>
         /// <returns>true if the choice is a single digit; otherwise, false.</returns>
-        internal static bool IsChoiceValid(string userChoice)
+        internal static bool IsUserChoiceValid(string userChoice)
         {
             if (string.IsNullOrEmpty(userChoice) || string.IsNullOrWhiteSpace(userChoice) || !userChoice.All(char.IsDigit) || userChoice.Length != 1)
             {
