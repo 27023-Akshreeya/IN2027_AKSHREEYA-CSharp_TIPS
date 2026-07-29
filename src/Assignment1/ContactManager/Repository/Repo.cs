@@ -60,6 +60,11 @@ namespace ContactManager.Repository
         internal bool UpdateContact(Contact contact, Guid id)
         {
             var existingContact = this._contacts.Find(c => c.Id == id);
+            if (existingContact == null)
+            {
+                return false;
+            }
+
             existingContact.Name = contact.Name;
             existingContact.PhoneNumber = contact.PhoneNumber;
             existingContact.EmailId = contact.EmailId;

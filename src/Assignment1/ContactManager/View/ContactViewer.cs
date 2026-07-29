@@ -31,7 +31,7 @@ namespace ContactManager.View
         /// Displays a list of contacts in a formatted manner.
         /// </summary>
         /// <param name="sortedContacts">recives the list</param>
-        public static void DisplayAllContacts(List<Contact> sortedContacts)
+        public static void DisplayContact(List<Contact> sortedContacts)
         {
             foreach (var contact in sortedContacts)
             {
@@ -52,7 +52,7 @@ namespace ContactManager.View
         /// <summary>
         /// This checks if the contact list is empty and displays a message if no contacts are found.
         /// </summary>
-        public static void DisplayContactsIsEmpty()
+        public static void DisplayIsContactsEmpty()
         {
             Console.WriteLine("No contacts found.");
             return;
@@ -92,13 +92,16 @@ namespace ContactManager.View
 
                         break;
                     case "s":
-                        string searchContact = this.GetSearchDetails();
-                        if (searchContact is null)
+                        string usersSearchChoice = this.GetSearchChoice();
+                        string searchContactInput = this.GetSearchDetails(usersSearchChoice);
+
+                        if (searchContactInput.Equals(string.Empty) || usersSearchChoice.Equals(string.Empty))
                         {
+                            Console.WriteLine("Invalid Input! please try again");
                             continue;
                         }
 
-                        this._contactService.SearchContact(searchContact);
+                        this._contactService.SearchContact(searchContactInput, usersSearchChoice);
                         Console.WriteLine();
                         break;
                     case "v":
@@ -166,7 +169,7 @@ namespace ContactManager.View
             Console.Write("Enter your name:");
             var name = Console.ReadLine();
 
-            if (!this._helper.CheckStringValid(name))
+            if (!this._helper.IsNameValid(name))
             {
                 Console.WriteLine("Invalid name. Please try again.");
                 return null;
@@ -175,7 +178,7 @@ namespace ContactManager.View
             Console.Write("Enter your Phone number:");
             var inputPhoneNumber = Console.ReadLine();
 
-            if (!this._helper.CheckValidPhoneNumber(inputPhoneNumber))
+            if (!this._helper.IsPhoneNumberValid(inputPhoneNumber))
             {
                 Console.WriteLine("Invalid phone number. Please try again.");
                 return null;
@@ -186,20 +189,14 @@ namespace ContactManager.View
             Console.Write("Enter your email address:");
             var emailAddress = Console.ReadLine();
 
-            if (!this._helper.CheckEmailValid(emailAddress))
+            if (!this._helper.IsEmailValid(emailAddress))
             {
                 Console.WriteLine("Invalid email address. Please try again.");
                 return null;
             }
 
             Console.Write("Enter additional notes:");
-            var addNotes = Console.ReadLine();
-
-            if (!this._helper.CheckNotesValid(addNotes))
-            {
-                Console.WriteLine("Invalid notes. Please try again.");
-                return null;
-            }
+            var addNotes = Console.ReadLine() ?? string.Empty;
 
             Contact contact =
                 new Contact(name, phoneNumber, emailAddress, addNotes);
@@ -231,7 +228,7 @@ namespace ContactManager.View
                     "2.Phone Number\n3.Email address\n4.Notes\nEnter the option number:");
 
                 string contactDetail = Console.ReadLine();
-                if (this._helper.IsValidInteger(contactDetail) == false)
+                if (this._helper.IsNumericChoiceValid(contactDetail) == false)
                 {
                     Console.WriteLine("Invalid input");
                     return;
@@ -243,7 +240,7 @@ namespace ContactManager.View
                     Console.Write("Enter new name:");
                     var editName = Console.ReadLine();
 
-                    if (!this._helper.CheckStringValid(editName))
+                    if (!this._helper.IsNameValid(editName))
                     {
                         Console.WriteLine("Invalid name try again");
                         return;
@@ -251,7 +248,7 @@ namespace ContactManager.View
 
                     contact.Name = editName;
 
-                    if (this._contactService.EditContact(contact, contactId))
+                    if (this._contactService.EditExisitingContact(contact, contactId))
                     {
                         Wrapper("Contact updated");
                     }
@@ -262,7 +259,7 @@ namespace ContactManager.View
 
                     var editNumber = Console.ReadLine();
 
-                    if (!this._helper.CheckValidPhoneNumber(editNumber))
+                    if (!this._helper.IsPhoneNumberValid(editNumber))
                     {
                         Console.WriteLine("Invalid phone number try again");
                         return;
@@ -271,7 +268,7 @@ namespace ContactManager.View
                     long editPhoneNumber = Convert.ToInt64(editNumber);
                     contact.PhoneNumber = editPhoneNumber;
 
-                    if (this._contactService.EditContact(contact, contactId))
+                    if (this._contactService.EditExisitingContact(contact, contactId))
                     {
                         Wrapper("Contact updated");
                     }
@@ -282,14 +279,14 @@ namespace ContactManager.View
 
                     var editEmailAddress = Console.ReadLine();
 
-                    if (!this._helper.CheckEmailValid(editEmailAddress))
+                    if (!this._helper.IsEmailValid(editEmailAddress))
                     {
                         Console.WriteLine("Invalid email address try again");
                         return;
                     }
 
                     contact.EmailId = editEmailAddress;
-                    if (this._contactService.EditContact(contact, contactId))
+                    if (this._contactService.EditExisitingContact(contact, contactId))
                     {
                         Wrapper("Contact updated");
                     }
@@ -298,16 +295,10 @@ namespace ContactManager.View
                 {
                     Console.Write("Enter new notes:");
 
-                    var editNotes = Console.ReadLine();
-
-                    if (!this._helper.CheckNotesValid(editNotes))
-                    {
-                        Console.WriteLine("Invalid notes try again");
-                        return;
-                    }
+                    var editNotes = Console.ReadLine() ?? string.Empty;
 
                     contact.Notes = editNotes;
-                    if (this._contactService.EditContact(contact, contactId))
+                    if (this._contactService.EditExisitingContact(contact, contactId))
                     {
                         Wrapper("Contact updated");
                     }
@@ -328,26 +319,61 @@ namespace ContactManager.View
         /// </summary>
         internal void GetSortedContactsToDisplay()
         {
-            this._contactService.ViewContact();
+            this._contactService.ViewAllContacts();
         }
 
         /// <summary>
-        /// This method prompts the user to enter the name of a contact they wish to search for and validates the input.
+        /// This method prompts the user to choose how to search a contact.
         /// </summary>
-        /// <returns>it returns string</returns>
-        internal string GetSearchDetails()
+        /// <returns>returns the choice</returns>
+        internal string GetSearchChoice()
         {
-            Console.WriteLine("Enter the name of the contact you want to search");
-
-            var name = Console.ReadLine();
-
-            if (!this._helper.CheckStringValid(name))
+            Console.Write("1. Search Contact by name\n2. Search Contact by Phone Number\nEnter you choice:");
+            string searchChoice = Console.ReadLine() ?? string.Empty;
+            if (!this._helper.IsNumericChoiceValid(searchChoice))
             {
-                Console.WriteLine("Invalid name. Please try again.");
-                return null;
+                return string.Empty;
             }
 
-            return name;
+            return searchChoice;
+        }
+
+        /// <summary>
+        /// This method searches contact by name or phone number.
+        /// </summary>
+        /// <param name="searchChoice">Gets the users search choice</param>
+        /// <returns>returns users input</returns>
+        internal string GetSearchDetails(string searchChoice)
+        {
+            switch (searchChoice)
+            {
+                case "1":
+                    Console.Write("Enter the name of the contact you want to search:");
+
+                    var name = Console.ReadLine();
+
+                    if (!this._helper.IsNameValid(name))
+                    {
+                        Console.WriteLine("Invalid name. Please try again.");
+                        return string.Empty;
+                    }
+
+                    return name;
+                case "2":
+                    Console.Write("Enter the Phone Number of the contact you want to search:");
+
+                    string phoneNumber = Console.ReadLine();
+
+                    if (!this._helper.IsPhoneNumberValid(phoneNumber))
+                    {
+                        Console.WriteLine("Invalid name. Please try again.");
+                        return string.Empty;
+                    }
+
+                    return phoneNumber;
+                default:
+                    return string.Empty;
+            }
         }
 
         /// <summary>
@@ -360,7 +386,7 @@ namespace ContactManager.View
 
             var inputPhoneNumber = Console.ReadLine();
 
-            if (!this._helper.CheckValidPhoneNumber(inputPhoneNumber))
+            if (!this._helper.IsPhoneNumberValid(inputPhoneNumber))
             {
                 Console.WriteLine("Invalid PhoneNumber. Please try again.");
                 return 0;

@@ -41,7 +41,7 @@ namespace ContactManager.Helper
         /// </summary>
         /// <param name="contactDetail">The string to evaluate.</param>
         /// <returns>true if the string is a valid integer; otherwise, false.</returns>
-        public bool IsValidInteger(string contactDetail)
+        public bool IsNumericChoiceValid(string contactDetail)
         {
             if (string.IsNullOrEmpty(contactDetail) || string.IsNullOrWhiteSpace(contactDetail))
             {
@@ -66,7 +66,7 @@ namespace ContactManager.Helper
         /// <returns>
         /// An error message if the input is invalid; otherwise, <c>null</c>.
         /// </returns>
-        public bool CheckStringValid(string str)
+        public bool IsNameValid(string str)
         {
             if (string.IsNullOrEmpty(str) || string.IsNullOrWhiteSpace(str) || !str.All(char.IsLetterOrDigit))
             {
@@ -87,7 +87,7 @@ namespace ContactManager.Helper
         /// <returns>
         /// An error message if the phone number is invalid; otherwise, <c>null</c>.
         /// </returns>
-        public bool CheckValidPhoneNumber(string num)
+        public bool IsPhoneNumberValid(string num)
         {
             if (num.Length != 10 || !num.All(char.IsDigit))
             {
@@ -108,12 +108,12 @@ namespace ContactManager.Helper
         /// <returns>
         /// An error message if the email address is invalid; otherwise, <c>null</c>.
         /// </returns>
-        public bool CheckEmailValid(string email)
+        public bool IsEmailValid(string email)
         {
             if (string.IsNullOrWhiteSpace(email) ||
                 string.IsNullOrEmpty(email) ||
                 char.IsSymbol(email[0]) ||
-                !email.Contains('@'))
+                email.Count(i => i == '@') != 1)
             {
                 return false;
             }
@@ -121,28 +121,6 @@ namespace ContactManager.Helper
             {
                 return true;
             }
-        }
-
-        /// <summary>
-        /// Validates the notes entered for a contact.
-        /// </summary>
-        /// <param name="notes">
-        /// The notes to validate.
-        /// </param>
-        /// <returns>
-        /// An error message if the notes are invalid; otherwise, <c>null</c>.
-        /// </returns>
-        public bool CheckNotesValid(string notes)
-        {
-            /*if (string.IsNullOrEmpty(notes))
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }*/
-            return true;
         }
     }
 }
