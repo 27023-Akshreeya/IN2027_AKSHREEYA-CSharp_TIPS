@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using ShapeHierarchy.Helper;
-using ShapeHierarchy.Model;
-using ShapeHierarchy.View;
+﻿using ShapeHierarchy.View;
 
 namespace ShapeHierarchy.ConsoleService
 {
@@ -45,6 +40,7 @@ namespace ShapeHierarchy.ConsoleService
                         circle.PrintArea();
                         break;
                     case "3":
+                        this._userConsole.DisplayExitStatus();
                         exit = true;
                         break;
                     default:

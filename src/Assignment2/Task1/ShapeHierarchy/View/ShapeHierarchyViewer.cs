@@ -1,4 +1,5 @@
 ﻿using ShapeHierarchy.Model;
+using Spectre.Console;
 
 namespace ShapeHierarchy.View
 {
@@ -12,7 +13,14 @@ namespace ShapeHierarchy.View
         /// </summary>
         public void DisplayMenu()
         {
-            Console.Write("Select the shape to calculate area: \n1. Rectangle\n2. Circle\n3. Exit\nEnter you option:");
+            var panel = new Panel(new Rows(
+                new Markup("[bold blue]Main Menu[/]").Centered(),
+                Text.NewLine,
+                new Text("Select the shape to calculate area: \n1. Rectangle\n2. Circle\n3. Exit\n")
+                .LeftJustified()))
+            { Width = 60 };
+            AnsiConsole.Write(panel);
+            Console.Write("Enter your option:");
         }
 
         /// <summary>
@@ -20,7 +28,7 @@ namespace ShapeHierarchy.View
         /// </summary>
         public void UserAlert()
         {
-            Console.WriteLine("Invalid choice. Please select a valid option.\n");
+            AnsiConsole.Markup("[bold red]Invalid choice![/] Please select a valid option.\n\n");
         }
 
         /// <summary>
@@ -33,7 +41,7 @@ namespace ShapeHierarchy.View
             var color = Console.ReadLine();
             if (color is null || !Helper.Validater.IsColorValid(color))
             {
-                Console.WriteLine("Invalid color. Please enter a valid color.\n");
+                AnsiConsole.Markup("[bold red]Invalid color![/] Please enter a valid color.\n\n");
                 return this.GetCircleDetails();
             }
 
@@ -41,7 +49,7 @@ namespace ShapeHierarchy.View
             var radiusInput = Console.ReadLine();
             if (!Helper.Validater.IsDimensionValid(radiusInput))
             {
-                Console.WriteLine("Invalid radius. Please enter a positive number.\n");
+                AnsiConsole.Markup("[bold red]Invalid radius![/] Please enter a positive number.\n\n");
                 return this.GetCircleDetails();
             }
 
@@ -60,7 +68,7 @@ namespace ShapeHierarchy.View
             var color = Console.ReadLine();
             if (color is null || !Helper.Validater.IsColorValid(color))
             {
-                Console.WriteLine("Invalid color. Please enter a valid color.\n");
+                AnsiConsole.Markup("[bold red]Invalid color![/] Please enter a valid color.\n\n");
                 return this.GetRectangleDetails();
             }
 
@@ -69,7 +77,7 @@ namespace ShapeHierarchy.View
             var lengthInput = Console.ReadLine();
             if (!Helper.Validater.IsDimensionValid(lengthInput))
             {
-                Console.WriteLine("Invalid length. Please enter a positive number.\n");
+                AnsiConsole.Markup("[bold red]Invalid length![/] Please enter a positive number.\n\n");
                 return this.GetRectangleDetails();
             }
 
@@ -79,7 +87,7 @@ namespace ShapeHierarchy.View
             var heightInput = Console.ReadLine();
             if (!Helper.Validater.IsDimensionValid(heightInput))
             {
-                Console.WriteLine("Invalid height. Please enter a positive number.\n");
+                AnsiConsole.Markup("[bold red]Invalid height![/] Please enter a positive number.\n\n");
                 return this.GetRectangleDetails();
             }
 
@@ -97,7 +105,22 @@ namespace ShapeHierarchy.View
         /// <param name="area">area of the shape</param>
         internal void PrintDetails(string? shapeName, string? color, double area)
         {
-            Console.WriteLine($"\nThe color of the {shapeName}: {color}\nThe area of the {shapeName}: {area}");
+            string inputColor = (color ?? "white").ToLower();
+            var table = new Table();
+            table.AddColumn("Shape name", col => col.Centered());
+            table.AddColumn("Shape details", col => col.Centered());
+
+            table.AddRow($"{shapeName}", $"Color : [{inputColor}]{color}[/]\n Area : {area}");
+            AnsiConsole.Write(table);
+        }
+
+        /// <summary>
+        /// This displays the exiting status
+        /// </summary>
+        internal void DisplayExitStatus()
+        {
+            AnsiConsole.Markup("[bold red]EXITING..[/] [grey]Press any key to exit[/]");
+            Console.ReadKey();
         }
     }
 }
