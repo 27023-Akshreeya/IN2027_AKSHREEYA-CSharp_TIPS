@@ -7,7 +7,7 @@ namespace ShapeHierarchy.Model
     /// </summary>
     public abstract class Shape
     {
-        private UserConsole _userConsole = new UserConsole();
+        private ShapeHierarchyViewer _userConsole = new ShapeHierarchyViewer();
 
         /// <summary>
         /// Gets or sets this contains the fields and methods of the parent class.

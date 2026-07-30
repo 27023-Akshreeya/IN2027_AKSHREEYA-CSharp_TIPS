@@ -1,4 +1,5 @@
 ﻿using ShapeHierarchy.ConsoleService;
+using ShapeHierarchy.View;
 
 namespace ShapeHierarchy
 {
@@ -13,8 +14,16 @@ namespace ShapeHierarchy
         /// <param name="args">argument</param>
         public static void Main(string[] args)
         {
-            Service service = new Service();
-            service.StartOperation();
+            try
+            {
+                var viewer = new ShapeHierarchyViewer();
+                var service = new Service();
+                service.StartOperation();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("The application experienced an unexpected error and the application will be closed!\r\nThe error message: " + ex.Message);
+            }
         }
     }
 }

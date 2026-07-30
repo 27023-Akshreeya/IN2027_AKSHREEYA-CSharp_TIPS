@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
-using ShapeHierarchy.Helper;
-using ShapeHierarchy.Model;
+﻿using ShapeHierarchy.Model;
 
 namespace ShapeHierarchy.View
 {
     /// <summary>
     /// This class is responsible for handling user interactions in the console application. It provides methods to display menus, alert users of invalid choices, and gather shape details from the user.
     /// </summary>
-    public class UserConsole
+    public class ShapeHierarchyViewer
     {
         /// <summary>
         /// This method displays the main menu to the user, prompting them to select a shape for area calculation or to exit the application.
@@ -53,7 +46,7 @@ namespace ShapeHierarchy.View
             }
 
             double radius = Convert.ToDouble(radiusInput);
-            Circle shapeInfo = new Circle("Circle", color, radius);
+            var shapeInfo = new Circle("Circle", color, radius);
             return shapeInfo;
         }
 
@@ -92,7 +85,7 @@ namespace ShapeHierarchy.View
 
             double height = Convert.ToDouble(heightInput);
 
-            Rectangle shapeInfo = new Rectangle("Rectangle", color, length, height);
+            var shapeInfo = new Rectangle("Rectangle", color, length, height);
             return shapeInfo;
         }
 

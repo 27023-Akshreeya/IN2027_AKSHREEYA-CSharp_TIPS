@@ -15,7 +15,7 @@ namespace ShapeHierarchy.ConsoleService
         /// <summary>
         /// This creates a new object from user console class.
         /// </summary>
-        private UserConsole _userConsole = new UserConsole();
+        private ShapeHierarchyViewer _userConsole = new ShapeHierarchyViewer();
 
         /// <summary>
         /// This is the main operation
@@ -37,11 +37,11 @@ namespace ShapeHierarchy.ConsoleService
                 switch (choice)
                 {
                     case "1":
-                        Rectangle rectangle = this._userConsole.GetRectangleDetails();
+                        var rectangle = this._userConsole.GetRectangleDetails();
                         rectangle.PrintArea();
                         break;
                     case "2":
-                        Circle circle = this._userConsole.GetCircleDetails();
+                        var circle = this._userConsole.GetCircleDetails();
                         circle.PrintArea();
                         break;
                     case "3":
