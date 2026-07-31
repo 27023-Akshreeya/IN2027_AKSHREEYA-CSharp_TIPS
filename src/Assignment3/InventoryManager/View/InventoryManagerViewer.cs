@@ -1,4 +1,8 @@
-﻿namespace InventoryManager.View
+﻿// <copyright file="InventoryManagerViewer.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace InventoryManager.View
 {
     using InventoryManager.ConsoleService;
     using InventoryManager.Model;
@@ -6,7 +10,7 @@
     /// <summary>
     /// Handles user interaction, manages the console menu loop, and processes command-line inputs for the inventory system.
     /// </summary>
-    internal class InventoryManagerViewer
+    public class InventoryManagerViewer
     {
         /// <summary>
         /// The business logic service instance used to route inventory management actions.
@@ -45,10 +49,8 @@
                             continue;
                         }
 
-                        if (this.service.AddNewProduct(newProductDetails))
-                        {
-                            Console.WriteLine(InventoryManagerResource.WrapperSuccess + " product added");
-                        }
+                        this.service.AddNewProduct(newProductDetails);
+                        Console.WriteLine(InventoryManagerResource.WrapperSuccess + " product added");
 
                         break;
                     case "2":
@@ -59,12 +61,12 @@
                             continue;
                         }
 
-                        this.DisplayProductsToUser(allProducts);
+                        this.DisplayAllProductsToUser(allProducts);
                         break;
                     case "3":
                         Console.Write(InventoryManagerResource.Search + "\n" + InventoryManagerResource.ProductID);
                         string searchProductId = Console.ReadLine() ?? string.Empty;
-                        if (!Helper.Validator.IsProductIdValid(searchProductId))
+                        if (!Helper.Validator.IsProductIdValid(searchProductId) || !this.service.DoesProductExisits(searchProductId))
                         {
                             Console.WriteLine(InventoryManagerResource.InvalidInput);
                             continue;
@@ -77,7 +79,7 @@
                             continue;
                         }
 
-                        this.DisplaySearchDetailsToUser(productDetails);
+                        this.DisplaySingleProduct(productDetails);
                         break;
                     case "4":
                         Console.Write(InventoryManagerResource.Delete + "\n" + InventoryManagerResource.ProductID);
@@ -90,15 +92,12 @@
 
                         if (this.service.DoesProductExisits(deleteproductId))
                         {
-                            if (this.service.DeleteProductById(deleteproductId))
-                            {
-                                Console.WriteLine(InventoryManagerResource.WrapperSuccess + " product deleted");
-                            }
+                            this.service.DeleteProductById(deleteproductId);
+                            Console.WriteLine(InventoryManagerResource.WrapperSuccess + " product deleted");
                         }
                         else
                         {
                             Console.WriteLine(InventoryManagerResource.ProductNotFound);
-                            continue;
                         }
 
                         break;
@@ -127,13 +126,9 @@
                             continue;
                         }
 
-                        if (this.GetProductEditDetails(userEditChoice, editProductId))
+                        if (this.GetProductDetailsToEdit(userEditChoice, editProductId))
                         {
                             Console.WriteLine(InventoryManagerResource.WrapperSuccess + " product updated");
-                        }
-                        else
-                        {
-                            continue;
                         }
 
                         break;
@@ -154,7 +149,7 @@
         /// <param name="userEditChoice">The choice string indicating which property to modify (1 = Name, 2 = ID, 3 = Price, 4 = Quantity).</param>
         /// <param name="productId">The unique tracking identifier of the product targeted for modification.</param>
         /// <returns>True if the validation passes and the modification task executes successfully; otherwise, false.</returns>
-        private bool GetProductEditDetails(string userEditChoice, string productId)
+        private bool GetProductDetailsToEdit(string userEditChoice, string productId)
         {
             switch (userEditChoice)
             {
@@ -213,12 +208,12 @@
         /// Outputs the descriptive properties and total calculated inventory cost of a single matched search product.
         /// </summary>
         /// <param name="productDetails">The target product object instance containing data parameters to print.</param>
-        private void DisplaySearchDetailsToUser(Product productDetails)
+        private void DisplaySingleProduct(Product productDetails)
         {
             Console.WriteLine($"Product name : {productDetails.ProductName}\nProduct ID : {productDetails.ProductId}\nPrice : {productDetails.Price}\nQuantity : {productDetails.Quantity}\nTotal Cost : {productDetails.Price * productDetails.Quantity}");
         }
 
-        private void DisplayProductsToUser(List<Product> allProducts)
+        private void DisplayAllProductsToUser(List<Product> allProducts)
         {
             foreach (var product in allProducts)
             {
@@ -268,6 +263,11 @@
             }
 
             return (productName, productId, decimal.Parse(price), int.Parse(productQuantity));
+        }
+
+        public static void ErrorMessage(string message)
+        {
+            Console.WriteLine(message);
         }
     }
 }

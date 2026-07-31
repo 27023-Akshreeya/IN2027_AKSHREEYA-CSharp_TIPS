@@ -23,9 +23,9 @@ The project was created to practice object-oriented programming concepts, projec
 ### 2. UserConsole / InventoryManagerViewer (View Layer)
 * `Menu()`: Displays the main application interface loop, accepts user choices, and routes inputs to the correct workflow.
 * `GetNewProductDetails()`: Captures and validates a complete set of fields from the console required to construct a new item record. Returns a named data tuple.
-* `GetProductEditDetails(string userEditChoice, string productId)`: Prompts the user for new property values based on their choice (Name, ID, Price, or Quantity) and sends them to the service layer.
-* `DisplaySearchDetailsToUser(Product productDetails)`: Outputs the properties and total calculated inventory cost (`Price * Quantity`) of a single matched search product.
-* `DisplayProductsToUser(List<Product> allProducts)`: Iterates through the list collection of products and prints their details to the terminal.
+* `GetProductDetailsToEdit(string userEditChoice, string productId)`: Prompts the user for new property values based on their choice (Name, ID, Price, or Quantity) and sends them to the service layer.
+* `DisplaySingleProduct(Product productDetails)`: Outputs the properties and total calculated inventory cost (`Price * Quantity`) of a single matched search product.
+* `DisplayAllProductsToUser(List<Product> allProducts)`: Iterates through the list collection of products and prints their details to the terminal.
 
 ### 3. Service (ConsoleService Layer)
 * `DoesProductExisits(string productId)`: Checks if a product with the specified ID already exists in the inventory tracking list.

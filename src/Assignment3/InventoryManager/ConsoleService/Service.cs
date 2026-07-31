@@ -22,10 +22,10 @@
         /// </summary>
         /// <param name="productId">The unique identifier of the product to check.</param>
         /// <returns>True if the product exists; otherwise, false.</returns>
-        public bool DoesProductExisits(string productId)
+        internal bool DoesProductExisits(string productId)
         {
             var products = this.repo.GetAllProducts();
-            if (products.FirstOrDefault(x => x.ProductId == productId) == null)
+            if (products.FirstOrDefault(x => x.ProductId.Equals(productId)) is null)
             {
                 return false;
             }
@@ -40,7 +40,7 @@
         /// <returns>True if the product was successfully added; otherwise, false.</returns>
         internal bool AddNewProduct((string productName, string productID, decimal price, int quantity) newProductDetails)
         {
-            Product newproduct = new Product(
+            var newproduct = new Product(
                 newProductDetails.productName,
                 newProductDetails.productID,
                 newProductDetails.price,
@@ -57,7 +57,7 @@
         internal bool DeleteProductById(string deleteproductId)
         {
             var products = this.repo.GetAllProducts();
-            var findProductId = products.Find(x => x.ProductId == deleteproductId);
+            var findProductId = products.Find(x => x.ProductId.Equals(deleteproductId));
             if (findProductId != null)
             {
                 return this.repo.DeleteProduct(findProductId.ProductId);
@@ -74,7 +74,7 @@
         internal Product? SearchByProductId(string productId)
         {
             var products = this.repo.GetAllProducts();
-            var searchproduct = products.Find(x => x.ProductId == productId);
+            var searchproduct = products.Find(x => x.ProductId.Equals(productId));
             return searchproduct;
         }
 
@@ -90,7 +90,7 @@
             var productToUpdate = this.SearchByProductId(productId);
             if (productToUpdate is null)
             {
-                Console.WriteLine(InventoryManagerResource.InvalidInput);
+                InventoryManagerViewer.ErrorMessage(InventoryManagerResource.ErrorMessage);
                 return false;
             }
 
@@ -110,11 +110,11 @@
                 }
                 catch (FormatException ex)
                 {
-                    Console.WriteLine(InventoryManagerResource.InvalidInput + ex.Message);
+                    InventoryManagerViewer.ErrorMessage(InventoryManagerResource.InvalidInput + ex.Message);
                 }
                 catch (OverflowException ex)
                 {
-                    Console.WriteLine(InventoryManagerResource.InvalidInput + ex.Message);
+                    InventoryManagerViewer.ErrorMessage(InventoryManagerResource.InvalidInput + ex.Message);
                 }
             }
             else
@@ -125,11 +125,11 @@
                 }
                 catch (FormatException ex)
                 {
-                    Console.WriteLine(InventoryManagerResource.InvalidInput + ex.Message);
+                    InventoryManagerViewer.ErrorMessage(InventoryManagerResource.InvalidInput + ex.Message);
                 }
                 catch (OverflowException ex)
                 {
-                    Console.WriteLine(InventoryManagerResource.InvalidInput + ex.Message);
+                    InventoryManagerViewer.ErrorMessage(InventoryManagerResource.InvalidInput + ex.Message);
                 }
             }
 
@@ -143,7 +143,7 @@
         internal List<Product> ViewAllProducts()
         {
             var products = this.repo.GetAllProducts();
-            List<Product> sortedProducts = products.OrderBy(p => p.ProductName).ToList();
+            var sortedProducts = products.OrderBy(p => p.ProductName).ToList();
             return sortedProducts;
         }
     }

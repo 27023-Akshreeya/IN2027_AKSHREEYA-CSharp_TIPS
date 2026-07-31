@@ -198,4 +198,8 @@ Successfully</value>
   <data name="PressKey" xml:space="preserve">
     <value>Press any key to exit</value>
   </data>
+  <data name="ErrorMessage" xml:space="preserve">
+    <value>
+Product does not exists</value>
+  </data>
 </root>

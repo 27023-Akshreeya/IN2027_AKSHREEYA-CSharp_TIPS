@@ -141,6 +141,16 @@ namespace InventoryManager.View {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 
+        ///Product does not exists.
+        /// </summary>
+        public static string ErrorMessage {
+            get {
+                return ResourceManager.GetString("ErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Exiting application.
         /// </summary>
         public static string Exiting {

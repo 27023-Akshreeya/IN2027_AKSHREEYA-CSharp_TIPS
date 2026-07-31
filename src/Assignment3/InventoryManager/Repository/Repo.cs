@@ -1,4 +1,8 @@
-﻿namespace InventoryManager.Repository
+﻿// <copyright file="Repo.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace InventoryManager.Repository
 {
     using InventoryManager.Model;
 
@@ -16,7 +20,7 @@
         /// Retrieves the entire collection of products stored in the repository.
         /// </summary>
         /// <returns>A list containing all current <see cref="Product"/> instances.</returns>
-        public List<Product> GetAllProducts() => this.products;
+        internal List<Product> GetAllProducts() => this.products;
 
         /// <summary>
         /// Appends a new product to the inventory data store collection.
@@ -64,15 +68,5 @@
 
             return true;
         }
-
-        /*internal bool UpdateProduct(Product productToUpdate, string productId)
-        {
-            if (this.DeleteProduct(productId))
-            {
-                this.AddProduct(productToUpdate);
-            }
-
-            return true;
-        }*/
     }
 }

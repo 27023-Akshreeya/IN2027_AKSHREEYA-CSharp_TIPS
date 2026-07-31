@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents a product entity in the inventory system with its stock and pricing details.
     /// </summary>
-    internal class Product
+    public class Product
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Product"/> class with specified details.
