@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
+using System.Net.Mail;
 
 namespace ContactManager.Helper
 {
@@ -18,7 +16,7 @@ namespace ContactManager.Helper
         /// The menu choice entered by the user.
         /// </param>
         /// <returns>
-        /// An error message if the choice is invalid; otherwise, <c>null</c>.
+        /// true if the string is a valid character; otherwise, false. <c>null</c>.
         /// </returns>
         public bool IsChoiceValid(string choice)
         {
@@ -26,14 +24,13 @@ namespace ContactManager.Helper
             {
                 return false;
             }
-            else if (!char.TryParse(choice, out var c))
+
+            if (!char.TryParse(choice, out var c))
             {
                 return false;
             }
-            else
-            {
-                return true;
-            }
+
+            return true;
         }
 
         /// <summary>
@@ -47,14 +44,13 @@ namespace ContactManager.Helper
             {
                 return false;
             }
-            else if (!int.TryParse(contactDetail, out var c))
+
+            if (!int.TryParse(contactDetail, out var c))
             {
                 return false;
             }
-            else
-            {
-                return true;
-            }
+
+            return true;
         }
 
         /// <summary>
@@ -64,7 +60,7 @@ namespace ContactManager.Helper
         /// The string to validate.
         /// </param>
         /// <returns>
-        /// An error message if the input is invalid; otherwise, <c>null</c>.
+        /// true if the string is a valid name; otherwise, false. <c>null</c>.
         /// </returns>
         public bool IsNameValid(string str)
         {
@@ -72,10 +68,8 @@ namespace ContactManager.Helper
             {
                 return false;
             }
-            else
-            {
-                return true;
-            }
+
+            return true;
         }
 
         /// <summary>
@@ -85,7 +79,7 @@ namespace ContactManager.Helper
         /// The phone number to validate.
         /// </param>
         /// <returns>
-        /// An error message if the phone number is invalid; otherwise, <c>null</c>.
+        /// true if the string is a valid integer; otherwise, false.<c>null</c>.
         /// </returns>
         public bool IsPhoneNumberValid(string num)
         {
@@ -93,10 +87,8 @@ namespace ContactManager.Helper
             {
                 return false;
             }
-            else
-            {
-                return true;
-            }
+
+            return true;
         }
 
         /// <summary>
@@ -106,20 +98,23 @@ namespace ContactManager.Helper
         /// The email address to validate.
         /// </param>
         /// <returns>
-        /// An error message if the email address is invalid; otherwise, <c>null</c>.
+        /// true if the string is a valid email; otherwise, false. <c>null</c>.
         /// </returns>
         public bool IsEmailValid(string email)
         {
-            if (string.IsNullOrWhiteSpace(email) ||
-                string.IsNullOrEmpty(email) ||
-                char.IsSymbol(email[0]) ||
-                email.Count(i => i == '@') != 1)
+            if (string.IsNullOrWhiteSpace(email))
             {
                 return false;
             }
-            else
+
+            try
             {
-                return true;
+                var emailAddress = new MailAddress(email);
+                return emailAddress.Address.Equals(email);
+            }
+            catch
+            {
+                return false;
             }
         }
     }

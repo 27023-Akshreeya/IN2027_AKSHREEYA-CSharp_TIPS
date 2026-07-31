@@ -21,8 +21,13 @@ namespace ContactManager.Repository
         /// <returns>true if the contact was successfully Added; otherwise, false.</returns>
         public bool AddContact(Contact contact)
         {
-            this._contacts.Add(contact);
-            return true;
+            if (contact != null)
+            {
+                this._contacts.Add(contact);
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>

@@ -72,22 +72,21 @@ namespace ContactManager.Service
         /// <summary>
         /// Searches contact by name or phone number
         /// </summary>
-        /// <param name="searchContactInput">input name</param>
-        /// <param name="usersSearchChoice">users choice on how to search contact</param>
-        internal void SearchContact(string searchContactInput, string usersSearchChoice)
+        /// <param name="searchContactInput">phone number or name</param>
+        /// <param name="usersSearchChoice">choice selected by the user</param>
+        /// <returns>true if operation executed as intended , otherwise false</returns>
+        internal bool SearchContact(string searchContactInput, string usersSearchChoice)
         {
             if (usersSearchChoice.Equals("1"))
             {
-                this.SearchContactByname(searchContactInput);
+                return this.SearchContactByname(searchContactInput);
             }
             else if (usersSearchChoice.Equals("2"))
             {
-                this.SearchContactByPhoneNumber(long.Parse(searchContactInput));
+                return this.SearchContactByPhoneNumber(long.Parse(searchContactInput));
             }
-            else
-            {
-                return;
-            }
+
+            return false;
         }
 
         /// <summary>
@@ -131,6 +130,22 @@ namespace ContactManager.Service
         }
 
         /// <summary>
+        /// This Functions checks if the list of contacts is empty
+        /// </summary>
+        /// <returns>true if the contacts is empty; otherwise, false</returns>
+        internal bool CheckIfContactsIsEmpty()
+        {
+            List<Contact> contacts = this._repo.GetAllContacts();
+            if (contacts.Count == 0)
+            {
+                ContactViewer.DisplayIsContactsEmpty();
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Retrieves the unique identifier of the contact associated with the specified phone number.
         /// </summary>
         /// <param name="phoneNumber">The phone number to search for in the contact list.</param>
@@ -160,9 +175,8 @@ namespace ContactManager.Service
         internal Contact GetContactByName(string name)
         {
             List<Contact> contacts = this._repo.GetAllContacts();
-            if (contacts.Count == 0)
+            if (this.CheckIfContactsIsEmpty())
             {
-                ContactViewer.DisplayIsContactsEmpty();
                 return null;
             }
 
@@ -180,45 +194,48 @@ namespace ContactManager.Service
         /// <summary>
         /// This method lists all the similar contacts.
         /// </summary>
-        /// <param name="name">name to seach</param>
-        internal void SearchContactByname(string name)
+        /// <param name="name">similar names will be searched</param>
+        /// <returns>true if search operation is executed correctly , otherwise false</returns>
+        internal bool SearchContactByname(string name)
         {
             var contacts = this._repo.GetAllContacts();
-
-            if (contacts.Count == 0)
+            if (this.CheckIfContactsIsEmpty())
             {
-               ContactViewer.DisplayIsContactsEmpty();
-               return;
+                return false;
             }
 
             var matchingContacts = contacts.Where(c => c.Name.StartsWith(name, StringComparison.OrdinalIgnoreCase)).ToList();
-            if (matchingContacts.Count == 0)
+            if (matchingContacts.Count.Equals(0))
             {
-                return;
+                return false;
             }
 
             ContactViewer.DisplayContact(matchingContacts);
+            return true;
         }
 
         /// <summary>
         /// Searches contact by phone Number
         /// </summary>
-        /// <param name="phoneNumber">Phone number to be searched</param>
-        internal void SearchContactByPhoneNumber(long phoneNumber)
+        /// <param name="phoneNumber">phone number to search</param>
+        /// <returns>true if search operation is executed correctly , otherwise false</returns>
+        internal bool SearchContactByPhoneNumber(long phoneNumber)
         {
             var contacts = this._repo.GetAllContacts();
-            if (contacts.Count == 0)
+            if (this.CheckIfContactsIsEmpty())
             {
-                ContactViewer.DisplayIsContactsEmpty();
-                return;
+                return false;
             }
 
             var id = this.GetGuidByPhoneNumber(phoneNumber);
             var matchingContact = contacts.Find(c => c.Id == id);
-            if (matchingContact != null)
+            if (matchingContact == null)
             {
-                ContactViewer.DisplaySingleContact(matchingContact);
+                return false;
             }
+
+            ContactViewer.DisplaySingleContact(matchingContact);
+            return true;
         }
     }
 }

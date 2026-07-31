@@ -30,7 +30,7 @@ namespace ContactManager.View
         /// <summary>
         /// Displays a list of contacts in a formatted manner.
         /// </summary>
-        /// <param name="sortedContacts">recives the list</param>
+        /// <param name="sortedContacts">receives the list</param>
         public static void DisplayContact(List<Contact> sortedContacts)
         {
             foreach (var contact in sortedContacts)
@@ -44,7 +44,7 @@ namespace ContactManager.View
         /// This method lets user know if an operation is succussfully completed
         /// </summary>
         /// <param name="operationPerformed">the operation that is performed</param>
-        public static void Wrapper(string operationPerformed)
+        public static void DisplaySuccessofOperation(string operationPerformed)
         {
             Console.WriteLine($"\nSuccessfully {operationPerformed}\n");
         }
@@ -55,7 +55,6 @@ namespace ContactManager.View
         public static void DisplayIsContactsEmpty()
         {
             Console.WriteLine("No contacts found.");
-            return;
         }
 
         /// <summary>
@@ -87,11 +86,16 @@ namespace ContactManager.View
 
                         if (this._contactService.AddNewContact(newContact))
                         {
-                            Wrapper("added contact");
+                            DisplaySuccessofOperation("added contact");
                         }
 
                         break;
                     case "s":
+                        if (this._contactService.CheckIfContactsIsEmpty())
+                        {
+                            continue;
+                        }
+
                         string usersSearchChoice = this.GetSearchChoice();
                         string searchContactInput = this.GetSearchDetails(usersSearchChoice);
 
@@ -101,18 +105,38 @@ namespace ContactManager.View
                             continue;
                         }
 
-                        this._contactService.SearchContact(searchContactInput, usersSearchChoice);
+                        if (!this._contactService.SearchContact(searchContactInput, usersSearchChoice))
+                        {
+                            Console.WriteLine("Contact doesnt exisits!");
+                            continue;
+                        }
+
                         Console.WriteLine();
                         break;
                     case "v":
+                        if (this._contactService.CheckIfContactsIsEmpty())
+                        {
+                            continue;
+                        }
+
                         this.GetSortedContactsToDisplay();
                         Console.WriteLine();
                         break;
                     case "e":
+                        if (this._contactService.CheckIfContactsIsEmpty())
+                        {
+                            continue;
+                        }
+
                         this.GetUpdatedContactDetails();
                         Console.WriteLine();
                         break;
                     case "r":
+                        if (this._contactService.CheckIfContactsIsEmpty())
+                        {
+                            continue;
+                        }
+
                         var removeContact = this.GetContactToRemove();
                         if (removeContact == 0)
                         {
@@ -121,7 +145,7 @@ namespace ContactManager.View
 
                         if (this._contactService.RemoveContactByPhoneNumber(removeContact))
                         {
-                            Wrapper("removed contact");
+                            DisplaySuccessofOperation("removed contact");
                         }
 
                         Console.WriteLine();
@@ -250,7 +274,7 @@ namespace ContactManager.View
 
                     if (this._contactService.EditExisitingContact(contact, contactId))
                     {
-                        Wrapper("Contact updated");
+                        DisplaySuccessofOperation("Contact updated");
                     }
                 }
                 else if (editChoice == 2)
@@ -270,7 +294,7 @@ namespace ContactManager.View
 
                     if (this._contactService.EditExisitingContact(contact, contactId))
                     {
-                        Wrapper("Contact updated");
+                        DisplaySuccessofOperation("Contact updated");
                     }
                 }
                 else if (editChoice == 3)
@@ -288,7 +312,7 @@ namespace ContactManager.View
                     contact.EmailId = editEmailAddress;
                     if (this._contactService.EditExisitingContact(contact, contactId))
                     {
-                        Wrapper("Contact updated");
+                        DisplaySuccessofOperation("Contact updated");
                     }
                 }
                 else if (editChoice == 4)
@@ -300,7 +324,7 @@ namespace ContactManager.View
                     contact.Notes = editNotes;
                     if (this._contactService.EditExisitingContact(contact, contactId))
                     {
-                        Wrapper("Contact updated");
+                        DisplaySuccessofOperation("Contact updated");
                     }
                 }
                 else
