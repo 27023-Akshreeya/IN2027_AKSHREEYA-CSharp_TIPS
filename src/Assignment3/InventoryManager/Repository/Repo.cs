@@ -14,39 +14,34 @@ namespace InventoryManager.Repository
         /// <summary>
         /// The internal list storing all active products in the inventory system.
         /// </summary>
-        private List<Product> products = new List<Product>();
+        private List<Product> _products = new List<Product>();
 
         /// <summary>
         /// Retrieves the entire collection of products stored in the repository.
         /// </summary>
         /// <returns>A list containing all current <see cref="Product"/> instances.</returns>
-        internal List<Product> GetAllProducts() => this.products;
+        internal List<Product> GetAllProducts() => this._products;
 
         /// <summary>
         /// Appends a new product to the inventory data store collection.
         /// </summary>
-        /// <param name="newproduct">The instance of the product data model to add.</param>
-        /// <returns>True if the product item was successfully added; otherwise, false.</returns>
-        internal bool AddProduct(Product newproduct)
+        /// <param name="newProduct">The instance of the product data model to add.</param>
+        internal void AddProduct(Product newProduct)
         {
-            this.products.Add(newproduct);
-            return true;
+            this._products.Add(newProduct);
         }
 
         /// <summary>
         /// Removes a specific product from the data collection using its unique tracking identifier.
         /// </summary>
         /// <param name="productId">The unique identifier alphanumeric string for the product to delete.</param>
-        /// <returns>True if the deletion operation finishes successfully; otherwise, false.</returns>
-        internal bool DeleteProduct(string productId)
+        internal void DeleteProduct(string productId)
         {
-            var deleteContact = this.products.Find(x => x.ProductId == productId);
+            var deleteContact = this._products.Find(x => x.ProductId == productId);
             if (deleteContact != null)
             {
-                this.products.Remove(deleteContact);
+                this._products.Remove(deleteContact);
             }
-
-            return true;
         }
 
         /// <summary>
@@ -54,10 +49,9 @@ namespace InventoryManager.Repository
         /// </summary>
         /// <param name="productToUpdate">The product containing updated values.</param>
         /// <param name="productId">The unique identifier of the product to update.</param>
-        /// <returns>true if the product was updated; otherwise, false.</returns>
-        internal bool UpdateProduct(Product productToUpdate, string productId)
+        internal void UpdateProduct(Product productToUpdate, string productId)
         {
-            var findProductId = this.products.Find(p => p.ProductId == productId);
+            var findProductId = this._products.Find(p => p.ProductId == productId);
             if (findProductId != null)
             {
                 findProductId.ProductId = productToUpdate.ProductId;
@@ -65,8 +59,6 @@ namespace InventoryManager.Repository
                 findProductId.Price = productToUpdate.Price;
                 findProductId.Quantity = productToUpdate.Quantity;
             }
-
-            return true;
         }
     }
 }

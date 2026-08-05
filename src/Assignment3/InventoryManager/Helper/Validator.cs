@@ -1,10 +1,27 @@
 ﻿namespace InventoryManager.Helper
 {
+    using InventoryManager.Model;
+
     /// <summary>
     /// This class consists of methods that validates users inputs.
     /// </summary>
     internal static class Validator
     {
+        /// <summary>
+        /// Checks whether the specified input string is null, empty, or consists only of whitespace characters.
+        /// </summary>
+        /// <param name="input">Input string to check.</param>
+        /// <returns>True if the input is valid, false otherwise.</returns>
+        internal static bool IsInputValid(string input)
+        {
+            if (string.IsNullOrEmpty(input) || string.IsNullOrWhiteSpace(input))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         /// <summary>
         /// Determines whether the specified user choice is a single numeric character.
         /// </summary>
@@ -12,7 +29,7 @@
         /// <returns>true if the choice is a single digit; otherwise, false.</returns>
         internal static bool IsUserChoiceValid(string userChoice)
         {
-            if (string.IsNullOrEmpty(userChoice) || string.IsNullOrWhiteSpace(userChoice) || !userChoice.All(char.IsDigit) || userChoice.Length != 1)
+            if (!IsInputValid(userChoice) || !userChoice.All(char.IsDigit) || userChoice.Length != 1)
             {
                 return false;
             }
@@ -42,10 +59,9 @@
         /// </summary>
         /// <param name="productName">input product name as parameter.</param>
         /// <returns>returns true if valid and vise versa.</returns>
-        internal static bool IsNameValid(string? productName)
+        internal static bool IsNameValid(string productName)
         {
-            if (string.IsNullOrEmpty(productName) || string.IsNullOrWhiteSpace(productName) ||
-                !productName.All(char.IsLetter))
+            if (!IsInputValid(productName) || !productName.All(char.IsLetter))
             {
                 return false;
             }
@@ -60,7 +76,7 @@
         /// <returns>returns true if valid and vise versa.</returns>
         internal static bool IsPriceValid(string price)
         {
-            if (string.IsNullOrEmpty(price) || string.IsNullOrWhiteSpace(price) || !price.All(char.IsDigit))
+            if (!IsInputValid(price) || !price.All(char.IsDigit))
             {
                 return false;
             }
@@ -92,7 +108,7 @@
         /// <returns>returns true if valid and vise versa.</returns>
         internal static bool IsProductIdValid(string productId)
         {
-            if (string.IsNullOrEmpty(productId) || productId.All(char.IsSymbol) || string.IsNullOrWhiteSpace(productId))
+            if (!IsInputValid(productId) || productId.All(char.IsSymbol))
             {
                 return false;
             }
@@ -107,7 +123,7 @@
         /// <returns>returns true if valid and vise versa.</returns>
         internal static bool IsQuantityValid(string productQuantity)
         {
-            if (string.IsNullOrEmpty(productQuantity) || string.IsNullOrWhiteSpace(productQuantity) || !productQuantity.All(char.IsDigit))
+            if (!IsInputValid(productQuantity) || !productQuantity.All(char.IsDigit))
             {
                 return false;
             }
@@ -130,6 +146,22 @@
 
                 return true;
             }
+        }
+
+        /// <summary>
+        /// Validates the specified product details.
+        /// </summary>
+        /// <param name="newProductDetails">The product details to validate.</param>
+        /// <returns>true if the product details are valid; otherwise, false.</returns>
+        internal static bool IsProductValid(Product newProductDetails)
+        {
+            if (newProductDetails.ProductId.Equals(string.Empty) || newProductDetails.ProductName.Equals(string.Empty)
+                            || newProductDetails.Price.Equals(0) || newProductDetails.Quantity.Equals(0))
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

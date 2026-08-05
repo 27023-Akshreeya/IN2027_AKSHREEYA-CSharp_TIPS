@@ -5,6 +5,7 @@
 namespace InventoryManager.View
 {
     using InventoryManager.ConsoleService;
+    using InventoryManager.Helper;
     using InventoryManager.Model;
 
     /// <summary>
@@ -16,6 +17,15 @@ namespace InventoryManager.View
         /// The business logic service instance used to route inventory management actions.
         /// </summary>
         private Service service = new Service();
+
+        /// <summary>
+        /// Displays an error message to the console, typically used for validation or operation failures.
+        /// </summary>
+        /// <param name="message">the error message.</param>
+        public static void ErrorMessage(string message)
+        {
+            Console.WriteLine(message);
+        }
 
         /// <summary>
         /// Displays the main application interface loop, accepts user choices, and executes corresponding inventory workflows.
@@ -30,105 +40,79 @@ namespace InventoryManager.View
                 Console.Write(InventoryManagerResource.UserChoice + InventoryManagerResource.InputChoices);
                 string userChoice = Console.ReadLine() ?? string.Empty;
 
-                if (!Helper.Validator.IsUserChoiceValid(userChoice))
+                if (!Validator.IsUserChoiceValid(userChoice))
                 {
                     Console.WriteLine(InventoryManagerResource.InvalidInput);
                     continue;
                 }
 
-                Console.WriteLine(InventoryManagerResource.emptyline);
+                Console.WriteLine();
                 switch (userChoice)
                 {
                     case "1":
                         var newProductDetails = this.GetNewProductDetails();
 
-                        if (newProductDetails.productID.Equals(string.Empty) || newProductDetails.productName.Equals(string.Empty)
-                            || newProductDetails.price.Equals(0) || newProductDetails.quantity.Equals(0))
+                        if (!Validator.IsProductValid(newProductDetails))
                         {
                             Console.WriteLine(InventoryManagerResource.InvalidInput);
                             continue;
                         }
 
-                        this.service.AddNewProduct(newProductDetails);
-                        Console.WriteLine(InventoryManagerResource.WrapperSuccess + " product added");
+                        if (this.service.AddNewProduct(newProductDetails))
+                        {
+                            Console.WriteLine(InventoryManagerResource.WrapperSuccess + " product added");
+                            break;
+                        }
+
+                        Console.WriteLine(InventoryManagerResource.ErrorMessage);
 
                         break;
                     case "2":
-                        var allProducts = this.service.ViewAllProducts();
-                        if (allProducts == null || allProducts.Count == 0)
+                        if (this.service.IsProductsEmpty())
                         {
                             Console.WriteLine(InventoryManagerResource.EmptyInventory);
                             continue;
                         }
 
+                        var allProducts = this.service.ViewAllProducts();
                         this.DisplayAllProductsToUser(allProducts);
                         break;
                     case "3":
-                        Console.Write(InventoryManagerResource.Search + "\n" + InventoryManagerResource.ProductID);
-                        string searchProductId = Console.ReadLine() ?? string.Empty;
-                        if (!Helper.Validator.IsProductIdValid(searchProductId) || !this.service.DoesProductExisits(searchProductId))
+                        if (this.service.IsProductsEmpty())
                         {
-                            Console.WriteLine(InventoryManagerResource.InvalidInput);
+                            Console.WriteLine(InventoryManagerResource.EmptyInventory);
                             continue;
                         }
 
-                        var productDetails = this.service.SearchByProductId(searchProductId);
-                        if (productDetails == null)
+                        if (!this.GetSearchDetails())
                         {
-                            Console.WriteLine(InventoryManagerResource.ProductNotFound);
                             continue;
                         }
 
-                        this.DisplaySingleProduct(productDetails);
                         break;
                     case "4":
-                        Console.Write(InventoryManagerResource.Delete + "\n" + InventoryManagerResource.ProductID);
-                        string deleteproductId = Console.ReadLine() ?? string.Empty;
-                        if (!Helper.Validator.IsProductIdValid(deleteproductId))
+                        if (this.service.IsProductsEmpty())
                         {
-                            Console.WriteLine(InventoryManagerResource.InvalidInput);
+                            Console.WriteLine(InventoryManagerResource.EmptyInventory);
                             continue;
                         }
 
-                        if (this.service.DoesProductExisits(deleteproductId))
+                        if (!this.GetDeleteDetails())
                         {
-                            this.service.DeleteProductById(deleteproductId);
-                            Console.WriteLine(InventoryManagerResource.WrapperSuccess + " product deleted");
-                        }
-                        else
-                        {
-                            Console.WriteLine(InventoryManagerResource.ProductNotFound);
+                            continue;
                         }
 
                         break;
                     case "5":
-                        Console.Write(InventoryManagerResource.editInput + "\n" + InventoryManagerResource.ProductID);
-                        var editProductId = Console.ReadLine() ?? string.Empty;
-                        if (!Helper.Validator.IsProductIdValid(editProductId))
+                        if (this.service.IsProductsEmpty())
                         {
-                            Console.WriteLine(InventoryManagerResource.InvalidInput);
+                            Console.WriteLine(InventoryManagerResource.EmptyInventory);
                             continue;
                         }
 
-                        if (!this.service.DoesProductExisits(editProductId))
+                        if (!this.GetEditDetails())
                         {
-                            Console.WriteLine(InventoryManagerResource.ProductNotFound);
                             continue;
-                        }
-
-                        Console.Write(InventoryManagerResource.EditOptions + "\n" + InventoryManagerResource.UserChoice + InventoryManagerResource.Editchoices);
-
-                        string userEditChoice = Console.ReadLine() ?? string.Empty;
-
-                        if (!Helper.Validator.IsUserChoiceValid(userEditChoice))
-                        {
-                            Console.WriteLine(InventoryManagerResource.InvalidInput + " at choice");
-                            continue;
-                        }
-
-                        if (this.GetProductDetailsToEdit(userEditChoice, editProductId))
-                        {
-                            Console.WriteLine(InventoryManagerResource.WrapperSuccess + " product updated");
                         }
 
                         break;
@@ -141,6 +125,65 @@ namespace InventoryManager.View
                         break;
                 }
             }
+        }
+
+        private bool GetSearchDetails()
+        {
+            Console.Write(InventoryManagerResource.Search + "\n" + InventoryManagerResource.ProductID);
+            string searchProductId = Console.ReadLine() ?? string.Empty;
+            if (!Validator.IsProductIdValid(searchProductId) || this.service.DoesProductExisits(searchProductId))
+            {
+                Console.WriteLine(InventoryManagerResource.InvalidInput);
+                return false;
+            }
+
+            var productDetails = this.service.SearchByProductId(searchProductId);
+            if (!(productDetails is null))
+            {
+                this.DisplaySingleProduct(productDetails);
+                return true;
+            }
+
+            return false;
+        }
+
+        private bool GetDeleteDetails()
+        {
+            Console.Write(InventoryManagerResource.Delete + "\n" + InventoryManagerResource.ProductID);
+            string deleteproductId = Console.ReadLine() ?? string.Empty;
+            if (Validator.IsProductIdValid(deleteproductId) && !this.service.DoesProductExisits(deleteproductId))
+            {
+                this.service.DeleteProductById(deleteproductId);
+                Console.WriteLine(InventoryManagerResource.WrapperSuccess + " product deleted");
+                return true;
+            }
+
+            Console.WriteLine(InventoryManagerResource.ProductNotFound);
+            return false;
+        }
+
+        private bool GetEditDetails()
+        {
+            Console.Write(InventoryManagerResource.editInput + "\n" + InventoryManagerResource.ProductID);
+            var editProductId = Console.ReadLine() ?? string.Empty;
+            if (!Validator.IsProductIdValid(editProductId) || this.service.DoesProductExisits(editProductId))
+            {
+                Console.WriteLine(InventoryManagerResource.InvalidInput);
+                return false;
+            }
+
+            Console.Write(InventoryManagerResource.EditOptions + "\n" + InventoryManagerResource.UserChoice + InventoryManagerResource.Editchoices);
+
+            string userEditChoice = Console.ReadLine() ?? string.Empty;
+
+            if (Validator.IsUserChoiceValid(userEditChoice) && this.GetProductDetailsToEdit(userEditChoice, editProductId))
+            {
+                Console.WriteLine(InventoryManagerResource.WrapperSuccess + " product updated");
+                return true;
+            }
+
+            Console.WriteLine(InventoryManagerResource.InvalidInput);
+            return false;
         }
 
         /// <summary>
@@ -156,7 +199,7 @@ namespace InventoryManager.View
                 case "1":
                     Console.Write(InventoryManagerResource.ProductName);
                     string newProductName = Console.ReadLine() ?? string.Empty;
-                    if (!Helper.Validator.IsNameValid(newProductName))
+                    if (!Validator.IsNameValid(newProductName))
                     {
                         Console.WriteLine(InventoryManagerResource.InvalidInput);
                         return false;
@@ -166,7 +209,7 @@ namespace InventoryManager.View
                 case "2":
                     Console.Write(InventoryManagerResource.ProductID);
                     string newProductId = Console.ReadLine() ?? string.Empty;
-                    if (!Helper.Validator.IsProductIdValid(newProductId))
+                    if (!Validator.IsProductIdValid(newProductId))
                     {
                         return false;
                     }
@@ -181,7 +224,7 @@ namespace InventoryManager.View
                 case "3":
                     Console.Write(InventoryManagerResource.ProductPrice);
                     string newProductPrice = Console.ReadLine() ?? string.Empty;
-                    if (!Helper.Validator.IsPriceValid(newProductPrice))
+                    if (!Validator.IsPriceValid(newProductPrice))
                     {
                         Console.WriteLine(InventoryManagerResource.InvalidInput);
                         return false;
@@ -191,7 +234,7 @@ namespace InventoryManager.View
                 case "4":
                     Console.Write(InventoryManagerResource.ProductQuantity);
                     string newProductQuantity = Console.ReadLine() ?? string.Empty;
-                    if (!Helper.Validator.IsQuantityValid(newProductQuantity))
+                    if (!Validator.IsQuantityValid(newProductQuantity))
                     {
                         Console.WriteLine(InventoryManagerResource.InvalidInput);
                         return false;
@@ -210,15 +253,19 @@ namespace InventoryManager.View
         /// <param name="productDetails">The target product object instance containing data parameters to print.</param>
         private void DisplaySingleProduct(Product productDetails)
         {
-            Console.WriteLine($"Product name : {productDetails.ProductName}\nProduct ID : {productDetails.ProductId}\nPrice : {productDetails.Price}\nQuantity : {productDetails.Quantity}\nTotal Cost : {productDetails.Price * productDetails.Quantity}");
+            Console.WriteLine($"Product name : {productDetails.ProductName}\nProduct ID : {productDetails.ProductId}" +
+                    $"\nPrice : {productDetails.Price}\nQuantity : {productDetails.Quantity}" +
+                    $"\nTotal Cost : {productDetails.Price * productDetails.Quantity}");
         }
 
         private void DisplayAllProductsToUser(List<Product> allProducts)
         {
             foreach (var product in allProducts)
             {
-                Console.WriteLine($"Product name : {product.ProductName}\nProduct ID : {product.ProductId}\nPrice : {product.Price}\nQuantity : {product.Quantity}\nTotal Cost : {product.Price * product.Quantity}");
-                Console.WriteLine(InventoryManagerResource.emptyline);
+                Console.WriteLine($"Product name : {product.ProductName}\nProduct ID : {product.ProductId}" +
+                        $"\nPrice : {product.Price}\nQuantity : {product.Quantity}" +
+                        $"\nTotal Cost : {product.Price * product.Quantity}");
+                Console.WriteLine();
             }
         }
 
@@ -226,48 +273,48 @@ namespace InventoryManager.View
         /// Iterates through a structured list collection of products and displays their details to the terminal interface.
         /// </summary>
         /// <param name="allProducts">A list configuration of target product entities to print out.</param>
-        private (string productName, string productID, decimal price, int quantity) GetNewProductDetails()
+        private Product GetNewProductDetails()
         {
+            var product = new Product(string.Empty, string.Empty, 0m, 0);
             Console.Write(InventoryManagerResource.ProductName);
             string productName = Console.ReadLine() ?? string.Empty;
-            if (!Helper.Validator.IsNameValid(productName))
+            if (!Validator.IsNameValid(productName))
             {
-                return (string.Empty, string.Empty, 0, 0);
+                return product;
             }
 
             Console.Write(InventoryManagerResource.ProductID);
             string productId = Console.ReadLine() ?? string.Empty;
-            if (!Helper.Validator.IsProductIdValid(productId))
+            if (!Validator.IsProductIdValid(productId))
             {
-                return (string.Empty, string.Empty, 0, 0);
+                return product;
             }
 
-            if (this.service.DoesProductExisits(productId))
+            if (!this.service.DoesProductExisits(productId))
             {
                 Console.WriteLine(InventoryManagerResource.ProductExists);
-                return (string.Empty, string.Empty, 0, 0);
+                return product;
             }
 
             Console.Write(InventoryManagerResource.ProductPrice);
             string price = Console.ReadLine() ?? string.Empty;
-            if (!Helper.Validator.IsPriceValid(price))
+            if (!Validator.IsPriceValid(price))
             {
-                return (string.Empty, string.Empty, 0, 0);
+                return product;
             }
 
             Console.Write(InventoryManagerResource.ProductQuantity);
             string productQuantity = Console.ReadLine() ?? string.Empty;
-            if (!Helper.Validator.IsQuantityValid(productQuantity))
+            if (!Validator.IsQuantityValid(productQuantity))
             {
-                return (string.Empty, string.Empty, 0, 0);
+                return product;
             }
 
-            return (productName, productId, decimal.Parse(price), int.Parse(productQuantity));
-        }
-
-        public static void ErrorMessage(string message)
-        {
-            Console.WriteLine(message);
+            product.ProductName = productName;
+            product.ProductId = productId;
+            product.Price = Convert.ToDecimal(price);
+            product.Quantity = Convert.ToInt32(productQuantity);
+            return product;
         }
     }
 }

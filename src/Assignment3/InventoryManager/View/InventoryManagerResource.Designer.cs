@@ -132,15 +132,6 @@ namespace InventoryManager.View {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        public static string emptyline {
-            get {
-                return ResourceManager.GetString("emptyline", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to 
         ///Product does not exists.
         /// </summary>

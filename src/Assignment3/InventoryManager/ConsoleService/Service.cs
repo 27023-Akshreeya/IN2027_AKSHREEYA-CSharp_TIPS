@@ -15,7 +15,7 @@
         /// <summary>
         /// The repository instance used for data access operations.
         /// </summary>
-        private Repo repo = new Repo();
+        private Repo _repo = new Repo();
 
         /// <summary>
         /// Checks if a product with the specified ID exists in the inventory.
@@ -24,13 +24,8 @@
         /// <returns>True if the product exists; otherwise, false.</returns>
         internal bool DoesProductExisits(string productId)
         {
-            var products = this.repo.GetAllProducts();
-            if (products.FirstOrDefault(x => x.ProductId.Equals(productId)) is null)
-            {
-                return false;
-            }
-
-            return true;
+            var products = this._repo.GetAllProducts();
+            return products.FirstOrDefault(x => x.ProductId.Equals(productId)) == null;
         }
 
         /// <summary>
@@ -38,15 +33,15 @@
         /// </summary>
         /// <param name="newProductDetails">A tuple containing the product name, ID, price, and quantity.</param>
         /// <returns>True if the product was successfully added; otherwise, false.</returns>
-        internal bool AddNewProduct((string productName, string productID, decimal price, int quantity) newProductDetails)
+        internal bool AddNewProduct(Product newProductDetails)
         {
-            var newproduct = new Product(
-                newProductDetails.productName,
-                newProductDetails.productID,
-                newProductDetails.price,
-                newProductDetails.quantity);
+            if (newProductDetails is null)
+            {
+                return false;
+            }
 
-            return this.repo.AddProduct(newproduct);
+            this._repo.AddProduct(newProductDetails);
+            return true;
         }
 
         /// <summary>
@@ -56,11 +51,12 @@
         /// <returns>True if the product was successfully deleted; otherwise, false.</returns>
         internal bool DeleteProductById(string deleteproductId)
         {
-            var products = this.repo.GetAllProducts();
+            var products = this._repo.GetAllProducts();
             var findProductId = products.Find(x => x.ProductId.Equals(deleteproductId));
             if (findProductId != null)
             {
-                return this.repo.DeleteProduct(findProductId.ProductId);
+                this._repo.DeleteProduct(findProductId.ProductId);
+                return true;
             }
 
             return false;
@@ -73,7 +69,7 @@
         /// <returns>The found product instance, or null if no product matches the criteria.</returns>
         internal Product? SearchByProductId(string productId)
         {
-            var products = this.repo.GetAllProducts();
+            var products = this._repo.GetAllProducts();
             var searchproduct = products.Find(x => x.ProductId.Equals(productId));
             return searchproduct;
         }
@@ -94,46 +90,54 @@
                 return false;
             }
 
-            if (editChoice == 1)
+            switch (editChoice)
             {
-                productToUpdate.ProductName = newProductElement;
-            }
-            else if (editChoice == 2)
-            {
-                productToUpdate.ProductId = newProductElement;
-            }
-            else if (editChoice == 3)
-            {
-                try
-                {
-                    productToUpdate.Price = decimal.Parse(newProductElement);
-                }
-                catch (FormatException ex)
-                {
-                    InventoryManagerViewer.ErrorMessage(InventoryManagerResource.InvalidInput + ex.Message);
-                }
-                catch (OverflowException ex)
-                {
-                    InventoryManagerViewer.ErrorMessage(InventoryManagerResource.InvalidInput + ex.Message);
-                }
-            }
-            else
-            {
-                try
-                {
-                    productToUpdate.Quantity = int.Parse(newProductElement);
-                }
-                catch (FormatException ex)
-                {
-                    InventoryManagerViewer.ErrorMessage(InventoryManagerResource.InvalidInput + ex.Message);
-                }
-                catch (OverflowException ex)
-                {
-                    InventoryManagerViewer.ErrorMessage(InventoryManagerResource.InvalidInput + ex.Message);
-                }
+                case 1:
+                    productToUpdate.ProductName = newProductElement;
+                    break;
+                case 2:
+                    productToUpdate.ProductId = newProductElement;
+                    break;
+                case 3:
+                    try
+                    {
+                        productToUpdate.Price = decimal.Parse(newProductElement);
+                    }
+                    catch (FormatException ex)
+                    {
+                        InventoryManagerViewer.ErrorMessage(InventoryManagerResource.InvalidInput + ex.Message);
+                        return false;
+                    }
+                    catch (OverflowException ex)
+                    {
+                        InventoryManagerViewer.ErrorMessage(InventoryManagerResource.InvalidInput + ex.Message);
+                        return false;
+                    }
+
+                    break;
+                case 4:
+                    try
+                    {
+                        productToUpdate.Quantity = int.Parse(newProductElement);
+                    }
+                    catch (FormatException ex)
+                    {
+                        InventoryManagerViewer.ErrorMessage(InventoryManagerResource.InvalidInput + ex.Message);
+                        return false;
+                    }
+                    catch (OverflowException ex)
+                    {
+                        InventoryManagerViewer.ErrorMessage(InventoryManagerResource.InvalidInput + ex.Message);
+                        return false;
+                    }
+
+                    break;
+                default:
+                    return false;
             }
 
-            return this.repo.UpdateProduct(productToUpdate, productId);
+            this._repo.UpdateProduct(productToUpdate, productId);
+            return true;
         }
 
         /// <summary>
@@ -142,9 +146,19 @@
         /// <returns>A list of sorted product items.</returns>
         internal List<Product> ViewAllProducts()
         {
-            var products = this.repo.GetAllProducts();
+            var products = this._repo.GetAllProducts();
             var sortedProducts = products.OrderBy(p => p.ProductName).ToList();
             return sortedProducts;
+        }
+
+        /// <summary>
+        /// checks if the products is empty or not.
+        /// </summary>
+        /// <returns>true if no products exisits, false otherwise.</returns>
+        internal bool IsProductsEmpty()
+        {
+            var products = this._repo.GetAllProducts();
+            return products.Count == 0;
         }
     }
 }

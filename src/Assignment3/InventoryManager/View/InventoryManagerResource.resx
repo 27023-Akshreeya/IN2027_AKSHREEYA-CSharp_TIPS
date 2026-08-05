@@ -132,9 +132,6 @@ The error message:</value>
     <value>There is no product in Inventory. 
 Empty inventory!</value>
   </data>
-  <data name="emptyline" xml:space="preserve">
-    <value />
-  </data>
   <data name="Exiting" xml:space="preserve">
     <value>Exiting application</value>
   </data>
