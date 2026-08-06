@@ -32,36 +32,21 @@ namespace ExpenseTracker.View
                             {
                             ExpenseTrackerResource.AddTransaction,
                             ExpenseTrackerResource.ViewAllTransaction,
-                            ExpenseTrackerResource.transactionBydate,
+                            ExpenseTrackerResource.TransactionSummary,
                             ExpenseTrackerResource.updateTransaction,
+                            ExpenseTrackerResource.EditTransaction,
+                            ExpenseTrackerResource.DeleteTransaction,
                             ExpenseTrackerResource.exit,
                             }));
                 switch (choice)
                 {
                     case "Add new Transaction":
-                        DateTime transactionDate = this.GetDateOfTransaction();
-                        var newTransaction = AnsiConsole.Prompt(new SelectionPrompt<string>()
-                            .Title(ExpenseTrackerResource.OptionSelection)
-                            .AddChoices(new[]
-                            {
-                            ExpenseTrackerResource.AddIncome,
-                            ExpenseTrackerResource.AddExpense,
-                            }));
-                        if (newTransaction.Equals(ExpenseTrackerResource.AddIncome))
-                        {
-                            var newIncomeDetails = this.GetIncomeDetails();
-                            this._service.AddIncomeTransaction(newIncomeDetails, transactionDate);
-                        }
-                        else
-                        {
-                            var newExpenseDetails = this.GetExpenseDetails();
-                            this._service.AddExpenseTransaction(newExpenseDetails, transactionDate);
-                        }
-
+                        this.GetAddDetails();
                         break;
                     case "Update Transaction":
                         break;
-                    case "View All Transaction":
+                    case "View Ledger":
+                        this.DisplayTransaction();
                         break;
                     case "View transactions by date":
                         break;
@@ -73,6 +58,58 @@ namespace ExpenseTracker.View
                         AnsiConsole.Markup(ExpenseTrackerResource.InvalidInput);
                         break;
                 }
+
+                Console.Write("Do you want to exit[y/n]:");
+                string exitChoice = Console.ReadLine() ?? string.Empty;
+                if (!Validator.IsChoiceValid(exitChoice))
+                {
+                    return;
+                }
+
+                if (exitChoice.Equals("y", StringComparison.OrdinalIgnoreCase))
+                {
+                    exit = true;
+                }
+            }
+        }
+
+        internal void DisplayTransaction()
+        {
+            var ledger = this._service.DisplayAllTransactions();
+            Console.Clear();
+            var table = new Table();
+            table.AddColumn("Date");
+            table.AddColumn("Transaction ID");
+            table.AddColumn("Description");
+            table.AddColumn("Type");
+            table.AddColumn("Balance");
+            foreach (var item in ledger)
+            {
+                table.AddRow(item.Date.ToString("yyyy-MM-dd"), item.TransactionID.ToString(), item.Description, item.TransactionType, item.NetBalance.ToString());
+            }
+
+            AnsiConsole.Write(table);
+        }
+
+        private void GetAddDetails()
+        {
+            DateTime transactionDate = this.GetDateOfTransaction();
+            var newTransaction = AnsiConsole.Prompt(new SelectionPrompt<string>()
+                .Title(ExpenseTrackerResource.OptionSelection)
+                .AddChoices(new[]
+                {
+                            ExpenseTrackerResource.AddIncome,
+                            ExpenseTrackerResource.AddExpense,
+                }));
+            if (newTransaction.Equals(ExpenseTrackerResource.AddIncome))
+            {
+                var newIncomeDetails = this.GetIncomeDetails();
+                this._service.AddIncomeTransaction(newIncomeDetails, transactionDate);
+            }
+            else
+            {
+                var newExpenseDetails = this.GetExpenseDetails();
+                this._service.AddExpenseTransaction(newExpenseDetails, transactionDate);
             }
         }
 

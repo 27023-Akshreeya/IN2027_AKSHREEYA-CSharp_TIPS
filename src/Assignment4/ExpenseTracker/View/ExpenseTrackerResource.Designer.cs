@@ -88,6 +88,24 @@ namespace ExpenseTracker.View {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remove Transaction.
+        /// </summary>
+        internal static string DeleteTransaction {
+            get {
+                return ResourceManager.GetString("DeleteTransaction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Transaction.
+        /// </summary>
+        internal static string EditTransaction {
+            get {
+                return ResourceManager.GetString("EditTransaction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Exit.
         /// </summary>
         internal static string exit {
@@ -185,6 +203,15 @@ namespace ExpenseTracker.View {
         internal static string transactionBydate {
             get {
                 return ResourceManager.GetString("transactionBydate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View Summary.
+        /// </summary>
+        internal static string TransactionSummary {
+            get {
+                return ResourceManager.GetString("TransactionSummary", resourceCulture);
             }
         }
         

@@ -10,20 +10,11 @@ namespace ExpenseTracker.Repository
         internal void AddNewTransation(Ledger ledger)
         {
             this._ledgerList.Add(ledger);
+        }
 
-            Console.Clear();
-            var table = new Table();
-            table.AddColumn("Date");
-            table.AddColumn("Transaction ID");
-            table.AddColumn("Description");
-            table.AddColumn("Type");
-            table.AddColumn("Balance");
-            foreach (var item in this._ledgerList)
-            {
-                table.AddRow(item.Date.ToString("yyyy-MM-dd"), item.TransactionID.ToString(), item.Description, item.TransactionType, item.NetBalance.ToString());
-            }
-
-            AnsiConsole.Write(table);
+        internal List<Ledger> GetLedger()
+        {
+            return this._ledgerList;
         }
 
         internal decimal GetCurrentBalance()
