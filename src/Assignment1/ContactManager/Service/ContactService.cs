@@ -14,7 +14,6 @@ namespace ContactManager.Service
     internal class ContactService
     {
         private Repo _repo;
-        private Validator _helper = new Validator();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ContactService"/> class.
@@ -36,7 +35,13 @@ namespace ContactManager.Service
         /// <returns>true if the contact was added successfully; otherwise, false.</returns>
         internal bool AddNewContact(Contact contact)
         {
-            return this._repo.AddContact(contact);
+            if (contact != null)
+            {
+                this._repo.AddContact(contact);
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -49,13 +54,12 @@ namespace ContactManager.Service
             Guid id = this.GetGuidByPhoneNumber(phoneNumber);
             if (id != Guid.Empty)
             {
-                return this._repo.RemoveContact(id);
+                this._repo.RemoveContact(id);
+                return true;
             }
-            else
-            {
-                ContactViewer.DisplayIsContactsEmpty();
-                return false;
-            }
+
+            ContactViewer.DisplayIsContactsEmpty();
+            return false;
         }
 
         /// <summary>
@@ -66,7 +70,13 @@ namespace ContactManager.Service
         /// <returns>true if the contact was updated successfully; otherwise, false.</returns>
         internal bool EditExisitingContact(Contact contact, Guid guid)
         {
-            return this._repo.UpdateContact(contact, guid);
+            if (contact != null || guid != Guid.Empty)
+            {
+                this._repo.UpdateContact(contact, guid);
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -119,7 +129,7 @@ namespace ContactManager.Service
                 return Guid.Empty;
             }
 
-            Contact findName = contacts.Find(c => c.Name == name);
+            var findName = contacts.Find(c => c.Name == name);
             if (findName == null || name == string.Empty)
             {
                 ContactViewer.DisplayIsContactsEmpty();
@@ -158,7 +168,7 @@ namespace ContactManager.Service
                 return Guid.Empty;
             }
 
-            Contact findphoneNumber = contacts.Find(c => c.PhoneNumber == phoneNumber);
+            var findphoneNumber = contacts.Find(c => c.PhoneNumber == phoneNumber);
             if (findphoneNumber == null)
             {
                 return Guid.Empty;
@@ -180,15 +190,13 @@ namespace ContactManager.Service
                 return null;
             }
 
-            if (name == string.Empty)
+            if (name.Equals(string.Empty))
             {
                 ContactViewer.DisplayIsContactsEmpty();
                 return null;
             }
 
-            Contact findName = contacts.Find(c => c.Name == name);
-
-            return findName;
+            return contacts.Find(c => c.Name == name);
         }
 
         /// <summary>

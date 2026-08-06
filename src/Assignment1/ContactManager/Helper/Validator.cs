@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Net.Mail;
+using ContactManager.Models;
 
 namespace ContactManager.Helper
 {
@@ -7,7 +8,7 @@ namespace ContactManager.Helper
     /// Provides validation methods for user input such as menu choices,
     /// names, phone numbers, email addresses, and notes.
     /// </summary>
-    public class Validator
+    public static class Validator
     {
         /// <summary>
         /// Validates the user's menu choice.
@@ -18,7 +19,7 @@ namespace ContactManager.Helper
         /// <returns>
         /// true if the string is a valid character; otherwise, false. <c>null</c>.
         /// </returns>
-        public bool IsChoiceValid(string choice)
+        public static bool IsChoiceValid(string choice)
         {
             if (string.IsNullOrEmpty(choice) || string.IsNullOrWhiteSpace(choice))
             {
@@ -38,7 +39,7 @@ namespace ContactManager.Helper
         /// </summary>
         /// <param name="contactDetail">The string to evaluate.</param>
         /// <returns>true if the string is a valid integer; otherwise, false.</returns>
-        public bool IsNumericChoiceValid(string contactDetail)
+        public static bool IsNumericChoiceValid(string contactDetail)
         {
             if (string.IsNullOrEmpty(contactDetail) || string.IsNullOrWhiteSpace(contactDetail))
             {
@@ -62,7 +63,7 @@ namespace ContactManager.Helper
         /// <returns>
         /// true if the string is a valid name; otherwise, false. <c>null</c>.
         /// </returns>
-        public bool IsNameValid(string str)
+        public static bool IsNameValid(string str)
         {
             if (string.IsNullOrEmpty(str) || string.IsNullOrWhiteSpace(str) || !str.All(char.IsLetterOrDigit))
             {
@@ -81,7 +82,7 @@ namespace ContactManager.Helper
         /// <returns>
         /// true if the string is a valid integer; otherwise, false.<c>null</c>.
         /// </returns>
-        public bool IsPhoneNumberValid(string num)
+        public static bool IsPhoneNumberValid(string num)
         {
             if (num.Length != 10 || !num.All(char.IsDigit))
             {
@@ -100,7 +101,7 @@ namespace ContactManager.Helper
         /// <returns>
         /// true if the string is a valid email; otherwise, false. <c>null</c>.
         /// </returns>
-        public bool IsEmailValid(string email)
+        public static bool IsEmailValid(string email)
         {
             if (string.IsNullOrWhiteSpace(email))
             {
@@ -116,6 +117,21 @@ namespace ContactManager.Helper
             {
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Validates the contact details
+        /// </summary>
+        /// <param name="newContact">consits of contact details</param>
+        /// <returns>returns true if contact is valid, false otherwise</returns>
+        public static bool IsContactValid(Contact newContact)
+        {
+            if (newContact.Name.Equals(string.Empty) || newContact.PhoneNumber.Equals(string.Empty) || newContact.EmailId.Equals(string.Empty))
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

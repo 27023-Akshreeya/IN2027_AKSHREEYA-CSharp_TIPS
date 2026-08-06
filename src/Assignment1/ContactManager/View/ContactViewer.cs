@@ -14,7 +14,6 @@ namespace ContactManager.View
     public class ContactViewer
     {
         private static Repo repo = new Repo();
-        private Validator _helper = new Validator();
         private ContactService _contactService = new ContactService(repo);
 
         /// <summary>
@@ -70,7 +69,7 @@ namespace ContactManager.View
                     "\n[S]earch contact\n[V]iew all contact\n[E]dit contact\n" +
                     "[R]emove contact\n[C]lose contact\n------------------");
                 string userChoice = this.GetUserChoice();
-                if (userChoice == null)
+                if (userChoice.Equals(string.Empty))
                 {
                     continue;
                 }
@@ -79,7 +78,7 @@ namespace ContactManager.View
                 {
                     case "a":
                         var newContact = this.GetContactDetails();
-                        if (newContact is null)
+                        if (!Validator.IsContactValid(newContact))
                         {
                             continue;
                         }
@@ -169,19 +168,15 @@ namespace ContactManager.View
         public string GetUserChoice()
         {
             Console.Write("Enter a choice:");
-            var userChoice = Console.ReadLine();
+            var userChoice = Console.ReadLine() ?? string.Empty;
 
-            bool isValidChoice = this._helper.IsChoiceValid(userChoice);
-
-            if (isValidChoice == true)
+            if (Validator.IsChoiceValid(userChoice))
             {
                 return userChoice;
             }
-            else
-            {
-                Console.WriteLine("Invalid input. Please try again.");
-                return null;
-            }
+
+            Console.WriteLine("Invalid input. Please try again.");
+            return string.Empty;
         }
 
         /// <summary>
@@ -190,41 +185,43 @@ namespace ContactManager.View
         /// <returns>A Contact object containing the validated contact details, or null if validation fails.</returns>
         public Contact GetContactDetails()
         {
+            var contact = new Contact(string.Empty, 0, string.Empty, string.Empty);
             Console.Write("Enter your name:");
-            var name = Console.ReadLine();
+            var name = Console.ReadLine() ?? string.Empty;
 
-            if (!this._helper.IsNameValid(name))
+            if (!Validator.IsNameValid(name))
             {
                 Console.WriteLine("Invalid name. Please try again.");
-                return null;
+                return contact;
             }
 
             Console.Write("Enter your Phone number:");
-            var inputPhoneNumber = Console.ReadLine();
+            var inputPhoneNumber = Console.ReadLine() ?? string.Empty;
 
-            if (!this._helper.IsPhoneNumberValid(inputPhoneNumber))
+            if (!Validator.IsPhoneNumberValid(inputPhoneNumber))
             {
                 Console.WriteLine("Invalid phone number. Please try again.");
-                return null;
+                return contact;
             }
 
             long phoneNumber = Convert.ToInt64(inputPhoneNumber);
 
             Console.Write("Enter your email address:");
-            var emailAddress = Console.ReadLine();
+            var emailAddress = Console.ReadLine() ?? string.Empty;
 
-            if (!this._helper.IsEmailValid(emailAddress))
+            if (!Validator.IsEmailValid(emailAddress))
             {
                 Console.WriteLine("Invalid email address. Please try again.");
-                return null;
+                return contact;
             }
 
             Console.Write("Enter additional notes:");
             var addNotes = Console.ReadLine() ?? string.Empty;
 
-            Contact contact =
-                new Contact(name, phoneNumber, emailAddress, addNotes);
-
+            contact.Name = name;
+            contact.PhoneNumber = phoneNumber;
+            contact.EmailId = emailAddress;
+            contact.Notes = addNotes;
             contact.Id = Guid.NewGuid();
 
             return contact;
@@ -237,104 +234,112 @@ namespace ContactManager.View
         {
             Console.Write("Enter the name of the contact you want to edit:");
 
-            var name = Console.ReadLine();
+            var name = Console.ReadLine() ?? string.Empty;
 
-            Contact contact = this._contactService.GetContactByName(name);
-            Guid contactId = this._contactService.GetGuidByName(name);
-            if (contactId == Guid.Empty)
+            var contact = this._contactService.GetContactByName(name);
+            var contactId = this._contactService.GetGuidByName(name);
+            if (contactId == Guid.Empty || contact is null)
             {
+                Console.WriteLine("Contact not found");
                 return;
             }
 
-            if (contact != null)
+            Console.Write("Enter the detail you want to edit.\n1.Name\n" +
+                "2.Phone Number\n3.Email address\n4.Notes\nEnter the option number:");
+
+            string contactDetail = Console.ReadLine() ?? string.Empty;
+            if (!Validator.IsNumericChoiceValid(contactDetail))
             {
-                Console.Write("Enter the detail you want to edit.\n1.Name\n" +
-                    "2.Phone Number\n3.Email address\n4.Notes\nEnter the option number:");
-
-                string contactDetail = Console.ReadLine();
-                if (this._helper.IsNumericChoiceValid(contactDetail) == false)
-                {
-                    Console.WriteLine("Invalid input");
-                    return;
-                }
-
-                int editChoice = Convert.ToInt32(contactDetail);
-                if (editChoice == 1)
-                {
-                    Console.Write("Enter new name:");
-                    var editName = Console.ReadLine();
-
-                    if (!this._helper.IsNameValid(editName))
-                    {
-                        Console.WriteLine("Invalid name try again");
-                        return;
-                    }
-
-                    contact.Name = editName;
-
-                    if (this._contactService.EditExisitingContact(contact, contactId))
-                    {
-                        DisplaySuccessofOperation("Contact updated");
-                    }
-                }
-                else if (editChoice == 2)
-                {
-                    Console.Write("Enter new phone number:");
-
-                    var editNumber = Console.ReadLine();
-
-                    if (!this._helper.IsPhoneNumberValid(editNumber))
-                    {
-                        Console.WriteLine("Invalid phone number try again");
-                        return;
-                    }
-
-                    long editPhoneNumber = Convert.ToInt64(editNumber);
-                    contact.PhoneNumber = editPhoneNumber;
-
-                    if (this._contactService.EditExisitingContact(contact, contactId))
-                    {
-                        DisplaySuccessofOperation("Contact updated");
-                    }
-                }
-                else if (editChoice == 3)
-                {
-                    Console.Write("Enter new email address:");
-
-                    var editEmailAddress = Console.ReadLine();
-
-                    if (!this._helper.IsEmailValid(editEmailAddress))
-                    {
-                        Console.WriteLine("Invalid email address try again");
-                        return;
-                    }
-
-                    contact.EmailId = editEmailAddress;
-                    if (this._contactService.EditExisitingContact(contact, contactId))
-                    {
-                        DisplaySuccessofOperation("Contact updated");
-                    }
-                }
-                else if (editChoice == 4)
-                {
-                    Console.Write("Enter new notes:");
-
-                    var editNotes = Console.ReadLine() ?? string.Empty;
-
-                    contact.Notes = editNotes;
-                    if (this._contactService.EditExisitingContact(contact, contactId))
-                    {
-                        DisplaySuccessofOperation("Contact updated");
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Invalid option");
-                }
+                Console.WriteLine("Invalid input");
+                return;
             }
-            else
+
+            int editChoice = Convert.ToInt32(contactDetail);
+            switch (editChoice)
             {
-                Console.WriteLine("Contact not found");
+                case 1:
+                    {
+                        Console.Write("Enter new name:");
+                        var editName = Console.ReadLine() ?? string.Empty;
+
+                        if (!Validator.IsNameValid(editName))
+                        {
+                            Console.WriteLine("Invalid name try again");
+                            return;
+                        }
+
+                        contact.Name = editName;
+
+                        if (this._contactService.EditExisitingContact(contact, contactId))
+                        {
+                            DisplaySuccessofOperation("Contact updated");
+                        }
+
+                        break;
+                    }
+
+                case 2:
+                    {
+                        Console.Write("Enter new phone number:");
+
+                        var editNumber = Console.ReadLine();
+
+                        if (!Validator.IsPhoneNumberValid(editNumber))
+                        {
+                            Console.WriteLine("Invalid phone number try again");
+                            return;
+                        }
+
+                        long editPhoneNumber = Convert.ToInt64(editNumber);
+                        contact.PhoneNumber = editPhoneNumber;
+
+                        if (this._contactService.EditExisitingContact(contact, contactId))
+                        {
+                            DisplaySuccessofOperation("Contact updated");
+                        }
+
+                        break;
+                    }
+
+                case 3:
+                    {
+                        Console.Write("Enter new email address:");
+
+                        var editEmailAddress = Console.ReadLine();
+
+                        if (!Validator.IsEmailValid(editEmailAddress))
+                        {
+                            Console.WriteLine("Invalid email address try again");
+                            return;
+                        }
+
+                        contact.EmailId = editEmailAddress;
+                        if (this._contactService.EditExisitingContact(contact, contactId))
+                        {
+                            DisplaySuccessofOperation("Contact updated");
+                        }
+
+                        break;
+                    }
+
+                case 4:
+                    {
+                        Console.Write("Enter new notes:");
+
+                        var editNotes = Console.ReadLine() ?? string.Empty;
+
+                        contact.Notes = editNotes;
+                        if (this._contactService.EditExisitingContact(contact, contactId))
+                        {
+                            DisplaySuccessofOperation("Contact updated");
+                        }
+
+                        break;
+                    }
+
+                default:
+                    Console.WriteLine("Invalid option");
+                    break;
             }
         }
 
@@ -354,7 +359,7 @@ namespace ContactManager.View
         {
             Console.Write("1. Search Contact by name\n2. Search Contact by Phone Number\nEnter you choice:");
             string searchChoice = Console.ReadLine() ?? string.Empty;
-            if (!this._helper.IsNumericChoiceValid(searchChoice))
+            if (!Validator.IsNumericChoiceValid(searchChoice))
             {
                 return string.Empty;
             }
@@ -374,9 +379,9 @@ namespace ContactManager.View
                 case "1":
                     Console.Write("Enter the name of the contact you want to search:");
 
-                    var name = Console.ReadLine();
+                    var name = Console.ReadLine() ?? string.Empty;
 
-                    if (!this._helper.IsNameValid(name))
+                    if (!Validator.IsNameValid(name))
                     {
                         Console.WriteLine("Invalid name. Please try again.");
                         return string.Empty;
@@ -386,9 +391,9 @@ namespace ContactManager.View
                 case "2":
                     Console.Write("Enter the Phone Number of the contact you want to search:");
 
-                    string phoneNumber = Console.ReadLine();
+                    string phoneNumber = Console.ReadLine() ?? string.Empty;
 
-                    if (!this._helper.IsPhoneNumberValid(phoneNumber))
+                    if (!Validator.IsPhoneNumberValid(phoneNumber))
                     {
                         Console.WriteLine("Invalid name. Please try again.");
                         return string.Empty;
@@ -408,9 +413,9 @@ namespace ContactManager.View
         {
             Console.Write("Enter the phone number of the contact you want to remove:");
 
-            var inputPhoneNumber = Console.ReadLine();
+            var inputPhoneNumber = Console.ReadLine() ?? string.Empty;
 
-            if (!this._helper.IsPhoneNumberValid(inputPhoneNumber))
+            if (!Validator.IsPhoneNumberValid(inputPhoneNumber))
             {
                 Console.WriteLine("Invalid PhoneNumber. Please try again.");
                 return 0;
