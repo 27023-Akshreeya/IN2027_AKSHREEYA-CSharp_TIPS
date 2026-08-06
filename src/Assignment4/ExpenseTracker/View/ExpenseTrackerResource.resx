@@ -167,4 +167,13 @@ Select an option:</value>
   <data name="Exiting" xml:space="preserve">
     <value>[bold red]Exiting......[/]</value>
   </data>
+  <data name="TransactionSummary" xml:space="preserve">
+    <value>View Summary</value>
+  </data>
+  <data name="EditTransaction" xml:space="preserve">
+    <value>Edit Transaction</value>
+  </data>
+  <data name="DeleteTransaction" xml:space="preserve">
+    <value>Remove Transaction</value>
+  </data>
 </root>
