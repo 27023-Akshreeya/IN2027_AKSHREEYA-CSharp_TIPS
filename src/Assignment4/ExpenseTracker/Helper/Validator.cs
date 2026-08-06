@@ -27,5 +27,19 @@ namespace ExpenseTracker.Helper
 
             return false;
         }
+
+        public static bool IsChoiceValid(string choice)
+        {
+            if (string.IsNullOrEmpty(choice) || string.IsNullOrWhiteSpace(choice))
+            {
+                return false;
+            }
+            else if (!choice.Equals("n", StringComparison.OrdinalIgnoreCase) && !choice.Equals("y", StringComparison.OrdinalIgnoreCase))
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }

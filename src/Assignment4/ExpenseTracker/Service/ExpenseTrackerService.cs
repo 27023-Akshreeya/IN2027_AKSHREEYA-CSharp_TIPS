@@ -23,5 +23,10 @@ namespace ExpenseTracker.Service
             var newIncome = new Income(this._repo.GetCurrentBalance(), newIncomeDetails.incomeAmount, transactionDate, newIncomeDetails.source, Guid.NewGuid());
             this._repo.AddNewTransation(newIncome);
         }
+
+        internal List<Ledger> DisplayAllTransactions()
+        {
+            return this._repo.GetLedger();
+        }
     }
 }
