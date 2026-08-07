@@ -159,7 +159,7 @@ namespace InventoryManager.View
 
             Console.Write(InventoryManagerResource.EditOptions + "\n" + InventoryManagerResource.UserChoice + InventoryManagerResource.Editchoices);
             string userEditChoice = Console.ReadLine() ?? string.Empty;
-            if (Validator.IsUserChoiceValid(userEditChoice) && this.GetProductDetailsToEdit(userEditChoice, editProductId))
+            if (Validator.IsUserChoiceValid(userEditChoice) && this.GetProductDetailsToEdit(int.Parse(userEditChoice), editProductId))
             {
                 Console.WriteLine(InventoryManagerResource.WrapperSuccess + " product updated");
                 return;
@@ -171,14 +171,14 @@ namespace InventoryManager.View
         /// <summary>
         /// Prompts the user for new property values based on their choice and updates the designated product.
         /// </summary>
-        /// <param name="userEditChoice">The choice string indicating which property to modify (1 = Name, 2 = ID, 3 = Price, 4 = Quantity).</param>
+        /// <param name="userEditChoice">The choice int indicating which property to modify (1 = Name, 2 = ID, 3 = Price, 4 = Quantity).</param>
         /// <param name="productId">The unique tracking identifier of the product targeted for modification.</param>
         /// <returns>True if the validation passes and the modification task executes successfully; otherwise, false.</returns>
-        private bool GetProductDetailsToEdit(string userEditChoice, string productId)
+        private bool GetProductDetailsToEdit(int userEditChoice, string productId)
         {
-            switch (userEditChoice)
+            switch ((EditChoices.EditOperation)userEditChoice)
             {
-                case "1":
+                case EditChoices.EditOperation.ProductName:
                     Console.Write(InventoryManagerResource.ProductName);
                     string newProductName = Console.ReadLine() ?? string.Empty;
                     if (!Validator.IsNameValid(newProductName))
@@ -201,7 +201,7 @@ namespace InventoryManager.View
                     }
 
                     return false;
-                case "2":
+                case EditChoices.EditOperation.ProductId:
                     Console.Write(InventoryManagerResource.ProductID);
                     string newProductId = Console.ReadLine() ?? string.Empty;
                     if (!Validator.IsProductIdValid(newProductId))
@@ -229,7 +229,7 @@ namespace InventoryManager.View
                     }
 
                     return false;
-                case "3":
+                case EditChoices.EditOperation.Price:
                     Console.Write(InventoryManagerResource.ProductPrice);
                     string newProductPrice = Console.ReadLine() ?? string.Empty;
                     if (!Validator.IsPriceValid(newProductPrice))
@@ -252,7 +252,7 @@ namespace InventoryManager.View
                     }
 
                     return false;
-                case "4":
+                case EditChoices.EditOperation.Quantity:
                     Console.Write(InventoryManagerResource.ProductQuantity);
                     string newProductQuantity = Console.ReadLine() ?? string.Empty;
                     if (!Validator.IsQuantityValid(newProductQuantity))
