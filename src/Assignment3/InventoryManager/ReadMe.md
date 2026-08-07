@@ -28,9 +28,9 @@ The project was created to practice object-oriented programming concepts, projec
 * `DisplayAllProductsToUser(List<Product> allProducts)`: Iterates through the list collection of products and prints their details to the terminal.
 
 ### 3. Service (ConsoleService Layer)
-* `DoesProductExisits(string productId)`: Checks if a product with the specified ID already exists in the inventory tracking list.
+* `DoesProductExist(string productId)`: Checks if a product with the specified ID already exists in the inventory tracking list.
 * `AddNewProduct(tuple newProductDetails)`: Takes a tuple of data, builds a new `Product` instance, and sends it to the repository to be saved.
-* `DeleteProductById(string deleteproductId)`: Finds a product by its ID and routes it to the repository for deletion.
+* `ProductToDelete(string deleteproductId)`: Finds a product by its ID and routes it to the repository for deletion.
 * `SearchByProductId(string productId)`: Searches for a product by its unique identifier and returns the found item.
 * `UpdateProductByProductID(string newProductElement, string productId, int editChoice)`: Identifies which property to change based on the choice, updates the field safely with data parsing, and saves the updated product.
 * `ViewAllProducts()`: Retrieves all products from the data store and sorts them alphabetically by their name using LINQ.

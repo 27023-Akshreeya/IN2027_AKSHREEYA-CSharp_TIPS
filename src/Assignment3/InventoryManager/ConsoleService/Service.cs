@@ -1,9 +1,14 @@
-﻿namespace InventoryManager.ConsoleService
+﻿// <copyright file="Service.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace InventoryManager.ConsoleService
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using InventoryManager.Model;
+    using InventoryManager.Model.Enums;
     using InventoryManager.Repository;
     using InventoryManager.View;
 
@@ -22,10 +27,10 @@
         /// </summary>
         /// <param name="productId">The unique identifier of the product to check.</param>
         /// <returns>True if the product exists; otherwise, false.</returns>
-        internal bool DoesProductExisits(string productId)
+        internal bool DoesProductExist(string productId)
         {
             var products = this._repo.GetAllProducts();
-            return products.FirstOrDefault(x => x.ProductId.Equals(productId)) == null;
+            return products.Any(x => x.ProductId.Equals(productId));
         }
 
         /// <summary>
@@ -49,7 +54,7 @@
         /// </summary>
         /// <param name="deleteproductId">The unique identifier of the product to delete.</param>
         /// <returns>True if the product was successfully deleted; otherwise, false.</returns>
-        internal bool DeleteProductById(string deleteproductId)
+        internal bool ProductToDelete(string deleteproductId)
         {
             var products = this._repo.GetAllProducts();
             var findProductId = products.Find(x => x.ProductId.Equals(deleteproductId));
@@ -70,8 +75,7 @@
         internal Product? SearchByProductId(string productId)
         {
             var products = this._repo.GetAllProducts();
-            var searchproduct = products.Find(x => x.ProductId.Equals(productId));
-            return searchproduct;
+            return products.Find(x => x.ProductId.Equals(productId));
         }
 
         /// <summary>
@@ -81,7 +85,7 @@
         /// <param name="productId">The current unique identifier of the product to update.</param>
         /// <param name="editChoice">The selection indicator: 1 for Name, 2 for ID, 3 for Price, any other number for Quantity.</param>
         /// <returns>True if the product update operation succeeds; otherwise, false.</returns>
-        internal bool UpdateProductByProductID(string newProductElement, string productId, int editChoice)
+        internal bool UpdateProductByProductID(string newProductElement, string productId, Enum editChoice)
         {
             var productToUpdate = this.SearchByProductId(productId);
             if (productToUpdate is null)
@@ -92,43 +96,39 @@
 
             switch (editChoice)
             {
-                case 1:
+                case EditChoices.EditOperation.ProductName:
                     productToUpdate.ProductName = newProductElement;
                     break;
-                case 2:
+                case EditChoices.EditOperation.ProductId:
                     productToUpdate.ProductId = newProductElement;
                     break;
-                case 3:
+                case EditChoices.EditOperation.Price:
                     try
                     {
                         productToUpdate.Price = decimal.Parse(newProductElement);
                     }
-                    catch (FormatException ex)
+                    catch (FormatException)
                     {
-                        InventoryManagerViewer.ErrorMessage(InventoryManagerResource.InvalidInput + ex.Message);
-                        return false;
+                        throw;
                     }
-                    catch (OverflowException ex)
+                    catch (OverflowException)
                     {
-                        InventoryManagerViewer.ErrorMessage(InventoryManagerResource.InvalidInput + ex.Message);
-                        return false;
+                        throw;
                     }
 
                     break;
-                case 4:
+                case EditChoices.EditOperation.Quantity:
                     try
                     {
                         productToUpdate.Quantity = int.Parse(newProductElement);
                     }
-                    catch (FormatException ex)
+                    catch (FormatException)
                     {
-                        InventoryManagerViewer.ErrorMessage(InventoryManagerResource.InvalidInput + ex.Message);
-                        return false;
+                        throw;
                     }
-                    catch (OverflowException ex)
+                    catch (OverflowException)
                     {
-                        InventoryManagerViewer.ErrorMessage(InventoryManagerResource.InvalidInput + ex.Message);
-                        return false;
+                        throw;
                     }
 
                     break;
@@ -147,8 +147,7 @@
         internal List<Product> ViewAllProducts()
         {
             var products = this._repo.GetAllProducts();
-            var sortedProducts = products.OrderBy(p => p.ProductName).ToList();
-            return sortedProducts;
+            return products.OrderBy(p => p.ProductName).ToList();
         }
 
         /// <summary>
@@ -157,8 +156,7 @@
         /// <returns>true if no products exisits, false otherwise.</returns>
         internal bool IsProductsEmpty()
         {
-            var products = this._repo.GetAllProducts();
-            return products.Count == 0;
+            return this._repo.GetAllProducts().Any();
         }
     }
 }

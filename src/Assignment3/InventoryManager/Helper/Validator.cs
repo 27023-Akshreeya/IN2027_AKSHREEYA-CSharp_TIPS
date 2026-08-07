@@ -1,4 +1,8 @@
-﻿namespace InventoryManager.Helper
+﻿// <copyright file="Validator.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace InventoryManager.Helper
 {
     using InventoryManager.Model;
 
@@ -29,36 +33,19 @@
         /// <returns>true if the choice is a single digit; otherwise, false.</returns>
         internal static bool IsUserChoiceValid(string userChoice)
         {
-            if (!IsInputValid(userChoice) || !userChoice.All(char.IsDigit) || userChoice.Length != 1)
+            if (!IsInputValid(userChoice) || userChoice.Length != 1 || !int.TryParse(userChoice, out int _))
             {
                 return false;
             }
-            else
-            {
-                try
-                {
-                    int.TryParse(userChoice, out int _);
-                }
-                catch (FormatException ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    return false;
-                }
-                catch (OverflowException ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    return false;
-                }
 
-                return true;
-            }
+            return true;
         }
 
         /// <summary>
         /// This method validates products name.
         /// </summary>
         /// <param name="productName">input product name as parameter.</param>
-        /// <returns>returns true if valid and vise versa.</returns>
+        /// <returns>returns true if valid and vice versa.</returns>
         internal static bool IsNameValid(string productName)
         {
             if (!IsInputValid(productName) || !productName.All(char.IsLetter))
@@ -73,39 +60,22 @@
         /// This checks whether the input price is in valid format.
         /// </summary>
         /// <param name="price">input product price as parameter.</param>
-        /// <returns>returns true if valid and vise versa.</returns>
+        /// <returns>returns true if valid and vice versa.</returns>
         internal static bool IsPriceValid(string price)
         {
-            if (!IsInputValid(price) || !price.All(char.IsDigit))
+            if (!IsInputValid(price) || !decimal.TryParse(price, out decimal _))
             {
                 return false;
             }
-            else
-            {
-                try
-                {
-                    decimal.TryParse(price, out decimal _);
-                }
-                catch (FormatException ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    return false;
-                }
-                catch (OverflowException ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    return false;
-                }
 
-                return true;
-            }
+            return true;
         }
 
         /// <summary>
         /// This checks whether the input product Id is in valid format.
         /// </summary>
         /// <param name="productId">input product ID as parameter.</param>
-        /// <returns>returns true if valid and vise versa.</returns>
+        /// <returns>returns true if valid and vice versa.</returns>
         internal static bool IsProductIdValid(string productId)
         {
             if (!IsInputValid(productId) || productId.All(char.IsSymbol))
@@ -120,32 +90,15 @@
         /// This checks whether the input product quantity is in valid format.
         /// </summary>
         /// <param name="productQuantity">input product quantity as parameter.</param>
-        /// <returns>returns true if valid and vise versa.</returns>
+        /// <returns>returns true if valid and vice versa.</returns>
         internal static bool IsQuantityValid(string productQuantity)
         {
-            if (!IsInputValid(productQuantity) || !productQuantity.All(char.IsDigit))
+            if (!IsInputValid(productQuantity) || !int.TryParse(productQuantity, out int _))
             {
                 return false;
             }
-            else
-            {
-                try
-                {
-                    int.TryParse(productQuantity, out int _);
-                }
-                catch (FormatException ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    return false;
-                }
-                catch (OverflowException ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    return false;
-                }
 
-                return true;
-            }
+            return true;
         }
 
         /// <summary>

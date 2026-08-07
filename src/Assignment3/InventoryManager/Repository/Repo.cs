@@ -37,11 +37,7 @@ namespace InventoryManager.Repository
         /// <param name="productId">The unique identifier alphanumeric string for the product to delete.</param>
         internal void DeleteProduct(string productId)
         {
-            var deleteContact = this._products.Find(x => x.ProductId == productId);
-            if (deleteContact != null)
-            {
-                this._products.Remove(deleteContact);
-            }
+            this._products.RemoveAll(x => x.ProductId == productId);
         }
 
         /// <summary>
@@ -51,13 +47,13 @@ namespace InventoryManager.Repository
         /// <param name="productId">The unique identifier of the product to update.</param>
         internal void UpdateProduct(Product productToUpdate, string productId)
         {
-            var findProductId = this._products.Find(p => p.ProductId == productId);
-            if (findProductId != null)
+            var existingProduct = this._products.Find(p => p.ProductId == productId);
+            if (existingProduct != null)
             {
-                findProductId.ProductId = productToUpdate.ProductId;
-                findProductId.ProductName = productToUpdate.ProductName;
-                findProductId.Price = productToUpdate.Price;
-                findProductId.Quantity = productToUpdate.Quantity;
+                existingProduct.ProductId = productToUpdate.ProductId;
+                existingProduct.ProductName = productToUpdate.ProductName;
+                existingProduct.Price = productToUpdate.Price;
+                existingProduct.Quantity = productToUpdate.Quantity;
             }
         }
     }
