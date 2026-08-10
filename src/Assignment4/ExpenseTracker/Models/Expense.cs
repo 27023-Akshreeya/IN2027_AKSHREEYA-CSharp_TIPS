@@ -1,26 +1,43 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ExpenseTracker.Models
 {
-    internal class Expense : Ledger
+    /// <summary>
+    /// Represents an expense transaction recorded in the Expense Tracker.
+    /// Inherits common transaction properties from the <see cref="Record"/> class.
+    /// </summary>
+    internal class Expense : Record
     {
-        public Expense(decimal netbalance, decimal amount, DateTime date, string category, Guid guid)
-            : base(netbalance, date, category, "Expense", guid)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Expense"/> class
+        /// with the specified expense amount and category.
+        /// </summary>
+        /// <param name="expenseAmount">
+        /// The amount spent in the expense transaction.
+        /// </param>
+        /// <param name="category">
+        /// The category to which the expense belongs (e.g., Food, Travel, Entertainment).
+        /// </param>
+        public Expense(decimal expenseAmount, string category)
         {
-            this.NetBalance = this.CalculateNetBalance(amount);
-            this.Date = date;
-            this.Description = category;
-            this.TransactionType = "Expense";
+            this.ExpenseAmount = expenseAmount;
+            this.Category = category;
         }
 
-        public decimal Amount { get; set; }
+        /// <summary>
+        /// Gets or sets the amount spent for this expense transaction.
+        /// </summary>
+        /// <value>
+        /// The amount spent for this expense transaction.
+        /// </value>
+        public decimal ExpenseAmount { get; set; }
 
-        public string? Category { get; set; }
-
-        public override decimal CalculateNetBalance(decimal amount) => this.NetBalance - amount;
+        /// <summary>
+        /// Gets or sets the category of the expense.
+        /// </summary>
+        /// <value>
+        ///  The category of the expense.
+        /// </value>
+        public string Category { get; set; }
     }
 }
