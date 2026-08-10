@@ -61,6 +61,24 @@ namespace ExpenseTracker.View {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to [green]Expense Added[/].
+        /// </summary>
+        internal static string addedExpense {
+            get {
+                return ResourceManager.GetString("addedExpense", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [green]Income Added[/].
+        /// </summary>
+        internal static string addedIncome {
+            get {
+                return ResourceManager.GetString("addedIncome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add Expense.
         /// </summary>
         internal static string AddExpense {
@@ -79,11 +97,47 @@ namespace ExpenseTracker.View {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select the type of transaction.
+        /// </summary>
+        internal static string AddNewTransaction {
+            get {
+                return ResourceManager.GetString("AddNewTransaction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add new Transaction.
         /// </summary>
         internal static string AddTransaction {
             get {
                 return ResourceManager.GetString("AddTransaction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Category.
+        /// </summary>
+        internal static string Category {
+            get {
+                return ResourceManager.GetString("Category", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Close.
+        /// </summary>
+        internal static string Close {
+            get {
+                return ResourceManager.GetString("Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date.
+        /// </summary>
+        internal static string Date {
+            get {
+                return ResourceManager.GetString("Date", resourceCulture);
             }
         }
         
@@ -106,16 +160,36 @@ namespace ExpenseTracker.View {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Exit.
+        ///   Looks up a localized string similar to Empty record ! There are no transactions
+        ///.
         /// </summary>
-        internal static string exit {
+        internal static string empty {
             get {
-                return ResourceManager.GetString("exit", resourceCulture);
+                return ResourceManager.GetString("empty", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [bold red]Exiting......[/].
+        ///   Looks up a localized string similar to Exit.
+        /// </summary>
+        internal static string Exit {
+            get {
+                return ResourceManager.GetString("Exit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you want to exit ? (y or n) : .
+        /// </summary>
+        internal static string ExitConfirm {
+            get {
+                return ResourceManager.GetString("ExitConfirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [bold red]Exiting......[/]
+        ///.
         /// </summary>
         internal static string Exiting {
             get {
@@ -124,11 +198,56 @@ namespace ExpenseTracker.View {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [bold blue]Welcome To expense Tracker![/].
+        ///   Looks up a localized string similar to Expense Amount.
+        /// </summary>
+        internal static string ExpenseAmountDiplay {
+            get {
+                return ResourceManager.GetString("ExpenseAmountDiplay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expense Records.
+        /// </summary>
+        internal static string ExpenseRecords {
+            get {
+                return ResourceManager.GetString("ExpenseRecords", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [bold blue]Expense Tracker[/].
         /// </summary>
         internal static string ExpenseTracker {
             get {
                 return ResourceManager.GetString("ExpenseTracker", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Income Amount.
+        /// </summary>
+        internal static string IncomeAmountDisplay {
+            get {
+                return ResourceManager.GetString("IncomeAmountDisplay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Income Records.
+        /// </summary>
+        internal static string IncomeRecords {
+            get {
+                return ResourceManager.GetString("IncomeRecords", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter Amount to update : .
+        /// </summary>
+        internal static string InputAmount {
+            get {
+                return ResourceManager.GetString("InputAmount", resourceCulture);
             }
         }
         
@@ -178,7 +297,17 @@ namespace ExpenseTracker.View {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [bold red]Invalid Input! please try again.[/].
+        ///   Looks up a localized string similar to Enter Transaction Id:.
+        /// </summary>
+        internal static string InputTransactionID {
+            get {
+                return ResourceManager.GetString("InputTransactionID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [bold red]Invalid Input! please try again.[/]
+        ///.
         /// </summary>
         internal static string InvalidInput {
             get {
@@ -198,6 +327,33 @@ namespace ExpenseTracker.View {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to [green]record deleted[/].
+        /// </summary>
+        internal static string RecordDeleted {
+            get {
+                return ResourceManager.GetString("RecordDeleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Source.
+        /// </summary>
+        internal static string Source {
+            get {
+                return ResourceManager.GetString("Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [bold]Total Amount[/].
+        /// </summary>
+        internal static string totalAmount {
+            get {
+                return ResourceManager.GetString("totalAmount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to View transactions by date.
         /// </summary>
         internal static string transactionBydate {
@@ -207,11 +363,73 @@ namespace ExpenseTracker.View {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Transaction ID.
+        /// </summary>
+        internal static string TransactionID {
+            get {
+                return ResourceManager.GetString("TransactionID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to View Summary.
         /// </summary>
         internal static string TransactionSummary {
             get {
                 return ResourceManager.GetString("TransactionSummary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to remaining Tries :.
+        /// </summary>
+        internal static string tries {
+            get {
+                return ResourceManager.GetString("tries", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [green]expense updated[/].
+        /// </summary>
+        internal static string UpdatedExpense {
+            get {
+                return ResourceManager.GetString("UpdatedExpense", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [green]Income Updated[/].
+        /// </summary>
+        internal static string UpdatedIncome {
+            get {
+                return ResourceManager.GetString("UpdatedIncome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to What change would you like to make?
+        ///1. Date
+        ///2. Amount
+        ///3. Category
+        ///.
+        /// </summary>
+        internal static string updateExpenseRecord {
+            get {
+                return ResourceManager.GetString("updateExpenseRecord", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to What change would you like to make?
+        ///1. Date
+        ///2. Amount
+        ///3. Source
+        ///.
+        /// </summary>
+        internal static string updateIncomeRecord {
+            get {
+                return ResourceManager.GetString("updateIncomeRecord", resourceCulture);
             }
         }
         
