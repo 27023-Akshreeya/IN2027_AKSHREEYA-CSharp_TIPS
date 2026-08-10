@@ -23,16 +23,16 @@ The project was created to practice object-oriented programming concepts, projec
 ### 2. UserConsole / InventoryManagerViewer (View Layer)
 * `Menu()`: Displays the main application interface loop, accepts user choices, and routes inputs to the correct workflow.
 * `GetNewProductDetails()`: Captures and validates a complete set of fields from the console required to construct a new item record. Returns a named data tuple.
-* `GetProductDetailsToEdit(string userEditChoice, string productId)`: Prompts the user for new property values based on their choice (Name, ID, Price, or Quantity) and sends them to the service layer.
+* `GetEditProductDetails(string userEditChoice, string productId)`: Prompts the user for new property values based on their choice (Name, ID, Price, or Quantity) and sends them to the service layer.
 * `DisplaySingleProduct(Product productDetails)`: Outputs the properties and total calculated inventory cost (`Price * Quantity`) of a single matched search product.
 * `DisplayAllProductsToUser(List<Product> allProducts)`: Iterates through the list collection of products and prints their details to the terminal.
 
 ### 3. Service (ConsoleService Layer)
 * `DoesProductExist(string productId)`: Checks if a product with the specified ID already exists in the inventory tracking list.
 * `AddNewProduct(tuple newProductDetails)`: Takes a tuple of data, builds a new `Product` instance, and sends it to the repository to be saved.
-* `ProductToDelete(string deleteproductId)`: Finds a product by its ID and routes it to the repository for deletion.
+* `RemoveProduct(string deleteproductId)`: Finds a product by its ID and routes it to the repository for deletion.
 * `SearchByProductId(string productId)`: Searches for a product by its unique identifier and returns the found item.
-* `UpdateProductByProductID(string newProductElement, string productId, int editChoice)`: Identifies which property to change based on the choice, updates the field safely with data parsing, and saves the updated product.
+* `UpdateProductDetails(string newProductElement, string productId, int editChoice)`: Identifies which property to change based on the choice, updates the field safely with data parsing, and saves the updated product.
 * `ViewAllProducts()`: Retrieves all products from the data store and sorts them alphabetically by their name using LINQ.
 
 ### 4. Repo (Repository Layer)

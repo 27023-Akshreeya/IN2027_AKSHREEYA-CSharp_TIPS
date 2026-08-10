@@ -34,9 +34,9 @@ namespace InventoryManager.ConsoleService
         }
 
         /// <summary>
-        /// Adds a new product to the inventory repo using the provided details tuple.
+        /// Adds a new product to the inventory.
         /// </summary>
-        /// <param name="newProductDetails">A tuple containing the product name, ID, price, and quantity.</param>
+        /// <param name="newProductDetails">An object containing the product name, ID, price, and quantity.</param>
         /// <returns>True if the product was successfully added; otherwise, false.</returns>
         internal bool AddNewProduct(Product newProductDetails)
         {
@@ -54,7 +54,7 @@ namespace InventoryManager.ConsoleService
         /// </summary>
         /// <param name="deleteproductId">The unique identifier of the product to delete.</param>
         /// <returns>True if the product was successfully deleted; otherwise, false.</returns>
-        internal bool ProductToDelete(string deleteproductId)
+        internal bool RemoveProduct(string deleteproductId)
         {
             var products = this._repo.GetAllProducts();
             var findProductId = products.Find(x => x.ProductId.Equals(deleteproductId));
@@ -85,51 +85,28 @@ namespace InventoryManager.ConsoleService
         /// <param name="productId">The current unique identifier of the product to update.</param>
         /// <param name="editChoice">The selection indicator: 1 for Name, 2 for ID, 3 for Price, any other number for Quantity.</param>
         /// <returns>True if the product update operation succeeds; otherwise, false.</returns>
-        internal bool UpdateProductByProductID(string newProductElement, string productId, Enum editChoice)
+        internal bool UpdateProductDetails(string newProductElement, string productId, EditChoices editChoice)
         {
             var productToUpdate = this.SearchByProductId(productId);
             if (productToUpdate is null)
             {
-                InventoryManagerViewer.ErrorMessage(InventoryManagerResource.ErrorMessage);
                 return false;
             }
 
             switch (editChoice)
             {
-                case EditChoices.EditOperation.ProductName:
+                case EditChoices.ProductName:
                     productToUpdate.ProductName = newProductElement;
                     break;
-                case EditChoices.EditOperation.ProductId:
+                case EditChoices.ProductId:
                     productToUpdate.ProductId = newProductElement;
                     break;
-                case EditChoices.EditOperation.Price:
-                    try
-                    {
-                        productToUpdate.Price = decimal.Parse(newProductElement);
-                    }
-                    catch (FormatException)
-                    {
-                        throw;
-                    }
-                    catch (OverflowException)
-                    {
-                        throw;
-                    }
+                case EditChoices.Price:
+                    productToUpdate.Price = decimal.Parse(newProductElement);
 
                     break;
-                case EditChoices.EditOperation.Quantity:
-                    try
-                    {
-                        productToUpdate.Quantity = int.Parse(newProductElement);
-                    }
-                    catch (FormatException)
-                    {
-                        throw;
-                    }
-                    catch (OverflowException)
-                    {
-                        throw;
-                    }
+                case EditChoices.Quantity:
+                    productToUpdate.Quantity = int.Parse(newProductElement);
 
                     break;
                 default:

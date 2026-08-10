@@ -48,9 +48,9 @@ namespace InventoryManager.View
                 }
 
                 Console.WriteLine();
-                switch ((MenuChoices.MenuOperation)int.Parse(userChoice))
+                switch ((MenuChoices)int.Parse(userChoice))
                 {
-                    case MenuChoices.MenuOperation.AddProduct:
+                    case MenuChoices.AddProduct:
                         var newProductDetails = this.GetNewProductDetails();
                         if (newProductDetails is null)
                         {
@@ -67,7 +67,7 @@ namespace InventoryManager.View
                         Console.WriteLine(InventoryManagerResource.ErrorMessage);
 
                         break;
-                    case MenuChoices.MenuOperation.ViewAllProduct:
+                    case MenuChoices.ViewAllProducts:
                         if (!this.service.IsProductsEmpty())
                         {
                             Console.WriteLine(InventoryManagerResource.EmptyInventory);
@@ -77,34 +77,34 @@ namespace InventoryManager.View
                         var allProducts = this.service.ViewAllProducts();
                         this.DisplayAllProductsToUser(allProducts);
                         break;
-                    case MenuChoices.MenuOperation.SearchProduct:
+                    case MenuChoices.SearchProduct:
                         if (!this.service.IsProductsEmpty())
                         {
                             Console.WriteLine(InventoryManagerResource.EmptyInventory);
                             continue;
                         }
 
-                        this.GetSearchDetails();
+                        this.SearchProduct();
                         break;
-                    case MenuChoices.MenuOperation.DeleteProduct:
+                    case MenuChoices.DeleteProduct:
                         if (!this.service.IsProductsEmpty())
                         {
                             Console.WriteLine(InventoryManagerResource.EmptyInventory);
                             continue;
                         }
 
-                        this.GetDeleteDetails();
+                        this.GetDeleteProductDetails();
                         break;
-                    case MenuChoices.MenuOperation.EditProduct:
+                    case MenuChoices.EditProduct:
                         if (!this.service.IsProductsEmpty())
                         {
                             Console.WriteLine(InventoryManagerResource.EmptyInventory);
                             continue;
                         }
 
-                        this.GetEditDetails();
+                        this.EditProduct();
                         break;
-                    case MenuChoices.MenuOperation.Exit:
+                    case MenuChoices.Exit:
                         Console.WriteLine(InventoryManagerResource.Exiting);
                         exit = true;
                         break;
@@ -115,7 +115,7 @@ namespace InventoryManager.View
             }
         }
 
-        private void GetSearchDetails()
+        private void SearchProduct()
         {
             Console.Write(InventoryManagerResource.Search + "\n" + InventoryManagerResource.ProductID);
             string searchProductId = Console.ReadLine() ?? string.Empty;
@@ -133,13 +133,13 @@ namespace InventoryManager.View
             }
         }
 
-        private void GetDeleteDetails()
+        private void GetDeleteProductDetails()
         {
             Console.Write(InventoryManagerResource.Delete + "\n" + InventoryManagerResource.ProductID);
             string deleteproductId = Console.ReadLine() ?? string.Empty;
             if (Validator.IsProductIdValid(deleteproductId) && this.service.DoesProductExist(deleteproductId))
             {
-                this.service.ProductToDelete(deleteproductId);
+                this.service.RemoveProduct(deleteproductId);
                 Console.WriteLine(InventoryManagerResource.WrapperSuccess + " product deleted");
                 return;
             }
@@ -147,7 +147,7 @@ namespace InventoryManager.View
             Console.WriteLine(InventoryManagerResource.ProductNotFound);
         }
 
-        private void GetEditDetails()
+        private void EditProduct()
         {
             Console.Write(InventoryManagerResource.editInput + "\n" + InventoryManagerResource.ProductID);
             var editProductId = Console.ReadLine() ?? string.Empty;
@@ -159,7 +159,7 @@ namespace InventoryManager.View
 
             Console.Write(InventoryManagerResource.EditOptions + "\n" + InventoryManagerResource.UserChoice + InventoryManagerResource.Editchoices);
             string userEditChoice = Console.ReadLine() ?? string.Empty;
-            if (Validator.IsUserChoiceValid(userEditChoice) && this.GetProductDetailsToEdit(int.Parse(userEditChoice), editProductId))
+            if (Validator.IsUserChoiceValid(userEditChoice) && this.GetEditProductDetails(int.Parse(userEditChoice), editProductId))
             {
                 Console.WriteLine(InventoryManagerResource.WrapperSuccess + " product updated");
                 return;
@@ -174,11 +174,11 @@ namespace InventoryManager.View
         /// <param name="userEditChoice">The choice int indicating which property to modify (1 = Name, 2 = ID, 3 = Price, 4 = Quantity).</param>
         /// <param name="productId">The unique tracking identifier of the product targeted for modification.</param>
         /// <returns>True if the validation passes and the modification task executes successfully; otherwise, false.</returns>
-        private bool GetProductDetailsToEdit(int userEditChoice, string productId)
+        private bool GetEditProductDetails(int userEditChoice, string productId)
         {
-            switch ((EditChoices.EditOperation)userEditChoice)
+            switch ((EditChoices)userEditChoice)
             {
-                case EditChoices.EditOperation.ProductName:
+                case EditChoices.ProductName:
                     Console.Write(InventoryManagerResource.ProductName);
                     string newProductName = Console.ReadLine() ?? string.Empty;
                     if (!Validator.IsNameValid(newProductName))
@@ -187,21 +187,8 @@ namespace InventoryManager.View
                         return false;
                     }
 
-                    try
-                    {
-                        return this.service.UpdateProductByProductID(newProductName, productId, EditChoices.EditOperation.ProductName);
-                    }
-                    catch (FormatException ex)
-                    {
-                        ErrorMessage(InventoryManagerResource.InvalidInput + ex.Message);
-                    }
-                    catch (OverflowException ex)
-                    {
-                        ErrorMessage(InventoryManagerResource.InvalidInput + ex.Message);
-                    }
-
-                    return false;
-                case EditChoices.EditOperation.ProductId:
+                    return this.service.UpdateProductDetails(newProductName, productId, EditChoices.ProductName);
+                case EditChoices.ProductId:
                     Console.Write(InventoryManagerResource.ProductID);
                     string newProductId = Console.ReadLine() ?? string.Empty;
                     if (!Validator.IsProductIdValid(newProductId))
@@ -215,21 +202,8 @@ namespace InventoryManager.View
                         return false;
                     }
 
-                    try
-                    {
-                        return this.service.UpdateProductByProductID(newProductId, productId, EditChoices.EditOperation.ProductId);
-                    }
-                    catch (FormatException ex)
-                    {
-                        ErrorMessage(InventoryManagerResource.InvalidInput + ex.Message);
-                    }
-                    catch (OverflowException ex)
-                    {
-                        ErrorMessage(InventoryManagerResource.InvalidInput + ex.Message);
-                    }
-
-                    return false;
-                case EditChoices.EditOperation.Price:
+                    return this.service.UpdateProductDetails(newProductId, productId, EditChoices.ProductId);
+                case EditChoices.Price:
                     Console.Write(InventoryManagerResource.ProductPrice);
                     string newProductPrice = Console.ReadLine() ?? string.Empty;
                     if (!Validator.IsPriceValid(newProductPrice))
@@ -238,21 +212,8 @@ namespace InventoryManager.View
                         return false;
                     }
 
-                    try
-                    {
-                        return this.service.UpdateProductByProductID(newProductPrice, productId, EditChoices.EditOperation.Price);
-                    }
-                    catch (FormatException ex)
-                    {
-                        ErrorMessage(InventoryManagerResource.InvalidInput + ex.Message);
-                    }
-                    catch (OverflowException ex)
-                    {
-                        ErrorMessage(InventoryManagerResource.InvalidInput + ex.Message);
-                    }
-
-                    return false;
-                case EditChoices.EditOperation.Quantity:
+                    return this.service.UpdateProductDetails(newProductPrice, productId, EditChoices.Price);
+                case EditChoices.Quantity:
                     Console.Write(InventoryManagerResource.ProductQuantity);
                     string newProductQuantity = Console.ReadLine() ?? string.Empty;
                     if (!Validator.IsQuantityValid(newProductQuantity))
@@ -261,20 +222,7 @@ namespace InventoryManager.View
                         return false;
                     }
 
-                    try
-                    {
-                        return this.service.UpdateProductByProductID(newProductQuantity, productId, EditChoices.EditOperation.Quantity);
-                    }
-                    catch (FormatException ex)
-                    {
-                        ErrorMessage(InventoryManagerResource.InvalidInput + ex.Message);
-                    }
-                    catch (OverflowException ex)
-                    {
-                        ErrorMessage(InventoryManagerResource.InvalidInput + ex.Message);
-                    }
-
-                    return false;
+                    return this.service.UpdateProductDetails(newProductQuantity, productId, EditChoices.Quantity);
                 default:
                     Console.WriteLine(InventoryManagerResource.InvalidInput + " at default");
                     return false;
@@ -296,17 +244,13 @@ namespace InventoryManager.View
         {
             foreach (var product in allProducts)
             {
-                Console.WriteLine($"Product name : {product.ProductName}\nProduct ID : {product.ProductId}" +
-                        $"\nPrice : {product.Price}\nQuantity : {product.Quantity}" +
-                        $"\nTotal Cost : {product.Price * product.Quantity}");
-                Console.WriteLine();
+                this.DisplaySingleProduct(product);
             }
         }
 
         /// <summary>
-        /// Iterates through a structured list collection of products and displays their details to the terminal interface.
+        /// This method gets new product details.
         /// </summary>
-        /// <param name="allProducts">A list configuration of target product entities to print out.</param>
         private Product? GetNewProductDetails()
         {
             Console.Write(InventoryManagerResource.ProductName);

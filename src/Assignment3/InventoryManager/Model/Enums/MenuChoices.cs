@@ -5,44 +5,38 @@
 namespace InventoryManager.Model.Enums
 {
     /// <summary>
-    /// This class consist of enum to represent menu choices.
+    /// To represent menu operation.
     /// </summary>
-    internal static class MenuChoices
+    internal enum MenuChoices
     {
         /// <summary>
-        /// To represent menu operation.
+        /// To add new product
         /// </summary>
-        internal enum MenuOperation : int
-        {
-            /// <summary>
-            /// To add new product
-            /// </summary>
-            AddProduct = 1,
+        AddProduct = 1,
 
-            /// <summary>
-            /// To view all product
-            /// </summary>
-            ViewAllProduct = 2,
+        /// <summary>
+        /// To view all product
+        /// </summary>
+        ViewAllProducts = 2,
 
-            /// <summary>
-            /// To search all product
-            /// </summary>
-            SearchProduct = 3,
+        /// <summary>
+        /// To search all product
+        /// </summary>
+        SearchProduct = 3,
 
-            /// <summary>
-            /// To delete single product
-            /// </summary>
-            DeleteProduct = 4,
+        /// <summary>
+        /// To delete single product
+        /// </summary>
+        DeleteProduct = 4,
 
-            /// <summary>
-            /// To Edit single product
-            /// </summary>
-            EditProduct = 5,
+        /// <summary>
+        /// To Edit single product
+        /// </summary>
+        EditProduct = 5,
 
-            /// <summary>
-            /// To exit appliction
-            /// </summary>
-            Exit = 6,
-        }
+        /// <summary>
+        /// To exit appliction
+        /// </summary>
+        Exit = 6,
     }
 }

@@ -5,34 +5,28 @@
 namespace InventoryManager.Model.Enums
 {
     /// <summary>
-    /// Consist of enum representing edit choices.
+    /// Specifies the edit operations that can be performed on a product.
     /// </summary>
-    internal static class EditChoices
+    internal enum EditChoices
     {
         /// <summary>
-        /// Specifies the edit operations that can be performed on a product.
+        /// Represents the name of the product.
         /// </summary>
-        internal enum EditOperation
-        {
-            /// <summary>
-            /// Represents the name of the product.
-            /// </summary>
-            ProductName = 1,
+        ProductName = 1,
 
-            /// <summary>
-            /// Represents the Id of the product.
-            /// </summary>
-            ProductId = 2,
+        /// <summary>
+        /// Represents the Id of the product.
+        /// </summary>
+        ProductId = 2,
 
-            /// <summary>
-            /// Represents the Price of the product.
-            /// </summary>
-            Price = 3,
+        /// <summary>
+        /// Represents the Price of the product.
+        /// </summary>
+        Price = 3,
 
-            /// <summary>
-            /// Represents the quantity of the product.
-            /// </summary>
-            Quantity = 4,
-        }
+        /// <summary>
+        /// Represents the quantity of the product.
+        /// </summary>
+        Quantity = 4,
     }
 }
