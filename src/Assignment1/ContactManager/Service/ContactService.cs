@@ -11,29 +11,16 @@ namespace ContactManager.Service
     /// <summary>
     /// This class consist of the consoles service
     /// </summary>
-    internal class ContactService
+    public class ContactService
     {
-        private Repo _repo;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ContactService"/> class.
-        /// </summary>
-        /// /// <summary>
-        /// construct of the class
-        /// </summary>
-        /// <param name="repo">argument pass</param>
-        /// <returns>The joined names.</returns>
-        internal ContactService(Repo repo)
-        {
-            this._repo = repo;
-        }
+        private Repo _repo = new Repo();
 
         /// <summary>
         /// Adds the specified contact to the repository.
         /// </summary>
         /// <param name="contact">The contact to add.</param>
         /// <returns>true if the contact was added successfully; otherwise, false.</returns>
-        internal bool AddNewContact(Contact contact)
+        public bool AddNewContact(Contact contact)
         {
             if (contact != null)
             {
@@ -49,7 +36,7 @@ namespace ContactManager.Service
         /// </summary>
         /// <param name="phoneNumber">The contact to remove.</param>
         /// <returns>true if the contact was removed successfully; otherwise, false.</returns>
-        internal bool RemoveContactByPhoneNumber(long phoneNumber)
+        public bool RemoveContactByPhoneNumber(long phoneNumber)
         {
             Guid id = this.GetGuidByPhoneNumber(phoneNumber);
             if (id != Guid.Empty)
@@ -58,7 +45,6 @@ namespace ContactManager.Service
                 return true;
             }
 
-            ContactViewer.DisplayIsContactsEmpty();
             return false;
         }
 
@@ -68,9 +54,9 @@ namespace ContactManager.Service
         /// <param name="contact">The contact containing updated details.</param>
         /// <param name="guid">The unique identifier of the contact to update.</param>
         /// <returns>true if the contact was updated successfully; otherwise, false.</returns>
-        internal bool EditExisitingContact(Contact contact, Guid guid)
+        public bool EditExisitingContact(Contact contact, Guid guid)
         {
-            if (contact != null || guid != Guid.Empty)
+            if (contact != null && guid != Guid.Empty)
             {
                 this._repo.UpdateContact(contact, guid);
                 return true;
@@ -85,7 +71,7 @@ namespace ContactManager.Service
         /// <param name="searchContactInput">phone number or name</param>
         /// <param name="usersSearchChoice">choice selected by the user</param>
         /// <returns>true if operation executed as intended , otherwise false</returns>
-        internal bool SearchContact(string searchContactInput, string usersSearchChoice)
+        public bool SearchContact(string searchContactInput, string usersSearchChoice)
         {
             if (usersSearchChoice.Equals("1"))
             {
@@ -102,15 +88,9 @@ namespace ContactManager.Service
         /// <summary>
         /// view
         /// </summary>
-        internal void ViewAllContacts()
+        public void ViewAllContacts()
         {
             List<Contact> contacts = this._repo.GetAllContacts();
-            if (contacts.Count == 0)
-            {
-                ContactViewer.DisplayIsContactsEmpty();
-                return;
-            }
-
             var sortedContacts = contacts.OrderBy(c => c.Name).ToList();
             ContactViewer.DisplayContact(sortedContacts);
         }
@@ -120,19 +100,12 @@ namespace ContactManager.Service
         /// </summary>
         /// <param name="name">name</param>
         /// <returns>returning</returns>
-        internal Guid GetGuidByName(string name)
+        public Guid GetGuidByName(string name)
         {
             List<Contact> contacts = this._repo.GetAllContacts();
-            if (contacts.Count == 0)
-            {
-                ContactViewer.DisplayIsContactsEmpty();
-                return Guid.Empty;
-            }
-
             var findName = contacts.Find(c => c.Name == name);
             if (findName == null || name == string.Empty)
             {
-                ContactViewer.DisplayIsContactsEmpty();
                 return Guid.Empty;
             }
 
@@ -143,16 +116,10 @@ namespace ContactManager.Service
         /// This Functions checks if the list of contacts is empty
         /// </summary>
         /// <returns>true if the contacts is empty; otherwise, false</returns>
-        internal bool CheckIfContactsIsEmpty()
+        public bool CheckIfContactsIsEmpty()
         {
-            List<Contact> contacts = this._repo.GetAllContacts();
-            if (contacts.Count == 0)
-            {
-                ContactViewer.DisplayIsContactsEmpty();
-                return true;
-            }
-
-            return false;
+            var contacts = this._repo.GetAllContacts();
+            return !contacts.Any();
         }
 
         /// <summary>
@@ -160,10 +127,10 @@ namespace ContactManager.Service
         /// </summary>
         /// <param name="phoneNumber">The phone number to search for in the contact list.</param>
         /// <returns>The unique identifier of the contact if found; otherwise, Guid.Empty.</returns>
-        internal Guid GetGuidByPhoneNumber(long phoneNumber)
+        public Guid GetGuidByPhoneNumber(long phoneNumber)
         {
             List<Contact> contacts = this._repo.GetAllContacts();
-            if (contacts.Count == 0)
+            if (this.CheckIfContactsIsEmpty())
             {
                 return Guid.Empty;
             }
@@ -182,17 +149,11 @@ namespace ContactManager.Service
         /// </summary>
         /// <param name="name">name</param>
         /// <returns>info</returns>
-        internal Contact GetContactByName(string name)
+        public Contact GetContactByName(string name)
         {
-            List<Contact> contacts = this._repo.GetAllContacts();
-            if (this.CheckIfContactsIsEmpty())
+            var contacts = this._repo.GetAllContacts();
+            if (this.CheckIfContactsIsEmpty() || name.Equals(string.Empty))
             {
-                return null;
-            }
-
-            if (name.Equals(string.Empty))
-            {
-                ContactViewer.DisplayIsContactsEmpty();
                 return null;
             }
 
@@ -204,7 +165,7 @@ namespace ContactManager.Service
         /// </summary>
         /// <param name="name">similar names will be searched</param>
         /// <returns>true if search operation is executed correctly , otherwise false</returns>
-        internal bool SearchContactByname(string name)
+        public bool SearchContactByname(string name)
         {
             var contacts = this._repo.GetAllContacts();
             if (this.CheckIfContactsIsEmpty())
@@ -227,7 +188,7 @@ namespace ContactManager.Service
         /// </summary>
         /// <param name="phoneNumber">phone number to search</param>
         /// <returns>true if search operation is executed correctly , otherwise false</returns>
-        internal bool SearchContactByPhoneNumber(long phoneNumber)
+        public bool SearchContactByPhoneNumber(long phoneNumber)
         {
             var contacts = this._repo.GetAllContacts();
             if (this.CheckIfContactsIsEmpty())

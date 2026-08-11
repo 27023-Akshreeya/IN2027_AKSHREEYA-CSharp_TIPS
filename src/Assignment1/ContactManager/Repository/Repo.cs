@@ -36,7 +36,7 @@ namespace ContactManager.Repository
         /// Removes the contact with the specified unique identifier from the collection.
         /// </summary>
         /// <param name="id">The unique identifier of the contact to remove.</param>
-        internal void RemoveContact(Guid id)
+        public void RemoveContact(Guid id)
         {
             var existingContact = this._contacts.Find(c => c.Id == id);
             if (existingContact != null)
@@ -50,7 +50,7 @@ namespace ContactManager.Repository
         /// </summary>
         /// <param name="contact">The contact information used to update the existing contact.</param>
         /// <param name="id">The unique identifier of the contact to update.</param>
-        internal void UpdateContact(Contact contact, Guid id)
+        public void UpdateContact(Contact contact, Guid id)
         {
             var existingContact = this._contacts.Find(c => c.Id == id);
             if (existingContact != null)

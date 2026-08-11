@@ -7,7 +7,7 @@ namespace ContactManager
     /// <summary>
     /// program class
     /// </summary>
-    internal class Program
+    public class Program
     {
         /// <summary>
         /// main scope
@@ -15,7 +15,7 @@ namespace ContactManager
         /// <param name="args">argumenrs</param>
         public static void Main(string[] args)
         {
-            ContactViewer contactViewer = new ContactViewer();
+            var contactViewer = new ContactViewer();
             contactViewer.Menu();
         }
     }

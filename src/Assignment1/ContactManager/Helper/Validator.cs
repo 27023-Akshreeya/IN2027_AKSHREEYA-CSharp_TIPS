@@ -11,6 +11,21 @@ namespace ContactManager.Helper
     public static class Validator
     {
         /// <summary>
+        /// Checks whether the specified input string is null, empty, or consists only of whitespace characters.
+        /// </summary>
+        /// <param name="input">Input string to check.</param>
+        /// <returns>True if the input is valid, false otherwise.</returns>
+        public static bool IsInputValid(string input)
+        {
+            if (string.IsNullOrEmpty(input) || string.IsNullOrWhiteSpace(input))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
         /// Validates the user's menu choice.
         /// </summary>
         /// <param name="choice">
@@ -21,17 +36,12 @@ namespace ContactManager.Helper
         /// </returns>
         public static bool IsChoiceValid(string choice)
         {
-            if (string.IsNullOrEmpty(choice) || string.IsNullOrWhiteSpace(choice))
+            if (IsInputValid(choice))
             {
                 return false;
             }
 
-            if (!char.TryParse(choice, out var c))
-            {
-                return false;
-            }
-
-            return true;
+            return char.TryParse(choice, out var _);
         }
 
         /// <summary>
@@ -41,17 +51,12 @@ namespace ContactManager.Helper
         /// <returns>true if the string is a valid integer; otherwise, false.</returns>
         public static bool IsNumericChoiceValid(string contactDetail)
         {
-            if (string.IsNullOrEmpty(contactDetail) || string.IsNullOrWhiteSpace(contactDetail))
+            if (IsInputValid(contactDetail))
             {
                 return false;
             }
 
-            if (!int.TryParse(contactDetail, out var c))
-            {
-                return false;
-            }
-
-            return true;
+            return int.TryParse(contactDetail, out var _);
         }
 
         /// <summary>
@@ -65,7 +70,7 @@ namespace ContactManager.Helper
         /// </returns>
         public static bool IsNameValid(string str)
         {
-            if (string.IsNullOrEmpty(str) || string.IsNullOrWhiteSpace(str) || !str.All(char.IsLetterOrDigit))
+            if (IsInputValid(str) || !str.All(char.IsLetterOrDigit))
             {
                 return false;
             }
@@ -126,7 +131,7 @@ namespace ContactManager.Helper
         /// <returns>returns true if contact is valid, false otherwise</returns>
         public static bool IsContactValid(Contact newContact)
         {
-            if (newContact.Name.Equals(string.Empty) || newContact.PhoneNumber.Equals(string.Empty) || newContact.EmailId.Equals(string.Empty))
+            if (IsInputValid(newContact.EmailId) || IsInputValid(newContact.Name) || IsInputValid(newContact.EmailId))
             {
                 return false;
             }

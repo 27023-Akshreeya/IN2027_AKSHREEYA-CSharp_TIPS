@@ -13,8 +13,7 @@ namespace ContactManager.View
     /// </summary>
     public class ContactViewer
     {
-        private static Repo repo = new Repo();
-        private ContactService _contactService = new ContactService(repo);
+        private ContactService _contactService = new ContactService();
 
         /// <summary>
         /// This displays the details of a contact based on the provided Contact object.
@@ -34,8 +33,7 @@ namespace ContactManager.View
         {
             foreach (var contact in sortedContacts)
             {
-                Console.WriteLine($"\nName: {contact.Name}\nPhone Number: " +
-                    $"{contact.PhoneNumber}\nEmail Id: {contact.EmailId}\nNotes: {contact.Notes}");
+                DisplaySingleContact(contact);
             }
         }
 
@@ -43,7 +41,7 @@ namespace ContactManager.View
         /// This method lets user know if an operation is succussfully completed
         /// </summary>
         /// <param name="operationPerformed">the operation that is performed</param>
-        public static void DisplaySuccessofOperation(string operationPerformed)
+        public void DisplaySuccessofOperation(string operationPerformed)
         {
             Console.WriteLine($"\nSuccessfully {operationPerformed}\n");
         }
@@ -51,7 +49,7 @@ namespace ContactManager.View
         /// <summary>
         /// This checks if the contact list is empty and displays a message if no contacts are found.
         /// </summary>
-        public static void DisplayIsContactsEmpty()
+        public void DisplayIsContactsEmpty()
         {
             Console.WriteLine("No contacts found.");
         }
@@ -85,13 +83,14 @@ namespace ContactManager.View
 
                         if (this._contactService.AddNewContact(newContact))
                         {
-                            DisplaySuccessofOperation("added contact");
+                            this.DisplaySuccessofOperation("added contact");
                         }
 
                         break;
                     case "s":
                         if (this._contactService.CheckIfContactsIsEmpty())
                         {
+                            this.DisplayIsContactsEmpty();
                             continue;
                         }
 
@@ -115,6 +114,7 @@ namespace ContactManager.View
                     case "v":
                         if (this._contactService.CheckIfContactsIsEmpty())
                         {
+                            this.DisplayIsContactsEmpty();
                             continue;
                         }
 
@@ -124,6 +124,7 @@ namespace ContactManager.View
                     case "e":
                         if (this._contactService.CheckIfContactsIsEmpty())
                         {
+                            this.DisplayIsContactsEmpty();
                             continue;
                         }
 
@@ -133,6 +134,7 @@ namespace ContactManager.View
                     case "r":
                         if (this._contactService.CheckIfContactsIsEmpty())
                         {
+                            this.DisplayIsContactsEmpty();
                             continue;
                         }
 
@@ -144,9 +146,10 @@ namespace ContactManager.View
 
                         if (this._contactService.RemoveContactByPhoneNumber(removeContact))
                         {
-                            DisplaySuccessofOperation("removed contact");
+                            this.DisplaySuccessofOperation("removed contact");
                         }
 
+                        this.DisplayIsContactsEmpty();
                         Console.WriteLine();
                         break;
                     case "c":
@@ -272,7 +275,7 @@ namespace ContactManager.View
 
                         if (this._contactService.EditExisitingContact(contact, contactId))
                         {
-                            DisplaySuccessofOperation("Contact updated");
+                            this.DisplaySuccessofOperation("Contact updated");
                         }
 
                         break;
@@ -295,7 +298,7 @@ namespace ContactManager.View
 
                         if (this._contactService.EditExisitingContact(contact, contactId))
                         {
-                            DisplaySuccessofOperation("Contact updated");
+                            this.DisplaySuccessofOperation("Contact updated");
                         }
 
                         break;
@@ -316,7 +319,7 @@ namespace ContactManager.View
                         contact.EmailId = editEmailAddress;
                         if (this._contactService.EditExisitingContact(contact, contactId))
                         {
-                            DisplaySuccessofOperation("Contact updated");
+                            this.DisplaySuccessofOperation("Contact updated");
                         }
 
                         break;
@@ -331,7 +334,7 @@ namespace ContactManager.View
                         contact.Notes = editNotes;
                         if (this._contactService.EditExisitingContact(contact, contactId))
                         {
-                            DisplaySuccessofOperation("Contact updated");
+                            this.DisplaySuccessofOperation("Contact updated");
                         }
 
                         break;
@@ -346,7 +349,7 @@ namespace ContactManager.View
         /// <summary>
         /// Displays all contacts stored in the system.
         /// </summary>
-        internal void GetSortedContactsToDisplay()
+        public void GetSortedContactsToDisplay()
         {
             this._contactService.ViewAllContacts();
         }
@@ -355,7 +358,7 @@ namespace ContactManager.View
         /// This method prompts the user to choose how to search a contact.
         /// </summary>
         /// <returns>returns the choice</returns>
-        internal string GetSearchChoice()
+        public string GetSearchChoice()
         {
             Console.Write("1. Search Contact by name\n2. Search Contact by Phone Number\nEnter you choice:");
             string searchChoice = Console.ReadLine() ?? string.Empty;
@@ -372,7 +375,7 @@ namespace ContactManager.View
         /// </summary>
         /// <param name="searchChoice">Gets the users search choice</param>
         /// <returns>returns users input</returns>
-        internal string GetSearchDetails(string searchChoice)
+        public string GetSearchDetails(string searchChoice)
         {
             switch (searchChoice)
             {
@@ -409,7 +412,7 @@ namespace ContactManager.View
         /// This method prompts the user to enter the name of a contact they wish to remove and validates the input.
         /// </summary>
         /// <returns>it returns a string of name</returns>
-        internal long GetContactToRemove()
+        public long GetContactToRemove()
         {
             Console.Write("Enter the phone number of the contact you want to remove:");
 
