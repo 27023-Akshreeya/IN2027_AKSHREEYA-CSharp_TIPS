@@ -20,7 +20,7 @@ The project was created to practice object-oriented programming concepts, projec
 ### 1. Program (Entry Point)
 * `Main(string[] args)`: The main entry execution method that initializes the console viewer and handles global exceptions to keep the app from crashing.
 
-### 2. UserConsole / InventoryManagerViewer (View Layer)
+### 2.InventoryManagerViewer (View Layer)
 * `Menu()`: Displays the main application interface loop, accepts user choices, and routes inputs to the correct workflow.
 * `GetNewProductDetails()`: Captures and validates a complete set of fields from the console required to construct a new item record. Returns a named data tuple.
 * `GetEditProductDetails(string userEditChoice, string productId)`: Prompts the user for new property values based on their choice (Name, ID, Price, or Quantity) and sends them to the service layer.
