@@ -13,19 +13,13 @@ namespace ExpenseTracker.Repository
         private readonly List<Income> _incomes = new List<Income>();
 
         /// <summary>
-        /// Occurs whenever the net balance is updated due to
-        /// an addition or modification of a transaction.
-        /// </summary>
-        public event EventHandler<Transactions>? RunningNetBalance;
-
-        /// <summary>
-        /// Gets the current net balance calculated from all
+        /// Gets or sets the current net balance calculated from all
         /// income and expense transactions.
         /// </summary>
         /// <value>The current net balance calculated from all
         /// income and expense transactions.
         /// </value>
-        public decimal NetBalance { get; private set; }
+        public decimal NetBalance { get; set; }
 
         /// <summary>
         /// Adds a new expense transaction and updates the net balance.
@@ -33,9 +27,7 @@ namespace ExpenseTracker.Repository
         /// <param name="expense">The expense transaction to add.</param>
         public void AddExpense(Expense expense)
         {
-            this.NetBalance -= expense.ExpenseAmount;
             this._expenses.Add(expense);
-            this.RunningNetBalance?.Invoke(this, new Transactions(this.NetBalance));
         }
 
         /// <summary>
@@ -44,9 +36,7 @@ namespace ExpenseTracker.Repository
         /// <param name="income">The income transaction to add.</param>
         internal void AddIncome(Income income)
         {
-            this.NetBalance += income.IncomeAmount;
             this._incomes.Add(income);
-            this.RunningNetBalance?.Invoke(this, new Transactions(this.NetBalance));
         }
 
         /// <summary>
@@ -68,17 +58,11 @@ namespace ExpenseTracker.Repository
         /// <param name="existingTransaction">
         /// The updated income transaction details.
         /// </param>
-        /// <param name="oldAmount">
-        /// The original income amount before the update.
-        /// </param>
-        internal void UpdateIncomeRecords(Income existingTransaction, decimal oldAmount)
+        internal void UpdateIncomeRecords(Income existingTransaction)
         {
-            var incomeRecord = this._incomes.Find(x => x.TransactionID == existingTransaction.TransactionID);
+            var incomeRecord = this._incomes.Find(x => x.TransactionID.Equals(existingTransaction.TransactionID));
             if (incomeRecord != null)
             {
-                this.NetBalance -= oldAmount;
-                this.NetBalance += existingTransaction.IncomeAmount;
-                this.RunningNetBalance?.Invoke(this, new Transactions(this.NetBalance));
                 incomeRecord.Source = existingTransaction.Source;
                 incomeRecord.IncomeAmount = existingTransaction.IncomeAmount;
                 incomeRecord.Date = existingTransaction.Date;
@@ -92,19 +76,13 @@ namespace ExpenseTracker.Repository
         /// <param name="existingTransaction">
         /// The updated expense transaction details.
         /// </param>
-        /// <param name="oldAmount">
-        /// The original expense amount before the update.
-        /// </param>
-        internal void UpdateExpenseRecords(Expense existingTransaction, decimal oldAmount)
+        internal void UpdateExpenseRecords(Expense existingTransaction)
         {
             var expenseRecord = this._expenses.Find(
                 x => x.TransactionID == existingTransaction.TransactionID);
 
             if (expenseRecord != null)
             {
-                this.NetBalance += oldAmount;
-                this.NetBalance -= existingTransaction.ExpenseAmount;
-                this.RunningNetBalance?.Invoke(this, new Transactions(this.NetBalance));
                 expenseRecord.Category = existingTransaction.Category;
                 expenseRecord.ExpenseAmount = existingTransaction.ExpenseAmount;
                 expenseRecord.Date = existingTransaction.Date;
@@ -120,13 +98,7 @@ namespace ExpenseTracker.Repository
         /// </param>
         internal void DeleteIncomeRecord(Guid deleteRecordId)
         {
-            var income = this._incomes.FirstOrDefault(x => x.TransactionID == deleteRecordId);
-            if (income != null)
-            {
-                this.NetBalance -= income.IncomeAmount;
-                this.RunningNetBalance?.Invoke(this, new Transactions(this.NetBalance));
-                this._incomes.Remove(income);
-            }
+            this._incomes.RemoveAll(x => x.TransactionID.Equals(deleteRecordId));
         }
 
         /// <summary>
@@ -138,13 +110,7 @@ namespace ExpenseTracker.Repository
         /// </param>
         internal void DeleteExpenseRecord(Guid deleteRecordId)
         {
-            var expense = this._expenses.FirstOrDefault(x => x.TransactionID == deleteRecordId);
-            if (expense != null)
-            {
-                this.NetBalance += expense.ExpenseAmount;
-                this.RunningNetBalance?.Invoke(this, new Transactions(this.NetBalance));
-                this._expenses.Remove(expense);
-            }
+            this._expenses.RemoveAll(x => x.TransactionID.Equals(deleteRecordId));
         }
     }
 }
