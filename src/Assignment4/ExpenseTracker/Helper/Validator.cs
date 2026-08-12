@@ -37,12 +37,7 @@
         /// </returns>
         public static bool IsValidDate(string inputdate)
         {
-            if (DateTime.TryParse(inputdate, out DateTime date) && !(date > DateTime.Now))
-            {
-                return true;
-            }
-
-            return false;
+            return DateTime.TryParse(inputdate, out DateTime date) && !(date > DateTime.Now);
         }
 
         /// <summary>
