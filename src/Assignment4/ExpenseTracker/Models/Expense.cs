@@ -6,7 +6,7 @@ namespace ExpenseTracker.Models
     /// Represents an expense transaction recorded in the Expense Tracker.
     /// Inherits common transaction properties from the <see cref="Record"/> class.
     /// </summary>
-    internal class Expense : Record
+    public class Expense : Record
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Expense"/> class
