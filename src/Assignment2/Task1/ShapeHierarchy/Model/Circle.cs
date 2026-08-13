@@ -26,11 +26,11 @@ namespace ShapeHierarchy.Model
         }
 
         /// <summary>
-        /// Gets or sets thhis sets the properties of radius.
+        /// Gets this sets the properties of radius.
         /// </summary>
         /// <value>This sets the properties of radius.
         /// </value>
-        public double Radius { get; set; }
+        public double Radius { get; }
 
         /// <summary>
         /// This calculates circles area

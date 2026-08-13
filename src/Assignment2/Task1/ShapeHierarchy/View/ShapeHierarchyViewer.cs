@@ -1,4 +1,5 @@
-﻿using ShapeHierarchy.Model;
+﻿using System;
+using ShapeHierarchy.Model;
 using Spectre.Console;
 
 namespace ShapeHierarchy.View
@@ -39,18 +40,18 @@ namespace ShapeHierarchy.View
         {
             Console.Write("Enter the color of the circle:");
             var color = Console.ReadLine();
-            if (color is null || !Helper.Validater.IsColorValid(color))
+            if (color is null || !Helper.Validator.IsColorValid(color))
             {
                 AnsiConsole.Markup("[bold red]Invalid color![/] Please enter a valid color.\n\n");
-                return this.GetCircleDetails();
+                return null;
             }
 
             Console.Write("Enter the radius of the circle:");
             var radiusInput = Console.ReadLine();
-            if (!Helper.Validater.IsDimensionValid(radiusInput))
+            if (!Helper.Validator.IsDimensionValid(radiusInput))
             {
                 AnsiConsole.Markup("[bold red]Invalid radius![/] Please enter a positive number.\n\n");
-                return this.GetCircleDetails();
+                return null;
             }
 
             double radius = Convert.ToDouble(radiusInput);
@@ -66,29 +67,29 @@ namespace ShapeHierarchy.View
         {
             Console.Write("Enter the color of the rectangle:");
             var color = Console.ReadLine();
-            if (color is null || !Helper.Validater.IsColorValid(color))
+            if (color is null || !Helper.Validator.IsColorValid(color))
             {
                 AnsiConsole.Markup("[bold red]Invalid color![/] Please enter a valid color.\n\n");
-                return this.GetRectangleDetails();
+                return null;
             }
 
             Console.Write("Enter the length of the rectangle:");
 
             var lengthInput = Console.ReadLine();
-            if (!Helper.Validater.IsDimensionValid(lengthInput))
+            if (!Helper.Validator.IsDimensionValid(lengthInput))
             {
                 AnsiConsole.Markup("[bold red]Invalid length![/] Please enter a positive number.\n\n");
-                return this.GetRectangleDetails();
+                return null;
             }
 
             double length = Convert.ToDouble(lengthInput);
 
             Console.Write("Enter the height of the rectangle:");
             var heightInput = Console.ReadLine();
-            if (!Helper.Validater.IsDimensionValid(heightInput))
+            if (!Helper.Validator.IsDimensionValid(heightInput))
             {
                 AnsiConsole.Markup("[bold red]Invalid height![/] Please enter a positive number.\n\n");
-                return this.GetRectangleDetails();
+                return null;
             }
 
             double height = Convert.ToDouble(heightInput);
@@ -103,7 +104,7 @@ namespace ShapeHierarchy.View
         /// <param name="shapeName">name of the shape</param>
         /// <param name="color">color of the shape</param>
         /// <param name="area">area of the shape</param>
-        internal void PrintDetails(string? shapeName, string? color, double area)
+        internal void PrintDetails(string shapeName, string color, double area)
         {
             string inputColor = (color ?? "white").ToLower();
             var table = new Table();

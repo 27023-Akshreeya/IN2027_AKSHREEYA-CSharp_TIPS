@@ -1,9 +1,12 @@
-﻿namespace ShapeHierarchy.Helper
+﻿using System;
+using System.Linq;
+
+namespace ShapeHierarchy.Helper
 {
     /// <summary>
     /// This class provides helper methods for validating user inputs related to shape selection, color, and dimensions. It includes methods to check if a choice is valid, if a color is defined in the KnownColor enumeration, and if a dimension input is a positive number.
     /// </summary>
-    internal static class Validater
+    internal static class Validator
     {
         /// <summary>
         /// This method checks if the user's input choice is valid. A valid choice is a single digit that corresponds to one of the menu options. It returns true if the input is valid and false otherwise.
@@ -12,14 +15,12 @@
         /// <returns>returns the bool value</returns>
         internal static bool IsChoiceValid(string inputChoice)
         {
-            if (string.IsNullOrEmpty(inputChoice) || string.IsNullOrWhiteSpace(inputChoice) || inputChoice.Length != 1 || !inputChoice.All(char.IsDigit))
+            if (string.IsNullOrWhiteSpace(inputChoice) || inputChoice.Length != 1 || !inputChoice.All(char.IsDigit))
             {
                 return false;
             }
-            else
-            {
-                return true;
-            }
+
+            return true;
         }
 
         /// <summary>
@@ -37,20 +38,14 @@
         /// </summary>
         /// <param name="dimensionInput">Gets dimention as input</param>
         /// <returns> returns the bool of the validity</returns>
-        internal static bool IsDimensionValid(string? dimensionInput)
+        internal static bool IsDimensionValid(string dimensionInput)
         {
-            if (string.IsNullOrWhiteSpace(dimensionInput) || string.IsNullOrEmpty(dimensionInput))
+            if (string.IsNullOrWhiteSpace(dimensionInput))
             {
                 return false;
             }
-            else if (!double.TryParse(dimensionInput, out double length) || length <= 0)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+
+            return double.TryParse(dimensionInput, out double length) && length > 0;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using ShapeHierarchy.View;
+﻿using System;
+using ShapeHierarchy.View;
 
 namespace ShapeHierarchy.ConsoleService
 {
@@ -22,8 +23,8 @@ namespace ShapeHierarchy.ConsoleService
             {
                 this._userConsole.DisplayMenu();
 
-                string? choice = Console.ReadLine();
-                if (choice is null || !Helper.Validater.IsChoiceValid(choice))
+                string choice = Console.ReadLine();
+                if (choice is null || !Helper.Validator.IsChoiceValid(choice))
                 {
                     this._userConsole.UserAlert();
                     continue;
@@ -33,11 +34,23 @@ namespace ShapeHierarchy.ConsoleService
                 {
                     case "1":
                         var rectangle = this._userConsole.GetRectangleDetails();
-                        rectangle.PrintArea();
+                        if (rectangle is null)
+                        {
+                            continue;
+                        }
+
+                        double rectangeArea = rectangle.CalculateArea();
+                        this._userConsole.PrintDetails(rectangle.ShapeName, rectangle.Color, rectangeArea);
                         break;
                     case "2":
                         var circle = this._userConsole.GetCircleDetails();
-                        circle.PrintArea();
+                        if (circle is null)
+                        {
+                            continue;
+                        }
+
+                        double circleArea = circle.CalculateArea();
+                        this._userConsole.PrintDetails(circle.ShapeName, circle.Color, circleArea);
                         break;
                     case "3":
                         this._userConsole.DisplayExitStatus();

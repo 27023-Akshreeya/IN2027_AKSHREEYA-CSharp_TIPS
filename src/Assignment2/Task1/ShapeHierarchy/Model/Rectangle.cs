@@ -28,19 +28,19 @@ namespace ShapeHierarchy.Model
         }
 
         /// <summary>
-        /// Gets or sets contains the properties of a rectangle
+        /// Gets contains the properties of a rectangle
         /// </summary>
         /// <value>/// Contains the properties of a rectangle
         /// </value>
-        public double Length { get; set; }
+        public double Length { get; }
 
         /// <summary>
-        /// Gets or sets this states width propertyu
+        /// Gets this states width property
         /// </summary>
         /// <value>
         /// This states width property
         /// </value>
-        public double Width { get; set; }
+        public double Width { get; }
 
         /// <summary>
         /// this calculates the area of a rectangle.
