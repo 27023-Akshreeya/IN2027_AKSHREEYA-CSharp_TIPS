@@ -36,7 +36,7 @@ namespace ExpenseTracker.Repository
         public List<T> LoadAllTransactions()
         {
             try
-            {
+    {
                 string readTransactions = File.ReadAllText(this._fileName);
                 var serializeTransaction = JsonSerializer.Deserialize<List<T>>(readTransactions) ?? new List<T>();
                 return serializeTransaction;
@@ -46,7 +46,7 @@ namespace ExpenseTracker.Repository
                 throw;
             }
         }
-
+        
         /// <summary>
         /// Saves the specified list of transactions to a file in JSON format.
         /// </summary>

@@ -54,13 +54,9 @@
             {
                 return false;
             }
-            else if (!choice.Equals("n", StringComparison.OrdinalIgnoreCase) &&
-                     !choice.Equals("y", StringComparison.OrdinalIgnoreCase))
-            {
-                return false;
-            }
 
-            return true;
+            return choice.Equals("n", StringComparison.OrdinalIgnoreCase) ||
+                     choice.Equals("y", StringComparison.OrdinalIgnoreCase);
         }
     }
 }
