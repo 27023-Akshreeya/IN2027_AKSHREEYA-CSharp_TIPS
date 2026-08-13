@@ -7,7 +7,7 @@ namespace ExpenseTracker.Repository
     /// Manages income and expense transactions and maintains
     /// the running net balance of the application.
     /// </summary>
-    internal class Repo
+    internal class ExpenseTrackerRepository
     {
         private readonly List<Expense> _expenses = new List<Expense>();
         private readonly List<Income> _incomes = new List<Income>();
