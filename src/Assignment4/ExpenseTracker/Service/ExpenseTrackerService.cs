@@ -9,13 +9,13 @@ namespace ExpenseTracker.Service
     /// </summary>
     internal class ExpenseTrackerService
     {
-        private readonly Repo _repo;
+        private readonly ExpenseTrackerRepository _repo;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ExpenseTrackerService"/> class.
         /// </summary>
         /// <param name="repo">The repository used to store and retrieve transaction data. </param>
-        public ExpenseTrackerService(Repo repo)
+        public ExpenseTrackerService(ExpenseTrackerRepository repo)
         {
             this._repo = repo;
         }

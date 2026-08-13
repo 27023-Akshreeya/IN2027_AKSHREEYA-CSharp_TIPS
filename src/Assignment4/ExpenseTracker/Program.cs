@@ -10,7 +10,7 @@ namespace Assignments
         {
             try
             {
-                var repo = new Repo();
+                var repo = new ExpenseTrackerRepository();
                 var service = new ExpenseTrackerService(repo);
                 var view = new ExpenseTrackerViewer(service);
                 view.DisplayMenu();
