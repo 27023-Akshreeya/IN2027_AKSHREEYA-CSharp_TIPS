@@ -7,10 +7,23 @@ namespace ExpenseTracker.Repository
     /// Manages income and expense transactions and maintains
     /// the running net balance of the application.
     /// </summary>
-    internal class Repo
+    internal class ExpenseTrackerRepository
     {
-        private readonly List<Expense> _expenses = new List<Expense>();
-        private readonly List<Income> _incomes = new List<Income>();
+        private readonly ExpenseTrackerFileRepository<Income> _incomeFile;
+        private readonly ExpenseTrackerFileRepository<Expense> _expenseFile;
+
+        private List<Expense> _expenses = new List<Expense>();
+        private List<Income> _incomes = new List<Income>();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExpenseTrackerRepository"/> class
+        /// and configures the file-based storage systems for expenses and income.
+        /// </summary>
+        public ExpenseTrackerRepository()
+        {
+            this._expenseFile = new ExpenseTrackerFileRepository<Expense>("expenses.json");
+            this._incomeFile = new ExpenseTrackerFileRepository<Income>("incomes.json");
+        }
 
         /// <summary>
         /// Gets or sets the current net balance calculated from all
@@ -20,6 +33,24 @@ namespace ExpenseTracker.Repository
         /// income and expense transactions.
         /// </value>
         public decimal NetBalance { get; set; }
+
+        /// <summary>
+        /// to load all the data from the file to the list.
+        /// </summary>
+        public void LoadDataFromFiles()
+        {
+            this._expenses = this._expenseFile.LoadAllTransactions();
+            this._incomes = this._incomeFile.LoadAllTransactions();
+        }
+
+        /// <summary>
+        /// to save all the transactions in the list onto the file.
+        /// </summary>
+        public void SaveChangesToFiles()
+        {
+            this._expenseFile.SaveAllTransactions(this._expenses);
+            this._incomeFile.SaveAllTransactions(this._incomes);
+        }
 
         /// <summary>
         /// Adds a new expense transaction and updates the net balance.
