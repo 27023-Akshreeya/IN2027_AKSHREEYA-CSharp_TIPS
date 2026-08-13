@@ -80,19 +80,16 @@ namespace ExpenseTracker.Service
         }
 
         /// <summary>
-        /// Retrieves income or expense records based on the selected record type.
+        /// Gets income list
         /// </summary>
-        /// <param name="viewChoice">The record type to retrieve. </param>
-        /// <returns> A collection of income or expense records.</returns>
-        internal object GetRecords(RecordChoices viewChoice)
-        {
-            if (viewChoice.Equals(RecordChoices.IncomeRecords))
-            {
-                return this._repo.GetIncome();
-            }
+        /// <returns>the list of income</returns>
+        internal IReadOnlyList<Income> GetIncomeRecords() => this._repo.GetIncome();
 
-            return this._repo.GetExpense();
-        }
+        /// <summary>
+        /// Gets the expense list
+        /// </summary>
+        /// <returns>the list of expense</returns>
+        internal IReadOnlyList<Expense> GetExpenseRecords() => this._repo.GetExpense();
 
         /// <summary>
         /// Updates an existing income transaction.
@@ -103,8 +100,8 @@ namespace ExpenseTracker.Service
         /// <returns>true if income is updated successfull, otherwise false</returns>
         internal bool UpdateIncomeTransaction(Guid updateRecordId, string updateInput, UpdateTransaction updateTransaction)
         {
-            var records = (List<Income>)this.GetRecords(RecordChoices.IncomeRecords);
-            var existingTransaction = records.Find(x => x.TransactionID == updateRecordId);
+            var records = this.GetIncomeRecords();
+            var existingTransaction = records.FirstOrDefault(x => x.TransactionID == updateRecordId);
             if (existingTransaction is null)
             {
                 return false;
@@ -144,8 +141,8 @@ namespace ExpenseTracker.Service
         /// <returns>true if expense is updated successfull, otherwise false.</returns>
         internal bool UpdateExpenseTransaction(Guid updateRecordId, string updateInput, UpdateTransaction updateTransaction)
         {
-            var records = (List<Expense>)this.GetRecords(RecordChoices.ExpenseRecords);
-            var existingTransaction = records.Find(x => x.TransactionID == updateRecordId);
+            var records = this.GetExpenseRecords();
+            var existingTransaction = records.FirstOrDefault(x => x.TransactionID == updateRecordId);
             if (existingTransaction is null)
             {
                 return false;
@@ -186,8 +183,8 @@ namespace ExpenseTracker.Service
         {
             if (recordChoice.Equals(RecordChoices.IncomeRecords))
             {
-                var incomes = (List<Income>)this.GetRecords(RecordChoices.IncomeRecords);
-                var deleteIncome = incomes.Find(x => x.TransactionID.Equals(deleteRecordId));
+                var incomes = this.GetIncomeRecords();
+                var deleteIncome = incomes.FirstOrDefault(x => x.TransactionID.Equals(deleteRecordId));
                 if (deleteIncome != null)
                 {
                     this._repo.NetBalance -= deleteIncome.IncomeAmount;
@@ -198,8 +195,8 @@ namespace ExpenseTracker.Service
             }
             else if (recordChoice.Equals(RecordChoices.ExpenseRecords))
             {
-                var expenses = (List<Expense>)this.GetRecords(RecordChoices.ExpenseRecords);
-                var deleteExpense = expenses.Find(x => x.TransactionID == deleteRecordId);
+                var expenses = this.GetExpenseRecords();
+                var deleteExpense = expenses.FirstOrDefault(x => x.TransactionID == deleteRecordId);
                 if (deleteExpense != null)
                 {
                     this._repo.NetBalance += deleteExpense.ExpenseAmount;
