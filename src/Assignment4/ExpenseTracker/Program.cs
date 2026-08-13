@@ -4,8 +4,15 @@ using ExpenseTracker.View;
 
 namespace Assignments
 {
+    /// <summary>
+    /// Entry point for the Expense Tracker application.
+    /// </summary>
     internal class Program
     {
+        /// <summary>
+        /// Application entry point that initializes and runs the expense tracker.
+        /// </summary>
+        /// <param name="args">Command-line arguments.</param>
         public static void Main(string[] args)
         {
             try

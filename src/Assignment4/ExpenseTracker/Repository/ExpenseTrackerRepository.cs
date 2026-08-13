@@ -43,13 +43,13 @@ namespace ExpenseTracker.Repository
         /// Retrieves all income transactions.
         /// </summary>
         /// <returns>A list containing all recorded income transactions.</returns>
-        internal List<Income> GetIncome() => this._incomes;
+        internal IReadOnlyList<Income> GetIncome() => this._incomes;
 
         /// <summary>
         /// Retrieves all expense transactions.
         /// </summary>
         /// <returns>A list containing all recorded expense transactions.</returns>
-        internal List<Expense> GetExpense() => this._expenses;
+        internal IReadOnlyList<Expense> GetExpense() => this._expenses;
 
         /// <summary>
         /// Updates an existing income transaction and recalculates

@@ -182,9 +182,9 @@ namespace ExpenseTracker.View
         /// </summary>
         private void DisplayRecordSummary()
         {
-            var incomeRecords = (List<Income>)this._service.GetRecords(RecordChoices.IncomeRecords);
+            var incomeRecords = this._service.GetIncomeRecords();
             var totalIncome = this.ViewIncomeRecords(incomeRecords);
-            var expenseRecords = (List<Expense>)this._service.GetRecords(RecordChoices.ExpenseRecords);
+            var expenseRecords = this._service.GetExpenseRecords();
             var totalExpense = this.ViewExpenseRecords(expenseRecords);
             var table = new Table();
             table.AddColumn("[bold]Net Balance[/]");
@@ -333,7 +333,7 @@ namespace ExpenseTracker.View
             switch (choice)
             {
                 case RecordChoices.IncomeRecords:
-                    var incomeRecord = (List<Income>)this._service.GetRecords(RecordChoices.IncomeRecords);
+                    var incomeRecord = this._service.GetIncomeRecords();
                     if (incomeRecord.Count == 0)
                     {
                         return RecordChoices.Empty;
@@ -342,7 +342,7 @@ namespace ExpenseTracker.View
                     this.ViewIncomeRecords(incomeRecord);
                     return RecordChoices.IncomeRecords;
                 case RecordChoices.ExpenseRecords:
-                    var expenseRecord = (List<Expense>)this._service.GetRecords(RecordChoices.ExpenseRecords);
+                    var expenseRecord = this._service.GetExpenseRecords();
                     if (expenseRecord.Count == 0)
                     {
                         return RecordChoices.Empty;
@@ -360,7 +360,7 @@ namespace ExpenseTracker.View
         /// <summary>
         /// Displays income records.
         /// </summary>
-        private decimal ViewIncomeRecords(List<Income> incomeRecord)
+        private decimal ViewIncomeRecords(IReadOnlyList<Income> incomeRecord)
         {
             decimal totalIncomeAmount = 0;
             var table = new Table();
@@ -387,7 +387,7 @@ namespace ExpenseTracker.View
         /// <summary>
         /// Displays expense records.
         /// </summary>
-        private decimal ViewExpenseRecords(List<Expense> expenseRecord)
+        private decimal ViewExpenseRecords(IReadOnlyList<Expense> expenseRecord)
         {
             decimal totalExpenseAmount = 0;
             var table = new Table();
