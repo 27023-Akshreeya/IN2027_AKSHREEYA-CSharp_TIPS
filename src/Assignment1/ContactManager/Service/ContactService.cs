@@ -116,7 +116,7 @@ namespace ContactManager.Service
         /// This Functions checks if the list of contacts is empty
         /// </summary>
         /// <returns>true if the contacts is empty; otherwise, false</returns>
-        public bool CheckIfContactsIsEmpty()
+        public bool IsContactsEmpty()
         {
             var contacts = this._repo.GetAllContacts();
             return !contacts.Any();
@@ -130,7 +130,7 @@ namespace ContactManager.Service
         public Guid GetGuidByPhoneNumber(long phoneNumber)
         {
             List<Contact> contacts = this._repo.GetAllContacts();
-            if (this.CheckIfContactsIsEmpty())
+            if (this.IsContactsEmpty())
             {
                 return Guid.Empty;
             }
@@ -147,17 +147,17 @@ namespace ContactManager.Service
         /// <summary>
         /// contact
         /// </summary>
-        /// <param name="name">name</param>
+        /// <param name="guid">Guid</param>
         /// <returns>info</returns>
-        public Contact GetContactByName(string name)
+        public Contact GetContactByID(Guid guid)
         {
             var contacts = this._repo.GetAllContacts();
-            if (this.CheckIfContactsIsEmpty() || name.Equals(string.Empty))
+            if (this.IsContactsEmpty() || guid.Equals(Guid.Empty))
             {
                 return null;
             }
 
-            return contacts.Find(c => c.Name == name);
+            return contacts.Find(c => c.Id.Equals(guid));
         }
 
         /// <summary>
@@ -168,7 +168,7 @@ namespace ContactManager.Service
         public bool SearchContactByname(string name)
         {
             var contacts = this._repo.GetAllContacts();
-            if (this.CheckIfContactsIsEmpty())
+            if (this.IsContactsEmpty())
             {
                 return false;
             }
@@ -191,7 +191,7 @@ namespace ContactManager.Service
         public bool SearchContactByPhoneNumber(long phoneNumber)
         {
             var contacts = this._repo.GetAllContacts();
-            if (this.CheckIfContactsIsEmpty())
+            if (this.IsContactsEmpty())
             {
                 return false;
             }

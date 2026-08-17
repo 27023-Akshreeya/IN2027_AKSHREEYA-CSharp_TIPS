@@ -88,14 +88,14 @@ namespace ContactManager.View
 
                         break;
                     case "s":
-                        if (this._contactService.CheckIfContactsIsEmpty())
+                        if (this._contactService.IsContactsEmpty())
                         {
                             this.DisplayIsContactsEmpty();
                             continue;
                         }
 
                         string usersSearchChoice = this.GetSearchChoice();
-                        string searchContactInput = this.GetSearchDetails(usersSearchChoice);
+                        string searchContactInput = this.SearchContactDetails(usersSearchChoice);
 
                         if (searchContactInput.Equals(string.Empty) || usersSearchChoice.Equals(string.Empty))
                         {
@@ -112,7 +112,7 @@ namespace ContactManager.View
                         Console.WriteLine();
                         break;
                     case "v":
-                        if (this._contactService.CheckIfContactsIsEmpty())
+                        if (this._contactService.IsContactsEmpty())
                         {
                             this.DisplayIsContactsEmpty();
                             continue;
@@ -122,7 +122,7 @@ namespace ContactManager.View
                         Console.WriteLine();
                         break;
                     case "e":
-                        if (this._contactService.CheckIfContactsIsEmpty())
+                        if (this._contactService.IsContactsEmpty())
                         {
                             this.DisplayIsContactsEmpty();
                             continue;
@@ -132,7 +132,7 @@ namespace ContactManager.View
                         Console.WriteLine();
                         break;
                     case "r":
-                        if (this._contactService.CheckIfContactsIsEmpty())
+                        if (this._contactService.IsContactsEmpty())
                         {
                             this.DisplayIsContactsEmpty();
                             continue;
@@ -235,13 +235,19 @@ namespace ContactManager.View
         /// </summary>
         public void GetUpdatedContactDetails()
         {
-            Console.Write("Enter the name of the contact you want to edit:");
+            Console.Write("Enter the phone number of the contact you want to edit:");
 
-            var name = Console.ReadLine() ?? string.Empty;
+            var phoneNumber = Console.ReadLine() ?? string.Empty;
 
-            var contact = this._contactService.GetContactByName(name);
-            var contactId = this._contactService.GetGuidByName(name);
-            if (contactId == Guid.Empty || contact is null)
+            if (!Validator.IsPhoneNumberValid(phoneNumber))
+            {
+                Console.WriteLine("Invalid phone number. Please try again.");
+                return;
+            }
+
+            var updateContactId = this._contactService.GetGuidByPhoneNumber(long.Parse(phoneNumber));
+            var contact = this._contactService.GetContactByID(updateContactId);
+            if (updateContactId == Guid.Empty || contact is null)
             {
                 Console.WriteLine("Contact not found");
                 return;
@@ -273,7 +279,7 @@ namespace ContactManager.View
 
                         contact.Name = editName;
 
-                        if (this._contactService.EditExisitingContact(contact, contactId))
+                        if (this._contactService.EditExisitingContact(contact, updateContactId))
                         {
                             this.DisplaySuccessofOperation("Contact updated");
                         }
@@ -296,7 +302,7 @@ namespace ContactManager.View
                         long editPhoneNumber = Convert.ToInt64(editNumber);
                         contact.PhoneNumber = editPhoneNumber;
 
-                        if (this._contactService.EditExisitingContact(contact, contactId))
+                        if (this._contactService.EditExisitingContact(contact, updateContactId))
                         {
                             this.DisplaySuccessofOperation("Contact updated");
                         }
@@ -317,7 +323,7 @@ namespace ContactManager.View
                         }
 
                         contact.EmailId = editEmailAddress;
-                        if (this._contactService.EditExisitingContact(contact, contactId))
+                        if (this._contactService.EditExisitingContact(contact, updateContactId))
                         {
                             this.DisplaySuccessofOperation("Contact updated");
                         }
@@ -332,7 +338,7 @@ namespace ContactManager.View
                         var editNotes = Console.ReadLine() ?? string.Empty;
 
                         contact.Notes = editNotes;
-                        if (this._contactService.EditExisitingContact(contact, contactId))
+                        if (this._contactService.EditExisitingContact(contact, updateContactId))
                         {
                             this.DisplaySuccessofOperation("Contact updated");
                         }
@@ -375,7 +381,7 @@ namespace ContactManager.View
         /// </summary>
         /// <param name="searchChoice">Gets the users search choice</param>
         /// <returns>returns users input</returns>
-        public string GetSearchDetails(string searchChoice)
+        public string SearchContactDetails(string searchChoice)
         {
             switch (searchChoice)
             {

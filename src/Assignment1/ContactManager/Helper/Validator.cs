@@ -36,12 +36,12 @@ namespace ContactManager.Helper
         /// </returns>
         public static bool IsChoiceValid(string choice)
         {
-            if (IsInputValid(choice))
+            if (!IsInputValid(choice))
             {
                 return false;
             }
 
-            return char.TryParse(choice, out var _);
+            return char.TryParse(choice, out char _);
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace ContactManager.Helper
         /// <returns>true if the string is a valid integer; otherwise, false.</returns>
         public static bool IsNumericChoiceValid(string contactDetail)
         {
-            if (IsInputValid(contactDetail))
+            if (!IsInputValid(contactDetail))
             {
                 return false;
             }
@@ -70,7 +70,7 @@ namespace ContactManager.Helper
         /// </returns>
         public static bool IsNameValid(string str)
         {
-            if (IsInputValid(str) || !str.All(char.IsLetterOrDigit))
+            if (!IsInputValid(str) || !str.All(char.IsLetterOrDigit))
             {
                 return false;
             }
@@ -131,7 +131,7 @@ namespace ContactManager.Helper
         /// <returns>returns true if contact is valid, false otherwise</returns>
         public static bool IsContactValid(Contact newContact)
         {
-            if (IsInputValid(newContact.EmailId) || IsInputValid(newContact.Name) || IsInputValid(newContact.EmailId))
+            if (!IsInputValid(newContact.EmailId) || !IsInputValid(newContact.Name) || !IsInputValid(newContact.EmailId))
             {
                 return false;
             }

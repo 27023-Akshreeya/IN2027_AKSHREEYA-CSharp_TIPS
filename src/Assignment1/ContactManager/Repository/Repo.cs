@@ -48,17 +48,17 @@ namespace ContactManager.Repository
         /// <summary>
         /// Updates the details of an existing contact identified by the specified unique identifier.
         /// </summary>
-        /// <param name="contact">The contact information used to update the existing contact.</param>
+        /// <param name="updatedContact">The contact information used to update the existing contact.</param>
         /// <param name="id">The unique identifier of the contact to update.</param>
-        public void UpdateContact(Contact contact, Guid id)
+        public void UpdateContact(Contact updatedContact, Guid id)
         {
             var existingContact = this._contacts.Find(c => c.Id == id);
             if (existingContact != null)
             {
-                existingContact.Name = contact.Name;
-                existingContact.PhoneNumber = contact.PhoneNumber;
-                existingContact.EmailId = contact.EmailId;
-                existingContact.Notes = contact.Notes;
+                existingContact.Name = updatedContact.Name;
+                existingContact.PhoneNumber = updatedContact.PhoneNumber;
+                existingContact.EmailId = updatedContact.EmailId;
+                existingContact.Notes = updatedContact.Notes;
             }
         }
     }
