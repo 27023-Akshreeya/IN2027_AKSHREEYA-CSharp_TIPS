@@ -1,6 +1,4 @@
-﻿using EmployeeHierarchy.View;
-
-namespace EmployeeHierarchy.Model
+﻿namespace EmployeeHierarchy.Model
 {
     /// <summary>
     /// Serves as the abstract base class for all employee types within the organization.
@@ -8,46 +6,50 @@ namespace EmployeeHierarchy.Model
     /// </summary>
     public abstract class Employee
     {
-        private UserConsole _userConsole = new UserConsole();
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Employee"/> class
+        /// with the specified employee name and salary.
+        /// </summary>
+        /// <param name="name">
+        /// The name of the employee.
+        /// </param>
+        /// <param name="salary">
+        /// The base salary of the employee.
+        /// </param>
+        protected Employee(string name, double salary)
+        {
+            this.Name = name;
+            this.Salary = salary;
+        }
 
         /// <summary>
-        /// Gets or sets the full name of the employee.
+        /// Gets the full name of the employee.
         /// </summary>
         /// <value>
         /// A <see cref="string"/> containing the employee's name, or null if unassigned.
         /// </value>
-        public string? Name { get; set; }
+        public string Name { get; }
 
         /// <summary>
-        /// Gets or sets the base salary amount for the employee.
+        /// Gets the base salary amount for the employee.
         /// </summary>
         /// <value>
         /// A <see cref="double"/> representing the raw monetary base compensation.
         /// </value>
-        public double Salary { get; set; }
+        public double Salary { get; }
 
         /// <summary>
-        /// Gets or sets the operational job position or title of the employee.
+        /// Gets the operational job position or title of the employee.
         /// </summary>
         /// <value>
         /// A <see cref="string"/> containing the job title, or null if unassigned.
         /// </value>
-        public string? Position { get; set; }
+        public abstract string Position { get; }
 
         /// <summary>
         /// When overridden in a derived class, calculates the role-specific bonus amount.
         /// </summary>
         /// <returns>A <see cref="double"/> representing the computed financial bonus.</returns>
         public abstract double CalculateBonus();
-
-        /// <summary>
-        /// Prints the formatted details of the employee, including their calculated bonus, to the console.
-        /// </summary>
-        /// <param name="position">The position of the employee</param>
-        public void PrintDetails(string position)
-        {
-            double bonus = this.CalculateBonus();
-            this._userConsole.PrintDetailsToUser(this.Name, position, bonus, this.Salary);
-        }
     }
 }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace EmployeeHierarchy.Model
+﻿namespace EmployeeHierarchy.Model
 {
     /// <summary>
     /// Represents a manager employee within the organization hierarchy.
@@ -14,7 +8,7 @@ namespace EmployeeHierarchy.Model
         /// <summary>
         /// The fixed bonus percentage rate applied to the manager's base salary (10%).
         /// </summary>
-        private const double V = 0.10;
+        private const double BONUSRATE = 0.10;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Manager"/> class with a specified name, salary, and position.
@@ -22,20 +16,17 @@ namespace EmployeeHierarchy.Model
         /// <param name="name">The legal or preferred name of the manager.</param>
         /// <param name="salary">The annual or monthly base salary amount.</param>
         /// <param name="position">The specific leadership position or title assigned to the manager.</param>
-        public Manager(string name, double salary, string position)
+        public Manager(string name, double salary)
+            : base(name, salary)
         {
-            this.Name = name;
-            this.Salary = salary;
-            this.Position = position;
         }
 
         /// <summary>
-        /// Gets or sets the specific management role, level, or title of the manager.
+        /// Gets the postion as manager
         /// </summary>
-        /// <value>
-        /// A <see cref="string"/> containing the position title, or null if unassigned.
+        /// <value> Manager
         /// </value>
-        public new string? Position { get; set; }
+        public override string Position => "Manager";
 
         /// <summary>
         /// Calculates the performance or annual bonus specific to a manager based on their salary.
@@ -43,7 +34,7 @@ namespace EmployeeHierarchy.Model
         /// <returns>A <see cref="double"/> value representing 10% of the manager's base salary.</returns>
         public override double CalculateBonus()
         {
-            return this.Salary * V;
+            return this.Salary * BONUSRATE;
         }
     }
 }

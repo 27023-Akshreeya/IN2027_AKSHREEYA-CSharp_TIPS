@@ -1,4 +1,4 @@
-﻿using EmployeeHierarchy.ConsoleService;
+﻿using EmployeeHierarchy.Service;
 using EmployeeHierarchy.View;
 
 namespace Assignments
@@ -14,8 +14,9 @@ namespace Assignments
         /// <param name="args"> Command-line arguments passed to the application. </param>
         public static void Main(string[] args)
         {
-            Service service = new Service();
-            service.UserOperation();
+            EmployeeHierarchyService service = new EmployeeHierarchyService();
+            EmployeeHierarchyViewer viewer = new EmployeeHierarchyViewer(service);
+            viewer.Menu();
         }
     }
 }

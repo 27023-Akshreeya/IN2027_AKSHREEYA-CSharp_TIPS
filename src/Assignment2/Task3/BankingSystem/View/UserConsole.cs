@@ -30,7 +30,7 @@ namespace BankingSystem.View
         {
             Console.Write("Enter account Number:");
             string? inputAccountNumber = Console.ReadLine();
-            if (inputAccountNumber is null || !this._helper.IsAccountNumberValid(inputAccountNumber))
+            if (inputAccountNumber is null || !Helper.IsAccountNumberValid(inputAccountNumber))
             {
                 Console.WriteLine("Invalid account number");
                 return (string.Empty, string.Empty);
@@ -38,7 +38,7 @@ namespace BankingSystem.View
 
             Console.Write("Enter account type [savings/checking]:");
             string? inputAccountType = Console.ReadLine();
-            if (inputAccountType is null || !this._helper.IsAccountTypeValid(inputAccountType))
+            if (inputAccountType is null || !Helper.IsAccountTypeValid(inputAccountType))
             {
                 Console.WriteLine("Invalid Account type");
                 return (string.Empty, string.Empty);
@@ -56,7 +56,7 @@ namespace BankingSystem.View
         {
             Console.Write("Select operation\n1.Withdaw\n2.Deposit\nEnter your choice:");
             string? userInput = Console.ReadLine();
-            if (userInput is null || !this._helper.IsUserChoiceVaild(userInput))
+            if (userInput is null || !Helper.IsUserChoiceVaild(userInput))
             {
                 Console.WriteLine("Invalid choice");
                 return null;
@@ -84,7 +84,7 @@ namespace BankingSystem.View
                 inputAmount = Console.ReadLine();
             }
 
-            if (inputAmount is null || !this._helper.IsAmountValid(inputAmount))
+            if (inputAmount is null || !Helper.IsAmountValid(inputAmount))
             {
                 Console.WriteLine("Invalid Amount");
                 return 0;
