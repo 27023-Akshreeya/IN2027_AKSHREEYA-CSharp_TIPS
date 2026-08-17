@@ -1,22 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BankingSystem.Model
+﻿namespace BankingSystem.Helper
 {
     /// <summary>
     /// Provides simple tools to check if banking inputs are correct.
     /// </summary>
-    internal class Helper
+    internal static class Validator
     {
         /// <summary>
         /// Checks if the account number is not empty and has only numbers.
         /// </summary>
         /// <param name="inputAccountNumber">The account number text from the user.</param>
         /// <returns>True if it has only numbers; otherwise, false.</returns>
-        internal bool IsAccountNumberValid(string? inputAccountNumber)
+        internal static bool IsAccountNumberValid(string? inputAccountNumber)
         {
             if (string.IsNullOrWhiteSpace(inputAccountNumber) || string.IsNullOrEmpty(inputAccountNumber) || !inputAccountNumber.All(char.IsDigit))
             {
@@ -33,7 +27,7 @@ namespace BankingSystem.Model
         /// </summary>
         /// <param name="inputAccountType">The type text from the user.</param>
         /// <returns>True if it matches savings or checking; otherwise, false.</returns>
-        internal bool IsAccountTypeValid(string? inputAccountType)
+        internal static bool IsAccountTypeValid(string? inputAccountType)
         {
             if (string.IsNullOrWhiteSpace(inputAccountType) || string.IsNullOrEmpty(inputAccountType))
             {
@@ -54,7 +48,7 @@ namespace BankingSystem.Model
         /// </summary>
         /// <param name="inputAmount">The amount text from the user.</param>
         /// <returns>True if it has only numbers; otherwise, false.</returns>
-        internal bool IsAmountValid(string? inputAmount)
+        internal static bool IsAmountValid(string? inputAmount)
         {
             if (string.IsNullOrWhiteSpace(inputAmount) || string.IsNullOrEmpty(inputAmount) || !inputAmount.All(char.IsDigit))
             {
@@ -69,7 +63,7 @@ namespace BankingSystem.Model
         /// </summary>
         /// <param name="userInput">The user input to validate.</param>
         /// <returns>true if the input is valid; otherwise, false.</returns>
-        internal bool IsUserChoiceVaild(string? userInput)
+        internal static bool IsUserChoiceVaild(string? userInput)
         {
             if (!(userInput != "1") && !(userInput != "2"))
             {

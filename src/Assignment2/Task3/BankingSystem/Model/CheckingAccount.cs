@@ -1,47 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BankingSystem.Model
+﻿namespace BankingSystem.Model
 {
     /// <summary>
-    /// Represents a checking account for daily use.
-    /// Inherits from the BankAccount base class.
+    /// Represents a checking account.
     /// </summary>
     internal class CheckingAccount : BankAccount
     {
-        private const decimal V = 0;
+        private const decimal MinimumBalance = 0m;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CheckingAccount"/> class.
-        /// Creates a new checking account with an ID, type, and starting money.
         /// </summary>
-        /// <param name="accountNumber">The unique number or ID for the account.</param>
-        /// <param name="acccountType">The type label passed to the class.</param>
-        /// <param name="balance">The starting money for the account.</param>
-        public CheckingAccount(string accountNumber, string acccountType, decimal balance)
+        /// <param name="accountNumber">The account number.</param>
+        /// <param name="balance">The current balance.</param>
+        public CheckingAccount(string accountNumber, decimal balance)
+            : base(accountNumber, "checking", balance)
         {
-            this.AccountNumber = accountNumber;
-            this.AccountType = "checking";
-            this.Balance = balance;
         }
 
         /// <summary>
-        /// Takes money out of the checking account if there is cash available.
+        /// Withdraws money from the checking account.
         /// </summary>
-        /// <param name="amount">The amount of money to take out.</param>
-        /// <returns>The remaining balance, or -1 if the account is empty.</returns>
+        /// <param name="amount">Amount to withdraw.</param>
+        /// <returns>
+        /// The updated balance if withdrawal succeeds; otherwise -1.
+        /// </returns>
         public override decimal Withdraw(decimal amount)
         {
-            if (this.Balance <= V)
+            decimal remainingBalance = this.Balance - amount;
+
+            if (remainingBalance < MinimumBalance)
             {
-                Console.WriteLine("Cannot withdraw. Empty Account balance");
                 return -1m;
             }
 
-            return this.Balance - amount;
+            return remainingBalance;
         }
     }
 }

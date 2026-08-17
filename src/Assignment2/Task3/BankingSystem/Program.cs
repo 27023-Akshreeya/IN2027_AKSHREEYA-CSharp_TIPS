@@ -1,20 +1,24 @@
-﻿using BankingSystem.ConsoleService;
+﻿using BankingSystem.Helper;
+using BankingSystem.Service;
+using BankingSystem.View;
 
-namespace Assignments
+namespace BankingSystem
 {
     /// <summary>
-    /// The main entry point class for the banking application.
+    /// Entry point of the banking system application.
     /// </summary>
     internal class Program
     {
         /// <summary>
-        /// The main method that starts up the whole system.
+        /// Starts the banking system application.
         /// </summary>
-        /// <param name="args">The arguments passed from the command line.</param>
+        /// <param name="args">Command-line arguments.</param>
         public static void Main(string[] args)
         {
-            Service service = new Service();
-            service.BankingOperation();
+            BankingSystemService service = new BankingSystemService();
+            BankingSystemViewer viewer = new BankingSystemViewer(service);
+
+            viewer.BankingOperation();
         }
     }
 }

@@ -1,56 +1,59 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BankingSystem.Model
+﻿namespace BankingSystem.Model
 {
     /// <summary>
-    /// Represents a bank account with an account number, balance, and account type.
+    /// Represents a bank account with common account details and operations.
     /// </summary>
-    /// <remarks>Serves as an abstract base class requiring implementation of the Withdraw method.</remarks>
     internal abstract class BankAccount
     {
         /// <summary>
-        /// Gets or sets the account number.
+        /// Initializes a new instance of the <see cref="BankAccount"/> class.
         /// </summary>
-        /// <value>
-        /// A string that holds the text or number for the account ID.
-        /// </value>
-        public string? AccountNumber { get; set; }
+        /// <param name="accountNumber">The account number.</param>
+        /// <param name="accountType">The account type.</param>
+        /// <param name="balance">The account balance.</param>
+        protected BankAccount(string accountNumber, string accountType, decimal balance)
+        {
+            this.AccountNumber = accountNumber;
+            this.AccountType = accountType;
+            this.Balance = balance;
+        }
 
         /// <summary>
-        /// Gets or sets the total money in the account.
+        /// Gets the account number.
         /// </summary>
-        /// <value>
-        /// A decimal number that shows the current cash available.
+        /// <value>The account number.
+        /// </value>
+        public string AccountNumber { get; }
+
+        /// <summary>
+        /// Gets the account type.
+        /// </summary>
+        /// <value>The account type.
+        /// </value>
+        public string AccountType { get; }
+
+        /// <summary>
+        /// Gets or sets the account balance.
+        /// </summary>
+        /// <value> The account balance.
         /// </value>
         public decimal Balance { get; set; }
 
         /// <summary>
-        /// Gets or sets the type of account, like Savings or Checking.
+        /// Deposits money into the account.
         /// </summary>
-        /// <value>
-        /// A string that describes what kind of account this is.
-        /// </value>
-        public string? AccountType { get; set; }
-
-        /// <summary>
-        /// Adds money to the account balance.
-        /// </summary>
-        /// <param name="amount">The amount of money to add.</param>
-        /// <returns>The new total balance after the money is added.</returns>
+        /// <param name="amount">Amount to be deposited.</param>
+        /// <returns>The updated balance.</returns>
         public decimal Deposit(decimal amount)
         {
             return this.Balance + amount;
         }
 
         /// <summary>
-        /// Takes money out of the account balance.
+        /// Withdraws money from the account.
         /// </summary>
-        /// <param name="amount">The amount of money to take out.</param>
-        /// <returns>The money left in the account after taking the cash out.</returns>
+        /// <param name="amount">Amount to withdraw.</param>
+        /// <returns>The updated balance.</returns>
         public abstract decimal Withdraw(decimal amount);
     }
 }
