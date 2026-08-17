@@ -125,6 +125,44 @@ namespace InventoryManager.ConsoleService
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <param name="newProductName"></param>
+        /// <returns></returns>
+        public bool UpdateProductName(string productId, string newProductName)
+        {
+            var productToUpdate = this.SearchByProductId(productId);
+            if (productToUpdate is null)
+            {
+                return false;
+            }
+
+            productToUpdate.ProductName = newProductName;
+            this._repo.UpdateProduct(productToUpdate, productId);
+            return true;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <param name="newProductId"></param>
+        /// <returns></returns>
+        internal bool UpdateProductId(string productId, string newProductId)
+        {
+            var productToUpdate = this.SearchByProductId(productId);
+            if (productToUpdate is null)
+            {
+                return false;
+            }
+
+            productToUpdate.ProductId = newProductId;
+            this._repo.UpdateProduct(productToUpdate, productId);
+            return true;
+        }
+
+        /// <summary>
         /// Retrieves all inventory products sorted alphabetically by their name.
         /// </summary>
         /// <returns>A list of sorted product items.</returns>

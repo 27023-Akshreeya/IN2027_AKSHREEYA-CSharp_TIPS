@@ -195,7 +195,7 @@ namespace InventoryManager.View
                         return false;
                     }
 
-                    return this._service.UpdateProductDetails(newProductName, productId, EditChoices.ProductName);
+                    return this._service.UpdateProductName(productId, newProductName);
                 case EditChoices.ProductId:
                     Console.Write(InventoryManagerResource.ProductID);
                     string newProductId = Console.ReadLine() ?? string.Empty;
@@ -210,7 +210,7 @@ namespace InventoryManager.View
                         return false;
                     }
 
-                    return this._service.UpdateProductDetails(newProductId, productId, EditChoices.ProductId);
+                    return this._service.UpdateProductId(productId, newProductId);
                 case EditChoices.Price:
                     Console.Write(InventoryManagerResource.ProductPrice);
                     string newProductPrice = Console.ReadLine() ?? string.Empty;
