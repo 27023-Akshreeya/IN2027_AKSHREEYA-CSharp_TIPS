@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ShapeHierarchy.Model
+﻿namespace ShapeHierarchy.Model
 {
     /// <summary>
     /// This class contains the details of rectangle, is child class from shapeinfo
@@ -18,13 +12,12 @@ namespace ShapeHierarchy.Model
         /// <param name="shapeName">argument : shape info</param>
         /// <param name="color">argument  : color</param>
         /// <param name="length">argument : length</param>
-        /// <param name="width">argument : width </param>
-        public Rectangle(string shapeName, string color, double length, double width)
+        /// <param name="height">argument : Height </param>
+        public Rectangle(string shapeName, string color, double length, double height)
+            : base(shapeName, color)
         {
-            this.ShapeName = shapeName;
-            this.Color = color;
             this.Length = length;
-            this.Width = width;
+            this.Height = height;
         }
 
         /// <summary>
@@ -35,12 +28,12 @@ namespace ShapeHierarchy.Model
         public double Length { get; }
 
         /// <summary>
-        /// Gets this states width property
+        /// Gets this states Height property
         /// </summary>
         /// <value>
-        /// This states width property
+        /// This states Height property
         /// </value>
-        public double Width { get; }
+        public double Height { get; }
 
         /// <summary>
         /// this calculates the area of a rectangle.
@@ -48,7 +41,12 @@ namespace ShapeHierarchy.Model
         /// <returns>returns area as double</returns>
         public override double CalculateArea()
         {
-            return this.Length * this.Width;
+            if (this.Height <= 0 || this.Length <= 0)
+            {
+                return -1;
+            }
+
+            return this.Length * this.Height;
         }
     }
 }

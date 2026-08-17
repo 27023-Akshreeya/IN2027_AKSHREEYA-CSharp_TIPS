@@ -36,7 +36,7 @@ namespace ShapeHierarchy.Helper
         /// <summary>
         /// This method checks if the provided dimension input is a valid positive number. It returns true if the input is a valid positive number and false otherwise.
         /// </summary>
-        /// <param name="dimensionInput">Gets dimention as input</param>
+        /// <param name="dimensionInput">Gets dimension as input</param>
         /// <returns> returns the bool of the validity</returns>
         internal static bool IsDimensionValid(string dimensionInput)
         {

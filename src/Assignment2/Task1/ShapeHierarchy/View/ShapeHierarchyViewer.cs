@@ -1,5 +1,6 @@
 ﻿using System;
 using ShapeHierarchy.Model;
+using ShapeHierarchy.Service;
 using Spectre.Console;
 
 namespace ShapeHierarchy.View
@@ -9,10 +10,22 @@ namespace ShapeHierarchy.View
     /// </summary>
     public class ShapeHierarchyViewer
     {
+        private readonly ShapeHierarchyService _service;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ShapeHierarchyViewer"/> class.
+        /// </summary>
+        /// <param name="service">Service used to interact with shape data.</param>
+        public ShapeHierarchyViewer(ShapeHierarchyService service)
+        {
+            this._service = service;
+        }
+
         /// <summary>
         /// This method displays the main menu to the user, prompting them to select a shape for area calculation or to exit the application.
         /// </summary>
-        public void DisplayMenu()
+        /// <returns>return user choice</returns>
+        public string DisplayMenu()
         {
             var panel = new Panel(new Rows(
                 new Markup("[bold blue]Main Menu[/]").Centered(),
@@ -22,15 +35,67 @@ namespace ShapeHierarchy.View
             { Width = 60 };
             AnsiConsole.Write(panel);
             Console.Write("Enter your option:");
+            string choice = Console.ReadLine() ?? string.Empty;
+            if (!Helper.Validator.IsChoiceValid(choice))
+            {
+                return string.Empty;
+            }
+
+            return choice;
+        }
+
+        /// <summary>
+        /// This is the main operation
+        /// </summary>
+        public void StartOperation()
+        {
+            bool exit = false;
+            while (!exit)
+            {
+                var choice = this.DisplayMenu();
+                switch (choice)
+                {
+                    case "1":
+                        var rectangle = this.GetRectangleDetails();
+                        if (rectangle is null)
+                        {
+                            continue;
+                        }
+
+                        var rectangleArea = this._service.CalculateArea(rectangle);
+                        if (rectangleArea <= 0)
+                        {
+                            this.UserAlert();
+                            continue;
+                        }
+
+                        this.PrintDetails(rectangle.ShapeName, rectangle.Color, rectangleArea);
+                        break;
+                    case "2":
+                        var circle = this.GetCircleDetails();
+                        if (circle is null)
+                        {
+                            continue;
+                        }
+
+                        var circleArea = this._service.CalculateArea(circle);
+                        this.PrintDetails(circle.ShapeName, circle.Color, circleArea);
+                        break;
+                    case "3":
+                        this.DisplayExitStatus();
+                        exit = true;
+                        break;
+                    default:
+                        this.UserAlert();
+                        break;
+                }
+            }
         }
 
         /// <summary>
         /// This method alerts the user when they have made an invalid choice, prompting them to select a valid option from the menu.
         /// </summary>
-        public void UserAlert()
-        {
-            AnsiConsole.Markup("[bold red]Invalid choice![/] Please select a valid option.\n\n");
-        }
+        public void UserAlert() => AnsiConsole.Markup("[bold red]Invalid choice![/] Please select a valid option.\n\n");
 
         /// <summary>
         /// This method gathers details for a circle from the user, including color and radius. It validates the inputs and returns a CircleInfo object containing the shape's details.
@@ -39,15 +104,15 @@ namespace ShapeHierarchy.View
         public Circle GetCircleDetails()
         {
             Console.Write("Enter the color of the circle:");
-            var color = Console.ReadLine();
-            if (color is null || !Helper.Validator.IsColorValid(color))
+            var color = Console.ReadLine() ?? string.Empty;
+            if (!Helper.Validator.IsColorValid(color))
             {
                 AnsiConsole.Markup("[bold red]Invalid color![/] Please enter a valid color.\n\n");
                 return null;
             }
 
             Console.Write("Enter the radius of the circle:");
-            var radiusInput = Console.ReadLine();
+            var radiusInput = Console.ReadLine() ?? string.Empty;
             if (!Helper.Validator.IsDimensionValid(radiusInput))
             {
                 AnsiConsole.Markup("[bold red]Invalid radius![/] Please enter a positive number.\n\n");
@@ -55,8 +120,8 @@ namespace ShapeHierarchy.View
             }
 
             double radius = Convert.ToDouble(radiusInput);
-            var shapeInfo = new Circle("Circle", color, radius);
-            return shapeInfo;
+            var circleDetails = new Circle("Circle", color, radius);
+            return circleDetails;
         }
 
         /// <summary>
@@ -67,7 +132,7 @@ namespace ShapeHierarchy.View
         {
             Console.Write("Enter the color of the rectangle:");
             var color = Console.ReadLine();
-            if (color is null || !Helper.Validator.IsColorValid(color))
+            if (!Helper.Validator.IsColorValid(color))
             {
                 AnsiConsole.Markup("[bold red]Invalid color![/] Please enter a valid color.\n\n");
                 return null;
@@ -94,8 +159,8 @@ namespace ShapeHierarchy.View
 
             double height = Convert.ToDouble(heightInput);
 
-            var shapeInfo = new Rectangle("Rectangle", color, length, height);
-            return shapeInfo;
+            var rectangleDetails = new Rectangle("Rectangle", color, length, height);
+            return rectangleDetails;
         }
 
         /// <summary>
@@ -104,7 +169,7 @@ namespace ShapeHierarchy.View
         /// <param name="shapeName">name of the shape</param>
         /// <param name="color">color of the shape</param>
         /// <param name="area">area of the shape</param>
-        internal void PrintDetails(string shapeName, string color, double area)
+        public void PrintDetails(string shapeName, string color, double area)
         {
             string inputColor = (color ?? "white").ToLower();
             var table = new Table();
@@ -118,7 +183,7 @@ namespace ShapeHierarchy.View
         /// <summary>
         /// This displays the exiting status
         /// </summary>
-        internal void DisplayExitStatus()
+        public void DisplayExitStatus()
         {
             AnsiConsole.Markup("[bold red]EXITING..[/] [grey]Press any key to exit[/]");
             Console.ReadKey();

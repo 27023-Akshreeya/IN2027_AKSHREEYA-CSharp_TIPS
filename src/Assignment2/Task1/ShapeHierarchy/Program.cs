@@ -1,5 +1,5 @@
 ﻿using System;
-using ShapeHierarchy.ConsoleService;
+using ShapeHierarchy.Service;
 using ShapeHierarchy.View;
 
 namespace ShapeHierarchy
@@ -17,9 +17,9 @@ namespace ShapeHierarchy
         {
             try
             {
-                var viewer = new ShapeHierarchyViewer();
-                var service = new Service();
-                service.StartOperation();
+                var service = new ShapeHierarchyService();
+                var viewer = new ShapeHierarchyViewer(service);
+                viewer.StartOperation();
             }
             catch (Exception ex)
             {

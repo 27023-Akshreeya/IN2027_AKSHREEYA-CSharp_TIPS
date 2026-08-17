@@ -19,9 +19,8 @@ namespace ShapeHierarchy.Model
         /// <param name="color">argument: color</param>
         /// <param name="radius">argument: radius</param>
         public Circle(string shapeName, string color, double radius)
+            : base(shapeName, color)
         {
-            this.ShapeName = shapeName;
-            this.Color = color;
             this.Radius = radius;
         }
 
