@@ -18,8 +18,8 @@
             try
             {
                 var repo = new Repo();
-                var service = new Service();
-                var userConsole = new InventoryManagerViewer();
+                var service = new Service(repo);
+                var userConsole = new InventoryManagerViewer(service);
                 userConsole.Menu();
             }
             catch (Exception ex)

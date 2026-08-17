@@ -14,10 +14,18 @@ namespace InventoryManager.View
     /// </summary>
     public class InventoryManagerViewer
     {
+        private readonly Service _service;
+
         /// <summary>
-        /// The business logic service instance used to route inventory management actions.
+        /// Initializes a new instance of the <see cref="InventoryManagerViewer"/> class.
         /// </summary>
-        private Service service = new Service();
+        /// <param name="service">
+        /// Service instance used to execute inventory management operations.
+        /// </param>
+        public InventoryManagerViewer(Service service)
+        {
+            this._service = service;
+        }
 
         /// <summary>
         /// Displays an error message to the console, typically used for validation or operation failures.
@@ -58,7 +66,7 @@ namespace InventoryManager.View
                             continue;
                         }
 
-                        if (this.service.AddNewProduct(newProductDetails))
+                        if (this._service.AddNewProduct(newProductDetails))
                         {
                             Console.WriteLine(InventoryManagerResource.WrapperSuccess + " product added");
                             break;
@@ -68,17 +76,17 @@ namespace InventoryManager.View
 
                         break;
                     case MenuChoices.ViewAllProducts:
-                        if (!this.service.IsProductsEmpty())
+                        if (!this._service.HasProducts())
                         {
                             Console.WriteLine(InventoryManagerResource.EmptyInventory);
                             continue;
                         }
 
-                        var allProducts = this.service.ViewAllProducts();
+                        var allProducts = this._service.ViewAllProducts();
                         this.DisplayAllProductsToUser(allProducts);
                         break;
                     case MenuChoices.SearchProduct:
-                        if (!this.service.IsProductsEmpty())
+                        if (!this._service.HasProducts())
                         {
                             Console.WriteLine(InventoryManagerResource.EmptyInventory);
                             continue;
@@ -87,7 +95,7 @@ namespace InventoryManager.View
                         this.SearchProduct();
                         break;
                     case MenuChoices.DeleteProduct:
-                        if (!this.service.IsProductsEmpty())
+                        if (!this._service.HasProducts())
                         {
                             Console.WriteLine(InventoryManagerResource.EmptyInventory);
                             continue;
@@ -96,7 +104,7 @@ namespace InventoryManager.View
                         this.GetDeleteProductDetails();
                         break;
                     case MenuChoices.EditProduct:
-                        if (!this.service.IsProductsEmpty())
+                        if (!this._service.HasProducts())
                         {
                             Console.WriteLine(InventoryManagerResource.EmptyInventory);
                             continue;
@@ -119,13 +127,13 @@ namespace InventoryManager.View
         {
             Console.Write(InventoryManagerResource.Search + "\n" + InventoryManagerResource.ProductID);
             string searchProductId = Console.ReadLine() ?? string.Empty;
-            if (!Validator.IsProductIdValid(searchProductId) || !this.service.DoesProductExist(searchProductId))
+            if (!Validator.IsProductIdValid(searchProductId) || !this._service.DoesProductExist(searchProductId))
             {
                 Console.WriteLine(InventoryManagerResource.InvalidInput);
                 return;
             }
 
-            var productDetails = this.service.SearchByProductId(searchProductId);
+            var productDetails = this._service.SearchByProductId(searchProductId);
             if (!(productDetails is null))
             {
                 this.DisplaySingleProduct(productDetails);
@@ -137,9 +145,9 @@ namespace InventoryManager.View
         {
             Console.Write(InventoryManagerResource.Delete + "\n" + InventoryManagerResource.ProductID);
             string deleteproductId = Console.ReadLine() ?? string.Empty;
-            if (Validator.IsProductIdValid(deleteproductId) && this.service.DoesProductExist(deleteproductId))
+            if (Validator.IsProductIdValid(deleteproductId) && this._service.DoesProductExist(deleteproductId))
             {
-                this.service.RemoveProduct(deleteproductId);
+                this._service.RemoveProduct(deleteproductId);
                 Console.WriteLine(InventoryManagerResource.WrapperSuccess + " product deleted");
                 return;
             }
@@ -151,7 +159,7 @@ namespace InventoryManager.View
         {
             Console.Write(InventoryManagerResource.editInput + "\n" + InventoryManagerResource.ProductID);
             var editProductId = Console.ReadLine() ?? string.Empty;
-            if (!Validator.IsProductIdValid(editProductId) || !this.service.DoesProductExist(editProductId))
+            if (!Validator.IsProductIdValid(editProductId) || !this._service.DoesProductExist(editProductId))
             {
                 Console.WriteLine(InventoryManagerResource.InvalidInput);
                 return;
@@ -187,7 +195,7 @@ namespace InventoryManager.View
                         return false;
                     }
 
-                    return this.service.UpdateProductDetails(newProductName, productId, EditChoices.ProductName);
+                    return this._service.UpdateProductDetails(newProductName, productId, EditChoices.ProductName);
                 case EditChoices.ProductId:
                     Console.Write(InventoryManagerResource.ProductID);
                     string newProductId = Console.ReadLine() ?? string.Empty;
@@ -196,13 +204,13 @@ namespace InventoryManager.View
                         return false;
                     }
 
-                    if (this.service.DoesProductExist(newProductId))
+                    if (this._service.DoesProductExist(newProductId))
                     {
                         Console.WriteLine(InventoryManagerResource.ProductExists);
                         return false;
                     }
 
-                    return this.service.UpdateProductDetails(newProductId, productId, EditChoices.ProductId);
+                    return this._service.UpdateProductDetails(newProductId, productId, EditChoices.ProductId);
                 case EditChoices.Price:
                     Console.Write(InventoryManagerResource.ProductPrice);
                     string newProductPrice = Console.ReadLine() ?? string.Empty;
@@ -212,7 +220,7 @@ namespace InventoryManager.View
                         return false;
                     }
 
-                    return this.service.UpdateProductDetails(newProductPrice, productId, EditChoices.Price);
+                    return this._service.UpdateProductDetails(newProductPrice, productId, EditChoices.Price);
                 case EditChoices.Quantity:
                     Console.Write(InventoryManagerResource.ProductQuantity);
                     string newProductQuantity = Console.ReadLine() ?? string.Empty;
@@ -222,7 +230,7 @@ namespace InventoryManager.View
                         return false;
                     }
 
-                    return this.service.UpdateProductDetails(newProductQuantity, productId, EditChoices.Quantity);
+                    return this._service.UpdateProductDetails(newProductQuantity, productId, EditChoices.Quantity);
                 default:
                     Console.WriteLine(InventoryManagerResource.InvalidInput + " at default");
                     return false;
@@ -267,7 +275,7 @@ namespace InventoryManager.View
                 return null;
             }
 
-            if (this.service.DoesProductExist(productId))
+            if (this._service.DoesProductExist(productId))
             {
                 Console.WriteLine(InventoryManagerResource.ProductExists);
                 return null;

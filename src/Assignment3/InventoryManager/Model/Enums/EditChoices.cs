@@ -7,7 +7,7 @@ namespace InventoryManager.Model.Enums
     /// <summary>
     /// Specifies the edit operations that can be performed on a product.
     /// </summary>
-    internal enum EditChoices
+    public enum EditChoices
     {
         /// <summary>
         /// Represents the name of the product.
