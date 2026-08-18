@@ -1,4 +1,5 @@
 ﻿using System;
+using ErrorHandlingTasks.Domain;
 
 namespace ErrorHandlingTasks.Application
 {
@@ -13,6 +14,18 @@ namespace ErrorHandlingTasks.Application
             catch (DivideByZeroException)
             {
                 throw;
+            }
+        }
+
+        internal int AccessArrayElement(int index, int[] array)
+        {
+            try
+            {
+                return array[index];
+            }
+            catch (IndexOutOfRangeException ex)
+            {
+                throw new InvalidIndexAccessException(ex.Message);
             }
         }
     }

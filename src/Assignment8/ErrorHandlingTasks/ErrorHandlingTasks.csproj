@@ -15,11 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Domain\" />
-    <Folder Include="Infrastructure\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Update="ErrorHandlingResource.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

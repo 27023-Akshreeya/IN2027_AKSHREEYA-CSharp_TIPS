@@ -1,5 +1,6 @@
 ﻿using System;
 using ErrorHandlingTasks.Application;
+using ErrorHandlingTasks.Domain;
 
 namespace ErrorHandlingTasks.Presentation
 {
@@ -18,7 +19,7 @@ namespace ErrorHandlingTasks.Presentation
             string userInput = Console.ReadLine() ?? string.Empty;
             if (!InputValidator.IsNumberValid(userInput))
             {
-                throw new FormatException(ErrorHandlingResource.invalidInput);
+                throw new InvalidUserInputException(ErrorHandlingResource.invalidInput);
             }
 
             return Convert.ToInt32(userInput);
@@ -27,6 +28,7 @@ namespace ErrorHandlingTasks.Presentation
         public void Run()
         {
             this.ExecuteDivisionOperation();
+            this.ExecuteArrayAccessOperation();
         }
 
         public void ExecuteDivisionOperation()
@@ -41,12 +43,52 @@ namespace ErrorHandlingTasks.Presentation
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                this.DisplayErrorMessage(ex.Message);
             }
             finally
             {
-                Console.WriteLine("Error handling in Division is done successfully!");
+                this.DisplayMessage("Error handling in Division is done successfully!");
             }
+        }
+
+        public void ExecuteArrayAccessOperation()
+        {
+            Console.WriteLine("Executing task 2: Accessing element in an array");
+            try
+            {
+                int arraySize = this.GetNumericInput("Enter Array size:");
+                int[] array = new int[arraySize];
+                for (int i = 0; i < arraySize; i++)
+                {
+                    array[i] = this.GetNumericInput($"Enter element {i + 1}:");
+                }
+
+                int index = this.GetNumericInput("Enter the index of element you want to access:");
+                int result = this._service.AccessArrayElement(index, array);
+                Console.WriteLine($"Element is {result}");
+            }
+            catch (Exception ex)
+            {
+                this.DisplayErrorMessage(ex.Message);
+            }
+            finally
+            {
+                this.DisplayMessage("Error handling in accessing an array is done successfully!");
+            }
+        }
+
+        public void DisplayErrorMessage(string message)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"Error: {message}");
+            Console.ResetColor();
+        }
+
+        public void DisplayMessage(string message)
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"{message}" + "\n");
+            Console.ResetColor();
         }
     }
 }

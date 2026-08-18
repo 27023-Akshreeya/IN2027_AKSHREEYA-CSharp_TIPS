@@ -8,10 +8,19 @@ namespace Assignments
     {
         public static void Main(string[] args)
         {
-            ExceptionService exceptionService = new ExceptionService();
-            ConsoleUI consoleUI = new ConsoleUI(exceptionService);
+            AppDomain.CurrentDomain.UnhandledException += HandleUnhandledException;
+            var exceptionService = new ExceptionService();
+            var consoleUI = new ConsoleUI(exceptionService);
             consoleUI.Run();
             Console.ReadLine();
+        }
+
+        public static void HandleUnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            if (e.ExceptionObject is Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+            }
         }
     }
 }
