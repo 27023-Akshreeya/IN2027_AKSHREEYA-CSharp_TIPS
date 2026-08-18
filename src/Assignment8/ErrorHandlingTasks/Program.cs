@@ -1,10 +1,17 @@
-﻿namespace Assignments
+﻿using System;
+using ErrorHandlingTasks.Application;
+using ErrorHandlingTasks.Presentation;
+
+namespace Assignments
 {
     internal class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            ExceptionService exceptionService = new ExceptionService();
+            ConsoleUI consoleUI = new ConsoleUI(exceptionService);
+            consoleUI.Run();
+            Console.ReadLine();
         }
     }
 }
