@@ -8,7 +8,6 @@ namespace InventoryManager.ConsoleService
     using System.Collections.Generic;
     using System.Linq;
     using InventoryManager.Model;
-    using InventoryManager.Model.Enums;
     using InventoryManager.Repository;
 
     /// <summary>
@@ -86,13 +85,12 @@ namespace InventoryManager.ConsoleService
         }
 
         /// <summary>
-        /// Updates a specific field of an existing product determined by an edit selection choice.
+        /// Finds a product by its unique identifier and applies a specific update action to it.
         /// </summary>
-        /// <param name="newProductElement">The new string value to apply to the chosen product property.</param>
-        /// <param name="productId">The current unique identifier of the product to update.</param>
-        /// <param name="editChoice">The selection indicator: 1 for Name, 2 for ID, 3 for Price, any other number for Quantity.</param>
-        /// <returns>True if the product update operation succeeds; otherwise, false.</returns>
-        public bool UpdateProductDetails(string newProductElement, string productId, EditChoices editChoice)
+        /// <param name="productId">The unique identifier of the product to be updated.</param>
+        /// <param name="updateAction">The action or logic used to modify the specific product details.</param>
+        /// <returns>True if the product was found and successfully updated; otherwise, false.</returns>
+        public bool UpdateProductDetails(string productId, Action<Product> updateAction)
         {
             var productToUpdate = this.SearchByProductId(productId);
             if (productToUpdate is null)
@@ -100,66 +98,53 @@ namespace InventoryManager.ConsoleService
                 return false;
             }
 
-            switch (editChoice)
-            {
-                case EditChoices.ProductName:
-                    productToUpdate.ProductName = newProductElement;
-                    break;
-                case EditChoices.ProductId:
-                    productToUpdate.ProductId = newProductElement;
-                    break;
-                case EditChoices.Price:
-                    productToUpdate.Price = decimal.Parse(newProductElement);
-
-                    break;
-                case EditChoices.Quantity:
-                    productToUpdate.Quantity = int.Parse(newProductElement);
-
-                    break;
-                default:
-                    return false;
-            }
-
+            updateAction(productToUpdate);
             this._repo.UpdateProduct(productToUpdate, productId);
             return true;
         }
 
         /// <summary>
-        /// 
+        /// Updates the stock quantity of a specific product.
         /// </summary>
-        /// <param name="productId"></param>
-        /// <param name="newProductName"></param>
-        /// <returns></returns>
+        /// <param name="productId">The unique identifier of the product.</param>
+        /// <param name="newProductQuantity">The new stock level or amount for the product.</param>
+        /// <returns>True if the quantity was successfully updated; otherwise, false.</returns>
+        public bool UpdateProductQuantity(string productId, int newProductQuantity)
+        {
+            return this.UpdateProductDetails(productId, product => product.Quantity = newProductQuantity);
+        }
+
+        /// <summary>
+        /// Updates the selling price of a specific product.
+        /// </summary>
+        /// <param name="productId">The unique identifier of the product.</param>
+        /// <param name="newProductPrice">The new price value to assign to the product.</param>
+        /// <returns>True if the price was successfully updated; otherwise, false.</returns>
+        public bool UpdateProductPrice(string productId, decimal newProductPrice)
+        {
+            return this.UpdateProductDetails(productId, product => product.Price = newProductPrice);
+        }
+
+        /// <summary>
+        /// Updates the display name of a specific product.
+        /// </summary>
+        /// <param name="productId">The unique identifier of the product.</param>
+        /// <param name="newProductName">The new text name for the product.</param>
+        /// <returns>True if the name was successfully updated; otherwise, false.</returns>
         public bool UpdateProductName(string productId, string newProductName)
         {
-            var productToUpdate = this.SearchByProductId(productId);
-            if (productToUpdate is null)
-            {
-                return false;
-            }
-
-            productToUpdate.ProductName = newProductName;
-            this._repo.UpdateProduct(productToUpdate, productId);
-            return true;
+            return this.UpdateProductDetails(productId, product => product.ProductName = newProductName);
         }
 
         /// <summary>
-        /// 
+        /// Updates the unique identifier (ID) of an existing product.
         /// </summary>
-        /// <param name="productId"></param>
-        /// <param name="newProductId"></param>
-        /// <returns></returns>
-        internal bool UpdateProductId(string productId, string newProductId)
+        /// <param name="productId">The current unique identifier of the product.</param>
+        /// <param name="newProductId">The new unique identifier to assign to the product.</param>
+        /// <returns>True if the product ID was successfully updated; otherwise, false.</returns>
+        public bool UpdateProductId(string productId, string newProductId)
         {
-            var productToUpdate = this.SearchByProductId(productId);
-            if (productToUpdate is null)
-            {
-                return false;
-            }
-
-            productToUpdate.ProductId = newProductId;
-            this._repo.UpdateProduct(productToUpdate, productId);
-            return true;
+            return this.UpdateProductDetails(productId, product => product.ProductId = newProductId);
         }
 
         /// <summary>

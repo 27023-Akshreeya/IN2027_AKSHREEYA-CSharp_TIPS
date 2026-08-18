@@ -44,8 +44,7 @@ namespace InventoryManager.View
             bool exit = false;
             while (!exit)
             {
-                Console.WriteLine(InventoryManagerResource.ConsoleName);
-                Console.WriteLine(InventoryManagerResource.MenuDropDown);
+                Console.WriteLine(InventoryManagerResource.ConsoleName + InventoryManagerResource.MenuDropDown);
                 Console.Write(InventoryManagerResource.UserChoice + InventoryManagerResource.InputChoices);
                 string userChoice = Console.ReadLine() ?? string.Empty;
 
@@ -220,7 +219,7 @@ namespace InventoryManager.View
                         return false;
                     }
 
-                    return this._service.UpdateProductDetails(newProductPrice, productId, EditChoices.Price);
+                    return this._service.UpdateProductPrice(productId, decimal.Parse(newProductPrice));
                 case EditChoices.Quantity:
                     Console.Write(InventoryManagerResource.ProductQuantity);
                     string newProductQuantity = Console.ReadLine() ?? string.Empty;
@@ -230,7 +229,7 @@ namespace InventoryManager.View
                         return false;
                     }
 
-                    return this._service.UpdateProductDetails(newProductQuantity, productId, EditChoices.Quantity);
+                    return this._service.UpdateProductQuantity(productId, int.Parse(newProductQuantity));
                 default:
                     Console.WriteLine(InventoryManagerResource.InvalidInput + " at default");
                     return false;
