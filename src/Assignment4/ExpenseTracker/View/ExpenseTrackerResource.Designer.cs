@@ -188,12 +188,7 @@ namespace ExpenseTracker.View {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [bold red]Exiting......[/]
-<<<<<<< HEAD
-        ///[bold]Press any key to exit[/].
-=======
-        ///.
->>>>>>> feature-user-27023-Akshreeya-Assignments-Asssignment4-ExpenseTracker
+        ///   Looks up a localized string similar to [bold red]Exiting......[/][bold]Press any key to exit[/].
         /// </summary>
         internal static string Exiting {
             get {

@@ -46,7 +46,7 @@ namespace ExpenseTracker.Repository
                 throw;
             }
         }
-        
+
         /// <summary>
         /// Saves the specified list of transactions to a file in JSON format.
         /// </summary>

@@ -9,7 +9,6 @@ namespace ExpenseTracker.Repository
     /// </summary>
     internal class ExpenseTrackerRepository
     {
-<<<<<<< HEAD
         private readonly ExpenseTrackerFileRepository<Income> _incomeFile;
         private readonly ExpenseTrackerFileRepository<Expense> _expenseFile;
 
@@ -25,10 +24,6 @@ namespace ExpenseTracker.Repository
             this._expenseFile = new ExpenseTrackerFileRepository<Expense>("expenses.json");
             this._incomeFile = new ExpenseTrackerFileRepository<Income>("incomes.json");
         }
-=======
-        private readonly List<Expense> _expenses = new List<Expense>();
-        private readonly List<Income> _incomes = new List<Income>();
->>>>>>> feature-user-27023-Akshreeya-Assignments-Asssignment4-ExpenseTracker
 
         /// <summary>
         /// Gets or sets the current net balance calculated from all
@@ -40,7 +35,6 @@ namespace ExpenseTracker.Repository
         public decimal NetBalance { get; set; }
 
         /// <summary>
-<<<<<<< HEAD
         /// to load all the data from the file to the list.
         /// </summary>
         public void LoadDataFromFiles()
@@ -59,8 +53,6 @@ namespace ExpenseTracker.Repository
         }
 
         /// <summary>
-=======
->>>>>>> feature-user-27023-Akshreeya-Assignments-Asssignment4-ExpenseTracker
         /// Adds a new expense transaction and updates the net balance.
         /// </summary>
         /// <param name="expense">The expense transaction to add.</param>

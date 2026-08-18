@@ -163,12 +163,7 @@ Select an option:</value>
     <value>View Ledger</value>
   </data>
   <data name="Exiting" xml:space="preserve">
-    <value>[bold red]Exiting......[/]
-<<<<<<< HEAD
-[bold]Press any key to exit[/]</value>
-=======
-</value>
->>>>>>> feature-user-27023-Akshreeya-Assignments-Asssignment4-ExpenseTracker
+    <value>[bold red]Exiting......[/][bold]Press any key to exit[/]</value>
   </data>
   <data name="TransactionSummary" xml:space="preserve">
     <value>View Summary</value>
