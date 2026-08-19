@@ -9,13 +9,13 @@ namespace ExpenseTracker.Service
     /// </summary>
     internal class ExpenseTrackerService
     {
-        private readonly ExpenseTrackerRepository _repo;
+        private readonly IExpenseTrackerRepository _repo;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ExpenseTrackerService"/> class.
         /// </summary>
         /// <param name="repo">The repository used to store and retrieve transaction data. </param>
-        public ExpenseTrackerService(ExpenseTrackerRepository repo)
+        public ExpenseTrackerService(ExpenseTrackerMemoryRepository repo)
         {
             this._repo = repo;
         }
@@ -25,6 +25,22 @@ namespace ExpenseTracker.Service
         /// an addition or modification of a transaction.
         /// </summary>
         public event EventHandler<Transactions>? RunningNetBalance;
+
+        /// <summary>
+        /// Loads all data files into the repository.
+        /// </summary>
+        public void GetAllFiles()
+        {
+            this._repo.LoadDataFromFiles();
+        }
+
+        /// <summary>
+        /// Saves all data files into the repository
+        /// </summary>
+        public void SaveAllFiles()
+        {
+            this._repo.SaveChangesToFiles();
+        }
 
         /// <summary>
         /// Determines whether a transaction exists for the specified transaction identifier.

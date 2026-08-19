@@ -33,7 +33,7 @@ namespace ExpenseTracker.Repository
         /// Loads all transactions from the specified file and deserializes them into a list of objects.
         /// </summary>
         /// <returns>A list containing all deserialized transactions, or an empty list if the file is empty.</returns>
-        public List<T> LoadAllTransactions()
+        public List<T> LoadTransactionsFile()
         {
             try
     {
@@ -51,7 +51,7 @@ namespace ExpenseTracker.Repository
         /// Saves the specified list of transactions to a file in JSON format.
         /// </summary>
         /// <param name="transactions">The transactions to serialize and save.</param>
-        public void SaveAllTransactions(List<T> transactions)
+        public void SaveTransactionsFile(List<T> transactions)
         {
             var options = new JsonSerializerOptions { WriteIndented = true };
             string writeTransactions = JsonSerializer.Serialize(transactions, options);

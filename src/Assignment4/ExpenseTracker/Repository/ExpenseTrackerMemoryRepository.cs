@@ -1,5 +1,4 @@
 ﻿using ExpenseTracker.Models;
-using Spectre.Console;
 
 namespace ExpenseTracker.Repository
 {
@@ -7,7 +6,7 @@ namespace ExpenseTracker.Repository
     /// Manages income and expense transactions and maintains
     /// the running net balance of the application.
     /// </summary>
-    internal class ExpenseTrackerRepository
+    internal class ExpenseTrackerMemoryRepository : IExpenseTrackerRepository
     {
         private readonly ExpenseTrackerFileRepository<Income> _incomeFile;
         private readonly ExpenseTrackerFileRepository<Expense> _expenseFile;
@@ -16,10 +15,13 @@ namespace ExpenseTracker.Repository
         private List<Income> _incomes = new List<Income>();
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExpenseTrackerRepository"/> class
+        /// Initializes a new instance of the <see cref="ExpenseTrackerMemoryRepository"/> class
         /// and configures the file-based storage systems for expenses and income.
         /// </summary>
-        public ExpenseTrackerRepository()
+        /// <param name="expenseTrackerRepository">
+        /// The repository instance used for managing expense and income transactions in memory.
+        /// </param>
+        public ExpenseTrackerMemoryRepository()
         {
             this._expenseFile = new ExpenseTrackerFileRepository<Expense>("expenses.json");
             this._incomeFile = new ExpenseTrackerFileRepository<Income>("incomes.json");
@@ -39,8 +41,8 @@ namespace ExpenseTracker.Repository
         /// </summary>
         public void LoadDataFromFiles()
         {
-            this._expenses = this._expenseFile.LoadAllTransactions();
-            this._incomes = this._incomeFile.LoadAllTransactions();
+            this._expenses = this._expenseFile.LoadTransactionsFile();
+            this._incomes = this._incomeFile.LoadTransactionsFile();
         }
 
         /// <summary>
@@ -48,8 +50,8 @@ namespace ExpenseTracker.Repository
         /// </summary>
         public void SaveChangesToFiles()
         {
-            this._expenseFile.SaveAllTransactions(this._expenses);
-            this._incomeFile.SaveAllTransactions(this._incomes);
+            this._expenseFile.SaveTransactionsFile(this._expenses);
+            this._incomeFile.SaveTransactionsFile(this._incomes);
         }
 
         /// <summary>
@@ -65,7 +67,7 @@ namespace ExpenseTracker.Repository
         /// Adds a new income transaction and updates the net balance.
         /// </summary>
         /// <param name="income">The income transaction to add.</param>
-        internal void AddIncome(Income income)
+        public void AddIncome(Income income)
         {
             this._incomes.Add(income);
         }
@@ -74,13 +76,13 @@ namespace ExpenseTracker.Repository
         /// Retrieves all income transactions.
         /// </summary>
         /// <returns>A list containing all recorded income transactions.</returns>
-        internal IReadOnlyList<Income> GetIncome() => this._incomes;
+        public IReadOnlyList<Income> GetIncome() => this._incomes;
 
         /// <summary>
         /// Retrieves all expense transactions.
         /// </summary>
         /// <returns>A list containing all recorded expense transactions.</returns>
-        internal IReadOnlyList<Expense> GetExpense() => this._expenses;
+        public IReadOnlyList<Expense> GetExpense() => this._expenses;
 
         /// <summary>
         /// Updates an existing income transaction and recalculates
@@ -89,7 +91,7 @@ namespace ExpenseTracker.Repository
         /// <param name="existingTransaction">
         /// The updated income transaction details.
         /// </param>
-        internal void UpdateIncomeRecords(Income existingTransaction)
+        public void UpdateIncomeRecords(Income existingTransaction)
         {
             var incomeRecord = this._incomes.Find(x => x.TransactionID.Equals(existingTransaction.TransactionID));
             if (incomeRecord != null)
@@ -107,7 +109,7 @@ namespace ExpenseTracker.Repository
         /// <param name="existingTransaction">
         /// The updated expense transaction details.
         /// </param>
-        internal void UpdateExpenseRecords(Expense existingTransaction)
+        public void UpdateExpenseRecords(Expense existingTransaction)
         {
             var expenseRecord = this._expenses.Find(
                 x => x.TransactionID == existingTransaction.TransactionID);
@@ -127,7 +129,7 @@ namespace ExpenseTracker.Repository
         /// <param name="deleteRecordId">
         /// The unique identifier of the income transaction to delete.
         /// </param>
-        internal void DeleteIncomeRecord(Guid deleteRecordId)
+        public void DeleteIncomeRecord(Guid deleteRecordId)
         {
             this._incomes.RemoveAll(x => x.TransactionID.Equals(deleteRecordId));
         }
@@ -139,7 +141,7 @@ namespace ExpenseTracker.Repository
         /// <param name="deleteRecordId">
         /// The unique identifier of the expense transaction to delete.
         /// </param>
-        internal void DeleteExpenseRecord(Guid deleteRecordId)
+        public void DeleteExpenseRecord(Guid deleteRecordId)
         {
             this._expenses.RemoveAll(x => x.TransactionID.Equals(deleteRecordId));
         }

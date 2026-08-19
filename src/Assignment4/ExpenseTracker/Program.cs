@@ -17,12 +17,10 @@ namespace Assignments
         {
             try
             {
-                var repo = new ExpenseTrackerRepository();
-                repo.LoadDataFromFiles();
+                var repo = new ExpenseTrackerMemoryRepository();
                 var service = new ExpenseTrackerService(repo);
                 var view = new ExpenseTrackerViewer(service);
                 view.DisplayMenu();
-                repo.SaveChangesToFiles();
             }
             catch (Exception ex)
             {
