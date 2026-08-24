@@ -1,4 +1,6 @@
-﻿using BankingSystem.Model;
+﻿using System.Collections.Generic;
+using System.Linq;
+using BankingSystem.Model;
 using BankingSystem.Repository;
 
 namespace BankingSystem.Service
@@ -26,8 +28,7 @@ namespace BankingSystem.Service
         /// <param name="accountType">Account type.</param>
         public void CreateAccount(string accountNumber, string accountType)
         {
-            if (this._repo.GetAllBankAccounts()
-                .Any(x => x.AccountNumber == accountNumber))
+            if (this._repo.GetAllBankAccounts().Any(x => x.AccountNumber == accountNumber))
             {
                 return;
             }
@@ -50,10 +51,9 @@ namespace BankingSystem.Service
         /// </summary>
         /// <param name="accountNumber">Account number.</param>
         /// <returns>Matching account or null.</returns>
-        public BankAccount? GetAccount(string accountNumber)
+        public BankAccount GetAccount(string accountNumber)
         {
-            return this._repo.GetAllBankAccounts()
-                .Find(x => x.AccountNumber == accountNumber);
+            return this._repo.GetAllBankAccounts().Find(x => x.AccountNumber == accountNumber);
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace BankingSystem.Service
         /// <returns>Updated balance.</returns>
         public decimal Deposit(string accountNumber, decimal amount)
         {
-            BankAccount? account = this.GetAccount(accountNumber);
+            var account = this.GetAccount(accountNumber);
             if (account is null)
             {
                 return -1;
@@ -83,7 +83,7 @@ namespace BankingSystem.Service
         /// <returns>Updated balance or -1 if withdrawal fails.</returns>
         public decimal Withdraw(string accountNumber, decimal amount)
         {
-            BankAccount? account = this.GetAccount(accountNumber);
+            var account = this.GetAccount(accountNumber);
             if (account is null)
             {
                 return -1;

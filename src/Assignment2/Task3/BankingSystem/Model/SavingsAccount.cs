@@ -27,7 +27,6 @@
         public override decimal Withdraw(decimal amount)
         {
             decimal remainingBalance = this.Balance - amount;
-
             if (remainingBalance < MinimumBalance)
             {
                 return -1m;

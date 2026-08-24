@@ -1,4 +1,5 @@
-﻿using BankingSystem.Model;
+﻿using System.Collections.Generic;
+using BankingSystem.Model;
 
 namespace BankingSystem.Repository
 {
@@ -34,9 +35,7 @@ namespace BankingSystem.Repository
         /// <param name="account">Account to update.</param>
         internal void UpdateBankAccount(decimal newBalance, BankAccount account)
         {
-            BankAccount? existingAccount =
-                this._accounts.Find(x => x.AccountNumber == account.AccountNumber);
-
+            var existingAccount = this._accounts.Find(x => x.AccountNumber == account.AccountNumber);
             if (existingAccount is null)
             {
                 return;

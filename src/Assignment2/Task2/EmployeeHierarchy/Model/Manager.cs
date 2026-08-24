@@ -1,8 +1,7 @@
 ﻿namespace EmployeeHierarchy.Model
 {
     /// <summary>
-    /// Represents a manager employee within the organization hierarchy.
-    /// Inherits base characteristics from the <see cref="Employee"/> class.
+    /// Represents a manager <see cref="Employee"/> within the organization hierarchy.
     public class Manager : Employee
     {
         /// <summary>
@@ -13,9 +12,9 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="Manager"/> class with a specified name, salary, and position.
         /// </summary>
-        /// <param name="name">The legal or preferred name of the manager.</param>
-        /// <param name="salary">The annual or monthly base salary amount.</param>
-        /// <param name="position">The specific leadership position or title assigned to the manager.</param>
+        /// <param name="name">The name of the manager.</param>
+        /// <param name="salary">The monthly salary amount.</param>
+        /// <param name="position">The specific position assigned.</param>
         public Manager(string name, double salary)
             : base(name, salary)
         {
@@ -29,7 +28,7 @@
         public override string Position => "Manager";
 
         /// <summary>
-        /// Calculates the performance or annual bonus specific to a manager based on their salary.
+        /// Calculates the bonus based on their salary.
         /// </summary>
         /// <returns>A <see cref="double"/> value representing 10% of the manager's base salary.</returns>
         public override double CalculateBonus()

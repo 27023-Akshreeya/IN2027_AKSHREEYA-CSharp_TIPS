@@ -18,14 +18,12 @@ namespace EmployeeHierarchy.Service
             return employee.CalculateBonus();
         }
 
-        /// <summary>
-        /// Creates an employee instance based on the specified position.
-        /// </summary>
-        /// <param name="name">The employee's name.</param>
-        /// <param name="position">The employee's position, used to determine the type of employee to create.</param>
-        /// <param name="salary">The employee's salary.</param>
-        /// <returns>An Employee object representing either a manager or a developer.</returns>
-        /// <exception cref="ArgumentException">Thrown when the position is not recognized as 'manager' or 'developer'.</exception>
+        /// <summary>Creates a manager or developer instance based on position.</summary>
+        /// <param name="name">Employee name.</param>
+        /// <param name="position">Position string ('manager' or 'developer').</param>
+        /// <param name="salary">Employee salary.</param>
+        /// <returns>The created Employee object.</returns>
+        /// <exception cref="ArgumentException">Thrown if position is invalid.</exception>
         public Employee CreateEmployee(
             string name,
             string position,

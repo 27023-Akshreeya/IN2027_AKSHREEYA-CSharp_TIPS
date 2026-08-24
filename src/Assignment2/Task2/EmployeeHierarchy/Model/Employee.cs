@@ -1,8 +1,7 @@
 ﻿namespace EmployeeHierarchy.Model
 {
     /// <summary>
-    /// Serves as the abstract base class for all employee types within the organization.
-    /// Defines shared properties and forces specific bonus calculation strategies.
+    /// Abstract employee base class enforcing custom bonus calculations.
     /// </summary>
     public abstract class Employee
     {

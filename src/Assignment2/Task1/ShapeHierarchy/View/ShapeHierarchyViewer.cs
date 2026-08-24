@@ -6,7 +6,7 @@ using Spectre.Console;
 namespace ShapeHierarchy.View
 {
     /// <summary>
-    /// This class is responsible for handling user interactions in the console application. It provides methods to display menus, alert users of invalid choices, and gather shape details from the user.
+    /// Handles console UI, including menus, error alerts, and gathering shape inputs.
     /// </summary>
     public class ShapeHierarchyViewer
     {
@@ -22,7 +22,7 @@ namespace ShapeHierarchy.View
         }
 
         /// <summary>
-        /// This method displays the main menu to the user, prompting them to select a shape for area calculation or to exit the application.
+        /// Displays Menu for ShapeHierarchy
         /// </summary>
         /// <returns>return user choice</returns>
         public string DisplayMenu()
@@ -93,12 +93,12 @@ namespace ShapeHierarchy.View
         }
 
         /// <summary>
-        /// This method alerts the user when they have made an invalid choice, prompting them to select a valid option from the menu.
+        /// Alerts user of an invalid selection and prompts for a valid choice.
         /// </summary>
         public void UserAlert() => AnsiConsole.Markup("[bold red]Invalid choice![/] Please select a valid option.\n\n");
 
         /// <summary>
-        /// This method gathers details for a circle from the user, including color and radius. It validates the inputs and returns a CircleInfo object containing the shape's details.
+        /// Validates user input for circle color and radius to return a CircleInfo object.
         /// </summary>
         /// <returns>This returns an object</returns>
         public Circle GetCircleDetails()
@@ -125,7 +125,7 @@ namespace ShapeHierarchy.View
         }
 
         /// <summary>
-        /// This method gathers details for a rectangle from the user, including color, length, and height. It validates the inputs and returns a RectangleInfo object containing the shape's details.
+        /// Collects and validates rectangle details into a RectangleInfo object.
         /// </summary>
         /// <returns>This returns the rectangle object</returns>
         public Rectangle GetRectangleDetails()

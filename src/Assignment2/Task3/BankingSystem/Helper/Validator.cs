@@ -1,4 +1,6 @@
-﻿namespace BankingSystem.Helper
+﻿using System.Linq;
+
+namespace BankingSystem.Helper
 {
     /// <summary>
     /// Provides simple tools to check if banking inputs are correct.
@@ -10,16 +12,14 @@
         /// </summary>
         /// <param name="inputAccountNumber">The account number text from the user.</param>
         /// <returns>True if it has only numbers; otherwise, false.</returns>
-        internal static bool IsAccountNumberValid(string? inputAccountNumber)
+        internal static bool IsAccountNumberValid(string inputAccountNumber)
         {
-            if (string.IsNullOrWhiteSpace(inputAccountNumber) || string.IsNullOrEmpty(inputAccountNumber) || !inputAccountNumber.All(char.IsDigit))
+            if (string.IsNullOrWhiteSpace(inputAccountNumber) || !inputAccountNumber.All(char.IsDigit))
             {
                 return false;
             }
-            else
-            {
-                return true;
-            }
+
+            return true;
         }
 
         /// <summary>
@@ -27,20 +27,14 @@
         /// </summary>
         /// <param name="inputAccountType">The type text from the user.</param>
         /// <returns>True if it matches savings or checking; otherwise, false.</returns>
-        internal static bool IsAccountTypeValid(string? inputAccountType)
+        internal static bool IsAccountTypeValid(string inputAccountType)
         {
-            if (string.IsNullOrWhiteSpace(inputAccountType) || string.IsNullOrEmpty(inputAccountType))
+            if (string.IsNullOrWhiteSpace(inputAccountType))
             {
                 return false;
             }
-            else if (inputAccountType.ToLower() != "savings" && inputAccountType.ToLower() != "checking")
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+
+            return inputAccountType.ToLower().Equals("savings") || inputAccountType.ToLower().Equals("checking");
         }
 
         /// <summary>
@@ -48,9 +42,9 @@
         /// </summary>
         /// <param name="inputAmount">The amount text from the user.</param>
         /// <returns>True if it has only numbers; otherwise, false.</returns>
-        internal static bool IsAmountValid(string? inputAmount)
+        internal static bool IsAmountValid(string inputAmount)
         {
-            if (string.IsNullOrWhiteSpace(inputAmount) || string.IsNullOrEmpty(inputAmount) || !inputAmount.All(char.IsDigit))
+            if (string.IsNullOrWhiteSpace(inputAmount) || !inputAmount.All(char.IsDigit))
             {
                 return false;
             }
@@ -63,7 +57,7 @@
         /// </summary>
         /// <param name="userInput">The user input to validate.</param>
         /// <returns>true if the input is valid; otherwise, false.</returns>
-        internal static bool IsUserChoiceVaild(string? userInput)
+        internal static bool IsUserChoiceVaild(string userInput)
         {
             if (!(userInput != "1") && !(userInput != "2"))
             {

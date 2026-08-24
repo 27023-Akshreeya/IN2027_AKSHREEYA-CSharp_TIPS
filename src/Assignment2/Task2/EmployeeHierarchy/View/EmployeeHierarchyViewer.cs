@@ -4,26 +4,21 @@ using EmployeeHierarchy.Service;
 
 namespace EmployeeHierarchy.View
 {
-    /// <summary>
-    /// Provides console-based methods for interacting with users to display menus and gather employee information,
-    /// including name, position, salary, and exit choices.
-    /// </summary>
+    /// <summary>Handles console menus and collects employee input data.</summary>
     public class EmployeeHierarchyViewer
     {
         private readonly EmployeeHierarchyService _service;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EmployeeHierarchyViewer"/> class.
-        /// </summary>
-        /// <param name="service">Service used to interact with Employee data.</param>
+        /// Initializes a new instance of the <see cref="EmployeeHierarchyViewer"/> class. 
+        /// Initializes the viewer with an employee data service.</summary>
+        /// <param name="service">Employee data service.</param>
         public EmployeeHierarchyViewer(EmployeeHierarchyService service)
         {
             this._service = service;
         }
 
-        /// <summary>
-        /// Handles user operations for employee management, including input for employee name, position, and salary.
-        /// </summary>
+        /// <summary>Loops user prompts for employee details until they choose to exit.</summary>
         /// <remarks>Continues to prompt the user until they choose to exit.</remarks>
         public void Menu()
         {
@@ -72,7 +67,7 @@ namespace EmployeeHierarchy.View
         }
 
         /// <summary>
-        /// Prompts for the employee's position and returns the validated position in lowercase.
+        /// Prompts for the employee's position and returns the validated position.
         /// </summary>
         /// <returns>The validated position in lowercase, or null if the position is invalid.</returns>
         public string GetEmployeeDescription()
@@ -90,7 +85,7 @@ namespace EmployeeHierarchy.View
         /// <summary>
         /// Prompts for and retrieves a validated employee salary from user input.
         /// </summary>
-        /// <returns>The entered salary as a double, or 0 if the input is invalid.</returns>
+        /// <returns>The entered salary or 0 if the input is invalid.</returns>
         public double GetSalary()
         {
             Console.Write("Enter the salary of the employee:");

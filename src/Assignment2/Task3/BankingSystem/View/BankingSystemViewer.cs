@@ -1,4 +1,5 @@
-﻿using BankingSystem.Helper;
+﻿using System;
+using BankingSystem.Helper;
 using BankingSystem.Model;
 using BankingSystem.Service;
 
@@ -44,16 +45,14 @@ namespace BankingSystem.View
                     accountDetails.accountNumber,
                     accountDetails.accountType);
 
-                BankAccount? account =
-                    this._service.GetAccount(accountDetails.accountNumber);
+                var account = this._service.GetAccount(accountDetails.accountNumber);
 
                 if (account is not null)
                 {
                     this.DisplayAccountDetails(account);
                 }
 
-                string? operation = this.SelectAccountOperation();
-
+                string operation = this.SelectAccountOperation();
                 if (operation is null)
                 {
                     exit = this.GetExitChoice();
@@ -61,7 +60,6 @@ namespace BankingSystem.View
                 }
 
                 decimal amount = this.GetAmountFromUser(operation);
-
                 if (amount == 0)
                 {
                     exit = this.GetExitChoice();
@@ -136,11 +134,11 @@ namespace BankingSystem.View
         /// Gets the operation choice.
         /// </summary>
         /// <returns>User choice.</returns>
-        private string? SelectAccountOperation()
+        private string SelectAccountOperation()
         {
             Console.WriteLine("1. Withdraw\n2. Deposit\nEnter your choice: ");
 
-            string? choice = Console.ReadLine();
+            string choice = Console.ReadLine() ?? string.Empty;
 
             if (!Validator.IsUserChoiceVaild(choice))
             {
@@ -167,7 +165,7 @@ namespace BankingSystem.View
                 Console.Write("Enter amount to deposit: ");
             }
 
-            string? inputAmount = Console.ReadLine();
+            string inputAmount = Console.ReadLine() ?? string.Empty;
 
             if (!Validator.IsAmountValid(inputAmount))
             {

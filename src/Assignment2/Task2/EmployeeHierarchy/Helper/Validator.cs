@@ -12,7 +12,7 @@ namespace EmployeeHierarchy.Helper
         /// Validates whether the provided employee name is not empty and contains only alphabetic characters.
         /// </summary>
         /// <param name="name">The employee name string to validate.</param>
-        /// <returns><see langword="true"/> if the name is valid and contains only letters; otherwise, <see langword="false"/>.</returns>
+        /// <returns><see langword="true"/> if the name is valid; otherwise, <see langword="false"/>.</returns>
         internal static bool IsNameValid(string name)
         {
             if (string.IsNullOrWhiteSpace(name) || !name.All(char.IsLetter))

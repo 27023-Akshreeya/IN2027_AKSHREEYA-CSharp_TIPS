@@ -1,7 +1,7 @@
 ﻿namespace ShapeHierarchy.Model
 {
     /// <summary>
-    /// This abstract class serves as a base for different shape types, providing common properties and methods for calculating. It defines an abstract method for area calculation that must be implemented by derived classes.
+    /// Base class for shapes that forces derived classes to calculate their own area.
     /// </summary>
     public abstract class Shape
     {

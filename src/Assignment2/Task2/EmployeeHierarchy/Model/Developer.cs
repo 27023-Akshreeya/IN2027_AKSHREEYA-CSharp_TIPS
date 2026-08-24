@@ -1,8 +1,7 @@
 ﻿namespace EmployeeHierarchy.Model
 {
     /// <summary>
-    /// Represents a developer employee within the organization hierarchy.
-    /// Inherits base characteristics from the <see cref="Employee"/> class.
+    /// Represents a developer <see cref="Employee"/> within the organization hierarchy.
     /// </summary>
     public class Developer : Employee
     {
