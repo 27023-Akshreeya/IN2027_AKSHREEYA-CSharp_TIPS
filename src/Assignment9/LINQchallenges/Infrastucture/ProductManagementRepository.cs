@@ -7,7 +7,10 @@ using LINQchallenges.Domain;
 
 namespace LINQchallenges.Infrastucture
 {
-    internal class ProductManagementRepository
+    /// <summary>
+    /// Mock repository providing sample in-memory product and supplier data.
+    /// </summary>
+    public class ProductManagementRepository
     {
         private readonly List<Product> _products = new ()
 {
@@ -47,11 +50,19 @@ namespace LINQchallenges.Infrastucture
     new Supplier { SupplierId = 15, SupplierName = "Logitech", ProductId = 15 },
 };
 
+        /// <summary>
+        /// Retrieves the complete list of mock suppliers.
+        /// </summary>
+        /// <returns>A collection of suppliers.</returns>
         public IEnumerable<Supplier> GetSuppliers()
         {
             return this._suppliers;
         }
 
+        /// <summary>
+        /// Retrieves the complete list of mock products.
+        /// </summary>
+        /// <returns>A collection of products.</returns>
         public IEnumerable<Product> GetProducts()
         {
             return this._products;

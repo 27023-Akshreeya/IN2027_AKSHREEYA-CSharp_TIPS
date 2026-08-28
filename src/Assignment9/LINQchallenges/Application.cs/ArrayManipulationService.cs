@@ -1,13 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LINQchallenges.Application
 {
-    internal class ArrayManipulationService
+    /// <summary>
+    /// Provides utility methods for array manipulation using LINQ.
+    /// </summary>
+    public class ArrayManipulationService
     {
+        /// <summary>
+        /// Gets the second highest distinct element from the array.
+        /// </summary>
+        /// <param name="array">The input integer array.</param>
+        /// <returns>The second highest unique value.</returns>
         public int GetSecondHighestArrayElement(int[] array)
         {
             return array
@@ -17,6 +22,12 @@ namespace LINQchallenges.Application
                 .First();
         }
 
+        /// <summary>
+        /// Finds all unique pairs of integers in the array that sum to a target value.
+        /// </summary>
+        /// <param name="array">The array of integers to search.</param>
+        /// <param name="target">The target sum.</param>
+        /// <returns>A collection of integer pairs summing to the target.</returns>
         public IEnumerable<(int, int)> GetSumPairs(int[] array, int target)
         {
             return array

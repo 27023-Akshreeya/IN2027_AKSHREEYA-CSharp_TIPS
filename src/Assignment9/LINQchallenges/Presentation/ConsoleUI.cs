@@ -1,24 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using LINQchallenges.Application;
-using LINQchallenges.Domain;
 
 namespace LINQchallenges.Presentation
 {
+    /// <summary>
+    /// Handles the console user interface and console-based output representation.
+    /// </summary>
     internal class ConsoleUI
     {
         private readonly ProductManagementService _productManagementService;
         private readonly ArrayManipulationService _arrayManipulationService;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConsoleUI"/> class.
+        /// Initializes a <see langword="new"/> instance of the console UI with required application services.
+        /// </summary>
+        /// <param name="productManagementService">The product management service layer.</param>
+        /// <param name="arrayManipulationService">The array manipulation service layer.</param>
         public ConsoleUI(ProductManagementService productManagementService, ArrayManipulationService arrayManipulationService)
         {
             this._productManagementService = productManagementService;
             this._arrayManipulationService = arrayManipulationService;
         }
 
+        /// <summary>
+        /// Executes a series of tasks sequentially.
+        /// </summary>
         public void Run()
         {
             this.Task1();
@@ -28,6 +36,9 @@ namespace LINQchallenges.Presentation
             this.Task5();
         }
 
+        /// <summary>
+        /// Executes and displays Task 5, demonstrating the custom query builder pattern.
+        /// </summary>
         public void Task5()
         {
             var result = this._productManagementService.ExecuteProductQuery();
@@ -42,6 +53,9 @@ namespace LINQchallenges.Presentation
             Console.WriteLine("Press any key to exit");
         }
 
+        /// <summary>
+        /// Executes and displays Task 4, sorting and printing all books by price.
+        /// </summary>
         public void Task4()
         {
             Console.WriteLine("\ntask 4 - Sort all books by price");
@@ -51,6 +65,11 @@ namespace LINQchallenges.Presentation
             }
         }
 
+        /// <summary>
+        /// Prompts the user for a numeric string and converts it safely to an integer.
+        /// </summary>
+        /// <param name="userPrompt">The text message to display to the user.</param>
+        /// <returns>The parsed integer, or 0 if validation fails.</returns>
         public int GetNumericInput(string userPrompt)
         {
             Console.Write(userPrompt);
@@ -64,6 +83,9 @@ namespace LINQchallenges.Presentation
             return Convert.ToInt32(userInput);
         }
 
+        /// <summary>
+        /// Executes Task 3, managing user inputs to test array processing and target sum matching via LINQ.
+        /// </summary>
         public void Task3()
         {
             Console.Write("\nTask 5 - array manipulation using LINQ\n");
@@ -101,6 +123,9 @@ namespace LINQchallenges.Presentation
             }
         }
 
+        /// <summary>
+        /// Executes and displays Task 2, aggregating product metrics and counts by category.
+        /// </summary>
         public void Task2()
         {
             Console.Write("\nTask 2 - The count and most expensive product in each category:\n");
@@ -110,6 +135,10 @@ namespace LINQchallenges.Presentation
             }
         }
 
+        /// <summary>
+        /// Captures and validates a category name entered by the user.
+        /// </summary>
+        /// <returns>A validated category name, or an empty string if invalid.</returns>
         public string GetProductCategory()
         {
             Console.Write("Enter product Category:");
@@ -123,6 +152,10 @@ namespace LINQchallenges.Presentation
             return productCategory;
         }
 
+        /// <summary>
+        /// Captures and validates a decimal product price entered by the user.
+        /// </summary>
+        /// <returns>The validated decimal value, or -1 if invalid.</returns>
         public decimal GetPrice()
         {
             Console.Write("Enter product price:");
@@ -136,6 +169,9 @@ namespace LINQchallenges.Presentation
             return decimal.Parse(price);
         }
 
+        /// <summary>
+        /// Executes Task 1, requesting criteria to filter, sort, and average products.
+        /// </summary>
         public void Task1()
         {
             Console.WriteLine("task 1 - Filter products under the category and price:\n");

@@ -5,8 +5,15 @@ using LINQchallenges.Presentation;
 
 namespace Assignments
 {
-    internal class Program
+    /// <summary>
+    /// The main execution entry point class for the application.
+    /// </summary>
+    public class Program
     {
+        /// <summary>
+        /// Bootstraps dependencies, initializes services, and starts the Console UI runtime pipeline.
+        /// </summary>
+        /// <param name="args">The command-line arguments passed to the application.</param>
         public static void Main(string[] args)
         {
             try
