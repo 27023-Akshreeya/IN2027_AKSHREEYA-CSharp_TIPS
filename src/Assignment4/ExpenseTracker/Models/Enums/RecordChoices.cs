@@ -5,7 +5,7 @@ namespace ExpenseTracker.Models.Enums
     /// <summary>
     /// Represents the available record viewing options in the Expense Tracker application.
     /// </summary>
-    internal enum RecordChoices
+    public enum RecordChoices
     {
         /// <summary>
         /// Indicates that no record option has been selected.

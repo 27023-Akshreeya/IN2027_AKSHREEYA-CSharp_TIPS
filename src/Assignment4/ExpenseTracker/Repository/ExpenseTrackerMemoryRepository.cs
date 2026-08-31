@@ -6,7 +6,7 @@ namespace ExpenseTracker.Repository
     /// Manages income and expense transactions and maintains
     /// the running net balance of the application.
     /// </summary>
-    internal class ExpenseTrackerMemoryRepository : IExpenseTrackerRepository
+    public class ExpenseTrackerMemoryRepository : IExpenseTrackerRepository
     {
         private readonly ExpenseTrackerFileRepository<Income> _incomeFile;
         private readonly ExpenseTrackerFileRepository<Expense> _expenseFile;

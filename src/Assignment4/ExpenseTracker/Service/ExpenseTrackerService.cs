@@ -7,7 +7,7 @@ namespace ExpenseTracker.Service
     /// <summary>
     /// Provides business logic for managing income and expense transactions.
     /// </summary>
-    internal class ExpenseTrackerService
+    public class ExpenseTrackerService
     {
         private readonly IExpenseTrackerRepository _repo;
 
