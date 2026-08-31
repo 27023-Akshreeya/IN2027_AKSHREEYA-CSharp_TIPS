@@ -41,12 +41,11 @@
         }
 
         /// <summary>
-        /// Validates whether the user's choice is either 'Y' or 'N',
-        /// regardless of letter casing.
+        /// Validates whether the user's choice is either 'Y' or 'N', regardless of letter casing.
         /// </summary>
         /// <param name="choice">The user's choice input.</param>
         /// <returns>
-        /// <c>true</c> if the choice is 'Y' or 'N'; otherwise, <c>false</c>.
+        /// <c>true</c>Returns true if the choice is 'Y' or 'N'; otherwise, <c>false</c>.
         /// </returns>
         public static bool IsChoiceValid(string choice)
         {
