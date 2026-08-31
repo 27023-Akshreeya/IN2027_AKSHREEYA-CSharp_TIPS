@@ -24,12 +24,6 @@ namespace ExpenseTracker.Service
         }
 
         /// <summary>
-        /// Occurs whenever the net balance is updated due to
-        /// an addition or modification of a transaction.
-        /// </summary>
-        public event EventHandler<Transactions> RunningNetBalance;
-
-        /// <summary>
         /// Determines whether a transaction exists for the specified transaction identifier.
         /// </summary>
         /// <param name="transactionID"> The unique identifier of the transaction to search for. </param>
@@ -60,7 +54,6 @@ namespace ExpenseTracker.Service
             netBalance -= newExpenseDetails.ExpenseAmount;
             this._repo.SetNetBalance(netBalance);
             this._repo.AddExpense(newExpenseDetails);
-            this.RunningNetBalance?.Invoke(this, new Transactions(netBalance));
             return true;
         }
 
@@ -83,7 +76,6 @@ namespace ExpenseTracker.Service
             netBalance += newIncomeDetails.IncomeAmount;
             this._repo.SetNetBalance(netBalance);
             this._repo.AddIncome(newIncomeDetails);
-            this.RunningNetBalance?.Invoke(this, new Transactions(netBalance));
             return true;
         }
 
@@ -129,7 +121,6 @@ namespace ExpenseTracker.Service
                     netBalance -= oldAmount;
                     netBalance += existingTransaction.IncomeAmount;
                     this._repo.SetNetBalance(netBalance);
-                    this.RunningNetBalance?.Invoke(this, new Transactions(netBalance));
                     break;
                 case UpdateTransaction.SourceorCategory:
                     existingTransaction.Source = updateInput;
@@ -172,7 +163,6 @@ namespace ExpenseTracker.Service
                     netBalance -= oldAmount;
                     netBalance -= existingTransaction.ExpenseAmount;
                     this._repo.SetNetBalance(netBalance);
-                    this.RunningNetBalance?.Invoke(this, new Transactions(netBalance));
                     break;
                 case UpdateTransaction.SourceorCategory:
                     existingTransaction.Category = updateInput;
@@ -202,7 +192,6 @@ namespace ExpenseTracker.Service
                     decimal netBalance = this._repo.GetNetBalance();
                     netBalance -= deleteIncomeRecord.IncomeAmount;
                     this._repo.SetNetBalance(netBalance);
-                    this.RunningNetBalance?.Invoke(this, new Transactions(netBalance));
                     this._repo.DeleteIncomeRecord(deleteRecordId);
                     return true;
                 }
@@ -216,7 +205,6 @@ namespace ExpenseTracker.Service
                     decimal netBalance = this._repo.GetNetBalance();
                     netBalance += deleteExpenseRecord.ExpenseAmount;
                     this._repo.SetNetBalance(netBalance);
-                    this.RunningNetBalance?.Invoke(this, new Transactions(netBalance));
                     this._repo.DeleteExpenseRecord(deleteRecordId);
                     return true;
                 }

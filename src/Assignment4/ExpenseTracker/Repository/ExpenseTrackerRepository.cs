@@ -5,8 +5,7 @@ using ExpenseTracker.Models;
 namespace ExpenseTracker.Repository
 {
     /// <summary>
-    /// Manages income and expense transactions and maintains
-    /// the running net balance of the application.
+    /// Manages income and expense transactions and maintains the running net balance of the application.
     /// </summary>
     public class ExpenseTrackerRepository
     {
