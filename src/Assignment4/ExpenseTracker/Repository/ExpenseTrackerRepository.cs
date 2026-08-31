@@ -1,5 +1,6 @@
-﻿using ExpenseTracker.Models;
-using Spectre.Console;
+﻿using System;
+using System.Collections.Generic;
+using ExpenseTracker.Models;
 
 namespace ExpenseTracker.Repository
 {
@@ -7,22 +8,38 @@ namespace ExpenseTracker.Repository
     /// Manages income and expense transactions and maintains
     /// the running net balance of the application.
     /// </summary>
-    internal class ExpenseTrackerRepository
+    public class ExpenseTrackerRepository
     {
         private readonly List<Expense> _expenses = new List<Expense>();
         private readonly List<Income> _incomes = new List<Income>();
 
         /// <summary>
-        /// Gets or sets the current net balance calculated from all
-        /// income and expense transactions.
+        /// Gets or sets the current net balance.
         /// </summary>
-        /// <value>The current net balance calculated from all
-        /// income and expense transactions.
+        /// <value>The current net balance calculated from all income and expense transactions.
         /// </value>
-        public decimal NetBalance { get; set; }
+        private decimal NetBalance { get; set; }
 
         /// <summary>
-        /// Adds a new expense transaction and updates the net balance.
+        /// Sets the current net balance to a specified value.
+        /// </summary>
+        /// <param name="newNetBalance">The new net balance amount to set.</param>
+        public void SetNetBalance(decimal newNetBalance)
+        {
+            this.NetBalance = newNetBalance;
+        }
+
+        /// <summary>
+        /// Retrieves the current net balance.
+        /// </summary>
+        /// <returns>The current net balance as a <see cref="decimal"/>.</returns>
+        public decimal GetNetBalance()
+        {
+            return this.NetBalance;
+        }
+
+        /// <summary>
+        /// Adds a new expense transaction.
         /// </summary>
         /// <param name="expense">The expense transaction to add.</param>
         public void AddExpense(Expense expense)
@@ -31,10 +48,10 @@ namespace ExpenseTracker.Repository
         }
 
         /// <summary>
-        /// Adds a new income transaction and updates the net balance.
+        /// Adds a new income transaction.
         /// </summary>
         /// <param name="income">The income transaction to add.</param>
-        internal void AddIncome(Income income)
+        public void AddIncome(Income income)
         {
             this._incomes.Add(income);
         }
@@ -43,72 +60,66 @@ namespace ExpenseTracker.Repository
         /// Retrieves all income transactions.
         /// </summary>
         /// <returns>A list containing all recorded income transactions.</returns>
-        internal IReadOnlyList<Income> GetIncome() => this._incomes;
+        public IReadOnlyList<Income> GetIncome() => this._incomes;
 
         /// <summary>
         /// Retrieves all expense transactions.
         /// </summary>
         /// <returns>A list containing all recorded expense transactions.</returns>
-        internal IReadOnlyList<Expense> GetExpense() => this._expenses;
+        public IReadOnlyList<Expense> GetExpense() => this._expenses;
 
         /// <summary>
-        /// Updates an existing income transaction and recalculates
-        /// the net balance based on the new amount.
+        /// Updates an existing income transaction.
         /// </summary>
-        /// <param name="existingTransaction">
+        /// <param name="updateIncome">
         /// The updated income transaction details.
         /// </param>
-        internal void UpdateIncomeRecords(Income existingTransaction)
+        public void UpdateIncomeRecords(Income updateIncome)
         {
-            var incomeRecord = this._incomes.Find(x => x.TransactionID.Equals(existingTransaction.TransactionID));
+            var incomeRecord = this._incomes.Find(x => x.TransactionID.Equals(updateIncome.TransactionID));
             if (incomeRecord != null)
             {
-                incomeRecord.Source = existingTransaction.Source;
-                incomeRecord.IncomeAmount = existingTransaction.IncomeAmount;
-                incomeRecord.Date = existingTransaction.Date;
+                incomeRecord.Source = updateIncome.Source;
+                incomeRecord.IncomeAmount = updateIncome.IncomeAmount;
+                incomeRecord.Date = updateIncome.Date;
             }
         }
 
         /// <summary>
-        /// Updates an existing expense transaction and recalculates
-        /// the net balance based on the new amount.
+        /// Updates an existing expense transaction.
         /// </summary>
-        /// <param name="existingTransaction">
+        /// <param name="updateExpense">
         /// The updated expense transaction details.
         /// </param>
-        internal void UpdateExpenseRecords(Expense existingTransaction)
+        public void UpdateExpenseRecords(Expense updateExpense)
         {
-            var expenseRecord = this._expenses.Find(
-                x => x.TransactionID == existingTransaction.TransactionID);
-
+            var expenseRecord = this._expenses.Find(x => x.TransactionID.Equals(updateExpense.TransactionID));
             if (expenseRecord != null)
             {
-                expenseRecord.Category = existingTransaction.Category;
-                expenseRecord.ExpenseAmount = existingTransaction.ExpenseAmount;
-                expenseRecord.Date = existingTransaction.Date;
+                expenseRecord.Category = updateExpense.Category;
+                expenseRecord.ExpenseAmount = updateExpense.ExpenseAmount;
+                expenseRecord.Date = updateExpense.Date;
             }
         }
 
         /// <summary>
-        /// Deletes an income transaction and adjusts the net balance
-        /// by removing the income amount.
+        /// Deletes an income transaction.
         /// </summary>
         /// <param name="deleteRecordId">
         /// The unique identifier of the income transaction to delete.
         /// </param>
-        internal void DeleteIncomeRecord(Guid deleteRecordId)
+        public void DeleteIncomeRecord(Guid deleteRecordId)
         {
             this._incomes.RemoveAll(x => x.TransactionID.Equals(deleteRecordId));
         }
 
         /// <summary>
-        /// Deletes an expense transaction and adjusts the net balance
-        /// by restoring the expense amount.
+        /// Deletes an expense transaction.
         /// </summary>
         /// <param name="deleteRecordId">
         /// The unique identifier of the expense transaction to delete.
         /// </param>
-        internal void DeleteExpenseRecord(Guid deleteRecordId)
+        public void DeleteExpenseRecord(Guid deleteRecordId)
         {
             this._expenses.RemoveAll(x => x.TransactionID.Equals(deleteRecordId));
         }

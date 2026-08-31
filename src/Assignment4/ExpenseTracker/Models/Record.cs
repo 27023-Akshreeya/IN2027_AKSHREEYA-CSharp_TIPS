@@ -1,4 +1,6 @@
-﻿namespace ExpenseTracker.Models
+﻿using System;
+
+namespace ExpenseTracker.Models
 {
     /// <summary>
     /// Represents the base class for all financial records in the Expense Tracker application.
