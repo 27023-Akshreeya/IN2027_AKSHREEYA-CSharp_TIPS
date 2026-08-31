@@ -65,15 +65,15 @@ namespace ErrorHandlingTasks.Presentation
             }
             catch (DivideByZeroException ex)
             {
-                this.DisplayErrorMessage(ex.Message);
+                this.DisplayMessage(ex.Message, ConsoleColor.Red);
             }
             catch (InvalidUserInputException ex)
             {
-                this.DisplayErrorMessage(ex.Message);
+                this.DisplayMessage(ex.Message, ConsoleColor.Red);
             }
             finally
             {
-                this.DisplayMessage("Error handling in Division is done successfully!");
+                this.DisplayMessage("Error handling in Division is done successfully!", ConsoleColor.Green);
             }
         }
 
@@ -98,36 +98,26 @@ namespace ErrorHandlingTasks.Presentation
             }
             catch (InvalidIndexAccessException ex)
             {
-                this.DisplayErrorMessage(ex.Message);
+                this.DisplayMessage(ex.Message, ConsoleColor.Red);
             }
             catch (InvalidUserInputException ex)
             {
-                this.DisplayErrorMessage(ex.Message);
+                this.DisplayMessage(ex.Message, ConsoleColor.Red);
             }
             finally
             {
-                this.DisplayMessage("Error handling in accessing an array is done successfully!");
+                this.DisplayMessage("Error handling in accessing an array is done successfully!", ConsoleColor.Green);
             }
-        }
-
-        /// <summary>
-        /// Displays an error message.
-        /// </summary>
-        /// <param name="message">Error message.</param>
-        public void DisplayErrorMessage(string message)
-        {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"Error: {message}");
-            Console.ResetColor();
         }
 
         /// <summary>
         /// Displays a message.
         /// </summary>
-        /// <param name="message">Message to display.</param>
-        public void DisplayMessage(string message)
+        /// <param name="message">Message to display</param>
+        /// <param name="color">Color the message is to be displayed</param>
+        public void DisplayMessage(string message, ConsoleColor color)
         {
-            Console.ForegroundColor = ConsoleColor.Green;
+            Console.ForegroundColor = color;
             Console.WriteLine($"{message}" + "\n");
             Console.ResetColor();
         }

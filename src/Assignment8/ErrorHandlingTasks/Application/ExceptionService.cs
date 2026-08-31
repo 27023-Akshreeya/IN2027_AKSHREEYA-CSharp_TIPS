@@ -30,7 +30,7 @@ namespace ErrorHandlingTasks.Application
         /// <returns>The value stored at the specified index.</returns>
         /// <exception cref="IndexOutOfRangeException"> Thrown when the specified index is outside the bounds of the array.
         /// </exception>
-        internal int AccessArrayElement(int index, int[] array)
+        public int AccessArrayElement(int index, int[] array)
         {
             try
             {
