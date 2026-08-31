@@ -31,7 +31,6 @@ namespace LINQchallenges.Application
         public QueryBuilder<T> Filter(Func<T, bool> condition)
         {
             this._query = this._query.Where(condition);
-
             return this;
         }
 
@@ -44,7 +43,6 @@ namespace LINQchallenges.Application
         public QueryBuilder<T> SortBy<TKey>(Func<T, TKey> keySelector)
         {
             this._query = this._query.OrderBy(keySelector);
-
             return this;
         }
 
@@ -66,7 +64,6 @@ namespace LINQchallenges.Application
             Func<T, TOther, TResult> resultSelector)
         {
             var result = this._query.Join(other, outerKeySelector, innerKeySelector, resultSelector);
-
             return new QueryBuilder<TResult>(result);
         }
 

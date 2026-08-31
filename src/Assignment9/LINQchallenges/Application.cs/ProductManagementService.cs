@@ -71,7 +71,7 @@ namespace LINQchallenges.Application
         public IEnumerable<Product> OrderCategoryByDescending(string categoryName, decimal price)
         {
             return this.GetAllProducts()
-                .Where(p => p.Category == categoryName && p.Price > price)
+                .Where(p => p.Category.Equals(categoryName) && p.Price > price)
                 .OrderByDescending(p => p.Price);
         }
 
@@ -84,7 +84,7 @@ namespace LINQchallenges.Application
         public decimal GetAverage(string categoryName, decimal price)
         {
             return this.GetAllProducts()
-                .Where(p => p.Category == categoryName && p.Price > price)
+                .Where(p => p.Category.Equals(categoryName) && p.Price > price)
                 .Average(p => p.Price);
         }
 

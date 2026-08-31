@@ -39,12 +39,10 @@ namespace LINQchallenges.Presentation
         /// <summary>
         /// Executes and displays Task 5, demonstrating the custom query builder pattern.
         /// </summary>
-        public void Task5()
+        private void Task5()
         {
             var result = this._productManagementService.ExecuteProductQuery();
-
             Console.WriteLine("\nTask 5 - Query Builder");
-
             foreach (var item in result)
             {
                 Console.WriteLine(item);
@@ -56,7 +54,7 @@ namespace LINQchallenges.Presentation
         /// <summary>
         /// Executes and displays Task 4, sorting and printing all books by price.
         /// </summary>
-        public void Task4()
+        private void Task4()
         {
             Console.WriteLine("\ntask 4 - Sort all books by price");
             foreach (var product in this._productManagementService.FilterMaxByProduct())
@@ -70,7 +68,7 @@ namespace LINQchallenges.Presentation
         /// </summary>
         /// <param name="userPrompt">The text message to display to the user.</param>
         /// <returns>The parsed integer, or 0 if validation fails.</returns>
-        public int GetNumericInput(string userPrompt)
+        private int GetNumericInput(string userPrompt)
         {
             Console.Write(userPrompt);
             string userInput = Console.ReadLine() ?? string.Empty;
@@ -86,17 +84,16 @@ namespace LINQchallenges.Presentation
         /// <summary>
         /// Executes Task 3, managing user inputs to test array processing and target sum matching via LINQ.
         /// </summary>
-        public void Task3()
+        private void Task3()
         {
             Console.Write("\nTask 5 - array manipulation using LINQ\n");
-
             int arraySize = this.GetNumericInput("Enter Array size:");
             if (arraySize <= 0)
             {
                 return;
             }
 
-            int[] array = new int[arraySize];
+            var array = new int[arraySize];
             for (int i = 0; i < arraySize; i++)
             {
                 int arrayElement = this.GetNumericInput($"Enter element {i + 1}:");
@@ -126,7 +123,7 @@ namespace LINQchallenges.Presentation
         /// <summary>
         /// Executes and displays Task 2, aggregating product metrics and counts by category.
         /// </summary>
-        public void Task2()
+        private void Task2()
         {
             Console.Write("\nTask 2 - The count and most expensive product in each category:\n");
             foreach (dynamic product in this._productManagementService.GroupAndCountCategory())
@@ -139,7 +136,7 @@ namespace LINQchallenges.Presentation
         /// Captures and validates a category name entered by the user.
         /// </summary>
         /// <returns>A validated category name, or an empty string if invalid.</returns>
-        public string GetProductCategory()
+        private string GetProductCategory()
         {
             Console.Write("Enter product Category:");
             string productCategory = Console.ReadLine() ?? string.Empty;
@@ -156,7 +153,7 @@ namespace LINQchallenges.Presentation
         /// Captures and validates a decimal product price entered by the user.
         /// </summary>
         /// <returns>The validated decimal value, or -1 if invalid.</returns>
-        public decimal GetPrice()
+        private decimal GetPrice()
         {
             Console.Write("Enter product price:");
             string price = Console.ReadLine() ?? string.Empty;
@@ -172,7 +169,7 @@ namespace LINQchallenges.Presentation
         /// <summary>
         /// Executes Task 1, requesting criteria to filter, sort, and average products.
         /// </summary>
-        public void Task1()
+        private void Task1()
         {
             Console.WriteLine("task 1 - Filter products under the category and price:\n");
             string category = this.GetProductCategory();
@@ -201,7 +198,6 @@ namespace LINQchallenges.Presentation
             }
 
             Console.WriteLine("\nSorted Products:");
-
             var items = this._productManagementService.OrderCategoryByDescending(category, price);
             if (items is null)
             {
