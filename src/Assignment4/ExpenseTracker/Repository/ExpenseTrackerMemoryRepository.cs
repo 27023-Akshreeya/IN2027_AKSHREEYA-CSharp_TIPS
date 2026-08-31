@@ -108,17 +108,17 @@ namespace ExpenseTracker.Repository
         /// Updates an existing income transaction and recalculates
         /// the net balance based on the new amount.
         /// </summary>
-        /// <param name="existingTransaction">
+        /// <param name="updateIncome">
         /// The updated income transaction details.
         /// </param>
-        public void UpdateIncomeRecords(Income existingTransaction)
+        public void UpdateIncomeRecords(Income updateIncome)
         {
-            var incomeRecord = this._incomes.Find(x => x.TransactionID.Equals(existingTransaction.TransactionID));
+            var incomeRecord = this._incomes.Find(x => x.TransactionID.Equals(updateIncome.TransactionID));
             if (incomeRecord != null)
             {
-                incomeRecord.Source = existingTransaction.Source;
-                incomeRecord.IncomeAmount = existingTransaction.IncomeAmount;
-                incomeRecord.Date = existingTransaction.Date;
+                incomeRecord.Source = updateIncome.Source;
+                incomeRecord.IncomeAmount = updateIncome.IncomeAmount;
+                incomeRecord.Date = updateIncome.Date;
             }
         }
 
@@ -126,19 +126,19 @@ namespace ExpenseTracker.Repository
         /// Updates an existing expense transaction and recalculates
         /// the net balance based on the new amount.
         /// </summary>
-        /// <param name="existingTransaction">
+        /// <param name="updateExpense">
         /// The updated expense transaction details.
         /// </param>
-        public void UpdateExpenseRecords(Expense existingTransaction)
+        public void UpdateExpenseRecords(Expense updateExpense)
         {
             var expenseRecord = this._expenses.Find(
-                x => x.TransactionID == existingTransaction.TransactionID);
+                x => x.TransactionID == updateExpense.TransactionID);
 
             if (expenseRecord != null)
             {
-                expenseRecord.Category = existingTransaction.Category;
-                expenseRecord.ExpenseAmount = existingTransaction.ExpenseAmount;
-                expenseRecord.Date = existingTransaction.Date;
+                expenseRecord.Category = updateExpense.Category;
+                expenseRecord.ExpenseAmount = updateExpense.ExpenseAmount;
+                expenseRecord.Date = updateExpense.Date;
             }
         }
 

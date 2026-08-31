@@ -51,7 +51,7 @@ namespace ExpenseTracker.Helper
         /// </returns>
         public static bool IsChoiceValid(string choice)
         {
-            if (string.IsNullOrEmpty(choice) || string.IsNullOrWhiteSpace(choice))
+            if (string.IsNullOrWhiteSpace(choice))
             {
                 return false;
             }

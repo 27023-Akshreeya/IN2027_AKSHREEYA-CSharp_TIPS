@@ -24,12 +24,6 @@ namespace ExpenseTracker.Service
         }
 
         /// <summary>
-        /// Occurs whenever the net balance is updated due to
-        /// an addition or modification of a transaction.
-        /// </summary>
-        public event EventHandler<Transactions> RunningNetBalance;
-
-        /// <summary>
         /// Loads all data files into the repository.
         /// </summary>
         public void GetAllFiles()
