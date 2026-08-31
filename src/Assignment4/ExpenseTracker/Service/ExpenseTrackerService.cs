@@ -1,4 +1,7 @@
-﻿using ExpenseTracker.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using ExpenseTracker.Models;
 using ExpenseTracker.Models.Enums;
 using ExpenseTracker.Repository;
 
@@ -7,7 +10,7 @@ namespace ExpenseTracker.Service
     /// <summary>
     /// Provides business logic for managing income and expense transactions.
     /// </summary>
-    internal class ExpenseTrackerService
+    public class ExpenseTrackerService
     {
         private readonly ExpenseTrackerRepository _repo;
 
@@ -21,12 +24,6 @@ namespace ExpenseTracker.Service
         }
 
         /// <summary>
-        /// Occurs whenever the net balance is updated due to
-        /// an addition or modification of a transaction.
-        /// </summary>
-        public event EventHandler<Transactions>? RunningNetBalance;
-
-        /// <summary>
         /// Determines whether a transaction exists for the specified transaction identifier.
         /// </summary>
         /// <param name="transactionID"> The unique identifier of the transaction to search for. </param>
@@ -34,7 +31,8 @@ namespace ExpenseTracker.Service
         /// <returns>true if the transaction exists; otherwise,false. </returns>
         public bool DoesTransactionExists(Guid transactionID, RecordChoices record)
         {
-            return record == RecordChoices.IncomeRecords ? this._repo.GetIncome().Any(x => x.TransactionID == transactionID) : this._repo.GetExpense().Any(x => x.TransactionID == transactionID);
+            return record == RecordChoices.IncomeRecords ? this._repo.GetIncome().Any(x => x.TransactionID == transactionID) :
+                this._repo.GetExpense().Any(x => x.TransactionID == transactionID);
         }
 
         /// <summary>
@@ -43,7 +41,7 @@ namespace ExpenseTracker.Service
         /// <param name="newExpenseDetails"> The expense transaction details.</param>
         /// <param name="transactionDate"> The date of the expense transaction.</param>
         /// <returns>true if expense is added successfull, otherwise false</returns>
-        internal bool AddExpenseTransaction(Expense newExpenseDetails, DateTime transactionDate)
+        public bool AddExpenseTransaction(Expense newExpenseDetails, DateTime transactionDate)
         {
             if (newExpenseDetails is null)
             {
@@ -52,9 +50,10 @@ namespace ExpenseTracker.Service
 
             newExpenseDetails.TransactionID = Guid.NewGuid();
             newExpenseDetails.Date = transactionDate;
-            this._repo.NetBalance -= newExpenseDetails.ExpenseAmount;
+            decimal netBalance = this._repo.GetNetBalance();
+            netBalance -= newExpenseDetails.ExpenseAmount;
+            this._repo.SetNetBalance(netBalance);
             this._repo.AddExpense(newExpenseDetails);
-            this.RunningNetBalance?.Invoke(this, new Transactions(this._repo.NetBalance));
             return true;
         }
 
@@ -64,7 +63,7 @@ namespace ExpenseTracker.Service
         /// <param name="newIncomeDetails"> The income transaction details.</param>
         /// <param name="transactionDate">The date of the income transaction.</param>
         /// <returns>true if income is added successfull, otherwise false</returns>
-        internal bool AddIncomeTransaction(Income newIncomeDetails, DateTime transactionDate)
+        public bool AddIncomeTransaction(Income newIncomeDetails, DateTime transactionDate)
         {
             if (newIncomeDetails is null)
             {
@@ -73,9 +72,10 @@ namespace ExpenseTracker.Service
 
             newIncomeDetails.TransactionID = Guid.NewGuid();
             newIncomeDetails.Date = transactionDate;
-            this._repo.NetBalance += newIncomeDetails.IncomeAmount;
+            decimal netBalance = this._repo.GetNetBalance();
+            netBalance += newIncomeDetails.IncomeAmount;
+            this._repo.SetNetBalance(netBalance);
             this._repo.AddIncome(newIncomeDetails);
-            this.RunningNetBalance?.Invoke(this, new Transactions(this._repo.NetBalance));
             return true;
         }
 
@@ -83,13 +83,13 @@ namespace ExpenseTracker.Service
         /// Gets income list
         /// </summary>
         /// <returns>the list of income</returns>
-        internal IReadOnlyList<Income> GetIncomeRecords() => this._repo.GetIncome();
+        public IReadOnlyList<Income> GetIncomeRecords() => this._repo.GetIncome();
 
         /// <summary>
         /// Gets the expense list
         /// </summary>
         /// <returns>the list of expense</returns>
-        internal IReadOnlyList<Expense> GetExpenseRecords() => this._repo.GetExpense();
+        public IReadOnlyList<Expense> GetExpenseRecords() => this._repo.GetExpense();
 
         /// <summary>
         /// Updates an existing income transaction.
@@ -98,7 +98,7 @@ namespace ExpenseTracker.Service
         /// <param name="updateInput"> The new value to be applied.</param>
         /// <param name="updateTransaction">The transaction field to update. </param>
         /// <returns>true if income is updated successfull, otherwise false</returns>
-        internal bool UpdateIncomeTransaction(Guid updateRecordId, string updateInput, UpdateTransaction updateTransaction)
+        public bool UpdateIncomeTransaction(Guid updateRecordId, string updateInput, UpdateTransaction updateTransaction)
         {
             var records = this.GetIncomeRecords();
             var existingTransaction = records.FirstOrDefault(x => x.TransactionID == updateRecordId);
@@ -117,6 +117,10 @@ namespace ExpenseTracker.Service
                 case UpdateTransaction.Amount:
                     decimal.TryParse(updateInput, out decimal updateAmount);
                     existingTransaction.IncomeAmount = updateAmount;
+                    decimal netBalance = this._repo.GetNetBalance();
+                    netBalance -= oldAmount;
+                    netBalance += existingTransaction.IncomeAmount;
+                    this._repo.SetNetBalance(netBalance);
                     break;
                 case UpdateTransaction.SourceorCategory:
                     existingTransaction.Source = updateInput;
@@ -125,9 +129,6 @@ namespace ExpenseTracker.Service
                     return false;
             }
 
-            this._repo.NetBalance -= oldAmount;
-            this._repo.NetBalance += existingTransaction.IncomeAmount;
-            this.RunningNetBalance?.Invoke(this, new Transactions(this._repo.NetBalance));
             this._repo.UpdateIncomeRecords(existingTransaction);
             return true;
         }
@@ -139,7 +140,7 @@ namespace ExpenseTracker.Service
         /// <param name="updateInput">The new value to be applied.</param>
         /// <param name="updateTransaction">true if income is updated successfull, otherwise false</param>
         /// <returns>true if expense is updated successfull, otherwise false.</returns>
-        internal bool UpdateExpenseTransaction(Guid updateRecordId, string updateInput, UpdateTransaction updateTransaction)
+        public bool UpdateExpenseTransaction(Guid updateRecordId, string updateInput, UpdateTransaction updateTransaction)
         {
             var records = this.GetExpenseRecords();
             var existingTransaction = records.FirstOrDefault(x => x.TransactionID == updateRecordId);
@@ -158,6 +159,10 @@ namespace ExpenseTracker.Service
                 case UpdateTransaction.Amount:
                     decimal.TryParse(updateInput, out decimal updateAmount);
                     existingTransaction.ExpenseAmount = updateAmount;
+                    decimal netBalance = this._repo.GetNetBalance();
+                    netBalance -= oldAmount;
+                    netBalance -= existingTransaction.ExpenseAmount;
+                    this._repo.SetNetBalance(netBalance);
                     break;
                 case UpdateTransaction.SourceorCategory:
                     existingTransaction.Category = updateInput;
@@ -166,9 +171,6 @@ namespace ExpenseTracker.Service
                     return false;
             }
 
-            this._repo.NetBalance += oldAmount;
-            this._repo.NetBalance -= existingTransaction.ExpenseAmount;
-            this.RunningNetBalance?.Invoke(this, new Transactions(this._repo.NetBalance));
             this._repo.UpdateExpenseRecords(existingTransaction);
             return true;
         }
@@ -179,16 +181,17 @@ namespace ExpenseTracker.Service
         /// <param name="deleteRecordId">the id to be deleted</param>
         /// <param name="recordChoice">where income or expense</param>
         /// <returns>true if deletion is successfull, otherwise false</returns>
-        internal bool DeleteRecordTransaction(Guid deleteRecordId, RecordChoices recordChoice)
+        public bool DeleteRecordTransaction(Guid deleteRecordId, RecordChoices recordChoice)
         {
             if (recordChoice.Equals(RecordChoices.IncomeRecords))
             {
                 var incomes = this.GetIncomeRecords();
-                var deleteIncome = incomes.FirstOrDefault(x => x.TransactionID.Equals(deleteRecordId));
-                if (deleteIncome != null)
+                var deleteIncomeRecord = incomes.FirstOrDefault(x => x.TransactionID.Equals(deleteRecordId));
+                if (deleteIncomeRecord != null)
                 {
-                    this._repo.NetBalance -= deleteIncome.IncomeAmount;
-                    this.RunningNetBalance?.Invoke(this, new Transactions(this._repo.NetBalance));
+                    decimal netBalance = this._repo.GetNetBalance();
+                    netBalance -= deleteIncomeRecord.IncomeAmount;
+                    this._repo.SetNetBalance(netBalance);
                     this._repo.DeleteIncomeRecord(deleteRecordId);
                     return true;
                 }
@@ -196,11 +199,12 @@ namespace ExpenseTracker.Service
             else if (recordChoice.Equals(RecordChoices.ExpenseRecords))
             {
                 var expenses = this.GetExpenseRecords();
-                var deleteExpense = expenses.FirstOrDefault(x => x.TransactionID == deleteRecordId);
-                if (deleteExpense != null)
+                var deleteExpenseRecord = expenses.FirstOrDefault(x => x.TransactionID.Equals(deleteRecordId));
+                if (deleteExpenseRecord != null)
                 {
-                    this._repo.NetBalance += deleteExpense.ExpenseAmount;
-                    this.RunningNetBalance?.Invoke(this, new Transactions(this._repo.NetBalance));
+                    decimal netBalance = this._repo.GetNetBalance();
+                    netBalance += deleteExpenseRecord.ExpenseAmount;
+                    this._repo.SetNetBalance(netBalance);
                     this._repo.DeleteExpenseRecord(deleteRecordId);
                     return true;
                 }

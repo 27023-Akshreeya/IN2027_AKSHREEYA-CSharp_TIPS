@@ -1,4 +1,6 @@
-﻿namespace ExpenseTracker.Helper
+﻿using System;
+
+namespace ExpenseTracker.Helper
 {
     /// <summary>
     /// Represents a method that validates a string input and returns a value indicating whether the input is valid.
