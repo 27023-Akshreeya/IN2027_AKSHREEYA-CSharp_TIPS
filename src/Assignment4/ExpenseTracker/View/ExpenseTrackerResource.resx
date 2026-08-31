@@ -1,0 +1,259 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AddExpense" xml:space="preserve">
+    <value>Add Expense</value>
+  </data>
+  <data name="AddIncome" xml:space="preserve">
+    <value>Add Income</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="ExpenseTracker" xml:space="preserve">
+    <value>[bold blue]Expense Tracker[/]</value>
+  </data>
+  <data name="inputCategory" xml:space="preserve">
+    <value>Enter the category of expense : </value>
+  </data>
+  <data name="inputSource" xml:space="preserve">
+    <value>Enter the source of income : </value>
+  </data>
+  <data name="inputDate" xml:space="preserve">
+    <value>Enter the date of Transaction ([bold white]DD/MM/YYYY[/] follow the exact format) : </value>
+  </data>
+  <data name="inputExpenseAmount" xml:space="preserve">
+    <value>Enter Amount Spent : </value>
+  </data>
+  <data name="inputIncomeAmount" xml:space="preserve">
+    <value>Enter Amount earned : </value>
+  </data>
+  <data name="InvalidInput" xml:space="preserve">
+    <value>[bold red]Invalid Input! please try again.[/]
+</value>
+  </data>
+  <data name="OptionSelection" xml:space="preserve">
+    <value>
+Main menu
+Select an option:</value>
+  </data>
+  <data name="transactionBydate" xml:space="preserve">
+    <value>View transactions by date</value>
+  </data>
+  <data name="updateTransaction" xml:space="preserve">
+    <value>Update Transaction</value>
+  </data>
+  <data name="ViewAllTransaction" xml:space="preserve">
+    <value>View Ledger</value>
+  </data>
+  <data name="Exiting" xml:space="preserve">
+    <value>[bold red]Exiting......[/]
+</value>
+  </data>
+  <data name="TransactionSummary" xml:space="preserve">
+    <value>View Summary</value>
+  </data>
+  <data name="EditTransaction" xml:space="preserve">
+    <value>Edit Transaction</value>
+  </data>
+  <data name="DeleteTransaction" xml:space="preserve">
+    <value>Remove Transaction</value>
+  </data>
+  <data name="tries" xml:space="preserve">
+    <value>remaining Tries :</value>
+  </data>
+  <data name="AddNewTransaction" xml:space="preserve">
+    <value>Select the type of transaction</value>
+  </data>
+  <data name="ExitConfirm" xml:space="preserve">
+    <value>Do you want to exit ? (y or n) : </value>
+  </data>
+  <data name="InputAmount" xml:space="preserve">
+    <value>Enter Amount to update : </value>
+  </data>
+  <data name="InputTransactionID" xml:space="preserve">
+    <value>Enter Transaction Id:</value>
+  </data>
+  <data name="addedExpense" xml:space="preserve">
+    <value>[green]Expense Added[/]</value>
+  </data>
+  <data name="addedIncome" xml:space="preserve">
+    <value>[green]Income Added[/]</value>
+  </data>
+  <data name="UpdatedIncome" xml:space="preserve">
+    <value>[green]Income Updated[/]</value>
+  </data>
+  <data name="UpdatedExpense" xml:space="preserve">
+    <value>[green]expense updated[/]</value>
+  </data>
+  <data name="RecordDeleted" xml:space="preserve">
+    <value>[green]record deleted[/]</value>
+  </data>
+  <data name="IncomeRecords" xml:space="preserve">
+    <value>Income Records</value>
+  </data>
+  <data name="ExpenseRecords" xml:space="preserve">
+    <value>Expense Records</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="updateIncomeRecord" xml:space="preserve">
+    <value>What change would you like to make?
+1. Date
+2. Amount
+3. Source
+</value>
+  </data>
+  <data name="updateExpenseRecord" xml:space="preserve">
+    <value>What change would you like to make?
+1. Date
+2. Amount
+3. Category
+</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="TransactionID" xml:space="preserve">
+    <value>Transaction ID</value>
+  </data>
+  <data name="Source" xml:space="preserve">
+    <value>Source</value>
+  </data>
+  <data name="IncomeAmountDisplay" xml:space="preserve">
+    <value>Income Amount</value>
+  </data>
+  <data name="AddTransaction" xml:space="preserve">
+    <value>Add new Transaction</value>
+  </data>
+  <data name="Category" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="ExpenseAmountDiplay" xml:space="preserve">
+    <value>Expense Amount</value>
+  </data>
+  <data name="totalAmount" xml:space="preserve">
+    <value>[bold]Total Amount[/]</value>
+  </data>
+  <data name="empty" xml:space="preserve">
+    <value>Empty record ! There are no transactions
+</value>
+  </data>
+</root>
