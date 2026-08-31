@@ -1,4 +1,5 @@
-﻿using ExpenseTracker.Repository;
+﻿using System;
+using ExpenseTracker.Repository;
 using ExpenseTracker.Service;
 using ExpenseTracker.View;
 
@@ -7,7 +8,7 @@ namespace Assignments
     /// <summary>
     /// Represents the entry point for the expense tracking application.
     /// </summary>
-    internal class Program
+    public class Program
     {
         /// <summary>
         /// Initializes and runs the Expense Tracker application.

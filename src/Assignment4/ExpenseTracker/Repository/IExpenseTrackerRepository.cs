@@ -1,4 +1,6 @@
-﻿using ExpenseTracker.Models;
+﻿using System;
+using System.Collections.Generic;
+using ExpenseTracker.Models;
 
 namespace ExpenseTracker.Repository
 {
@@ -88,5 +90,17 @@ namespace ExpenseTracker.Repository
         /// The unique identifier of the expense record to delete.
         /// </param>
         void DeleteExpenseRecord(Guid deleteRecordId);
+
+        /// <summary>
+        /// Sets the current net balance to a specified value.
+        /// </summary>
+        /// <param name="netBalance">The new net balance amount to set.</param>
+        void SetNetBalance(decimal netBalance);
+
+        /// <summary>
+        /// Retrieves the current net balance.
+        /// </summary>
+        /// <returns>The current net balance as a <see cref="decimal"/>.</returns>
+        decimal GetNetBalance();
     }
 }

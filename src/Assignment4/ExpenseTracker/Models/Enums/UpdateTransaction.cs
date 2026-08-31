@@ -5,7 +5,7 @@ namespace ExpenseTracker.Models.Enums
     /// <summary>
     /// Represents the fields of a transaction that can be updated.
     /// </summary>
-    internal enum UpdateTransaction : byte
+    public enum UpdateTransaction : byte
     {
         /// <summary>
         /// Indicates that no update option has been selected.

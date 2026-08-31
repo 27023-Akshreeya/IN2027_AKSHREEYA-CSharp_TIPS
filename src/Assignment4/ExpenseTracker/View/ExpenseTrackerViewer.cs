@@ -1,4 +1,6 @@
-﻿using ExpenseTracker.Helper;
+﻿using System;
+using System.Collections.Generic;
+using ExpenseTracker.Helper;
 using ExpenseTracker.Models;
 using ExpenseTracker.Models.Enums;
 using ExpenseTracker.Service;
@@ -10,7 +12,7 @@ namespace ExpenseTracker.View
     /// Provides a user interface for interacting with the expense tracker, including displaying menus and handling user selections.
     /// </summary>
     /// <remarks>Interacts with ExpenseTrackerService to manage expense and income operations.</remarks>
-    internal class ExpenseTrackerViewer
+    public class ExpenseTrackerViewer
     {
         private readonly ExpenseTrackerService _service;
 
@@ -27,7 +29,7 @@ namespace ExpenseTracker.View
         /// <summary>
         /// Displays the main menu and handles user interactions for the
         /// </summary>
-        internal void DisplayMenu()
+        public void DisplayMenu()
         {
             bool exit = false;
             this._service.GetAllFiles();
@@ -101,11 +103,9 @@ namespace ExpenseTracker.View
                         break;
                 }
 
-                string? exitchoice = this.GetInputWithAttemps(
-                    ExpenseTrackerResource.ExitConfirm,
-                    Validator.IsChoiceValid);
+                string exitchoice = this.GetInputWithAttemps(ExpenseTrackerResource.ExitConfirm, Validator.IsChoiceValid);
 
-                if (exitchoice == null)
+                if (exitchoice.Equals(string.Empty))
                 {
                     continue;
                 }
@@ -124,7 +124,7 @@ namespace ExpenseTracker.View
         /// <param name="input">Prompt message.</param>
         /// <param name="validator">Input validator.</param>
         /// <returns>Validated input or null.</returns>
-        private string? GetInputWithAttemps(string input, InputValidator validator)
+        private string GetInputWithAttemps(string input, InputValidator validator)
         {
             for (int tries = 3; tries > 0; tries--)
             {
@@ -141,7 +141,7 @@ namespace ExpenseTracker.View
                 AnsiConsole.Markup(ExpenseTrackerResource.InvalidInput);
             }
 
-            return null;
+            return string.Empty;
         }
 
         /// <summary>
@@ -161,7 +161,7 @@ namespace ExpenseTracker.View
                 return;
             }
 
-            string transactionID = this.GetInputWithAttemps(ExpenseTrackerResource.InputTransactionID, input => Guid.TryParse(input, out _)) ?? string.Empty;
+            string transactionID = this.GetInputWithAttemps(ExpenseTrackerResource.InputTransactionID, input => Guid.TryParse(input, out _));
             if (!Guid.TryParse(transactionID, out Guid deleteRecordId))
             {
                 return;
@@ -188,6 +188,11 @@ namespace ExpenseTracker.View
             var totalIncome = this.ViewIncomeRecords(incomeRecords);
             var expenseRecords = this._service.GetExpenseRecords();
             var totalExpense = this.ViewExpenseRecords(expenseRecords);
+            this.DisplayNetbalance(totalIncome, totalExpense);
+        }
+
+        private void DisplayNetbalance(decimal totalIncome, decimal totalExpense)
+        {
             var table = new Table();
             table.AddColumn("[bold]Net Balance[/]");
             table.AddColumn($"[bold]{totalIncome + totalExpense}[/]");
@@ -211,7 +216,7 @@ namespace ExpenseTracker.View
                 return;
             }
 
-            string transactionID = this.GetInputWithAttemps(ExpenseTrackerResource.InputTransactionID, input => Guid.TryParse(input, out _)) ?? string.Empty;
+            string transactionID = this.GetInputWithAttemps(ExpenseTrackerResource.InputTransactionID, input => Guid.TryParse(input, out _));
             if (!Guid.TryParse(transactionID, out Guid updateRecordId) || !this._service.DoesTransactionExists(updateRecordId, recordChoice))
             {
                 AnsiConsole.Markup(ExpenseTrackerResource.InvalidInput);
@@ -255,8 +260,8 @@ namespace ExpenseTracker.View
 
                     break;
                 case UpdateTransaction.Amount:
-                    string amountInput = this.GetInputWithAttemps(ExpenseTrackerResource.InputAmount, Validator.IsValidAmount) ?? string.Empty;
-                    if (string.IsNullOrEmpty(amountInput))
+                    string amountInput = this.GetInputWithAttemps(ExpenseTrackerResource.InputAmount, Validator.IsValidAmount);
+                    if (string.IsNullOrWhiteSpace(amountInput))
                     {
                         return;
                     }
@@ -280,7 +285,7 @@ namespace ExpenseTracker.View
                 case UpdateTransaction.SourceorCategory:
                     if (recordChoice.Equals(RecordChoices.IncomeRecords))
                     {
-                        string sourceInput = this.GetInputWithAttemps(ExpenseTrackerResource.inputSource, input => !string.IsNullOrEmpty(input)) ?? string.Empty;
+                        string sourceInput = this.GetInputWithAttemps(ExpenseTrackerResource.inputSource, input => !string.IsNullOrEmpty(input));
                         if (string.IsNullOrEmpty(sourceInput))
                         {
                             return;
@@ -293,7 +298,7 @@ namespace ExpenseTracker.View
                     }
                     else
                     {
-                        string categoryInput = this.GetInputWithAttemps(ExpenseTrackerResource.inputCategory, input => !string.IsNullOrEmpty(input)) ?? string.Empty;
+                        string categoryInput = this.GetInputWithAttemps(ExpenseTrackerResource.inputCategory, input => !string.IsNullOrEmpty(input));
                         if (string.IsNullOrEmpty(categoryInput))
                         {
                             return;
@@ -466,7 +471,7 @@ namespace ExpenseTracker.View
         /// <returns>The transaction date.</returns>
         private DateTime? GetDateOfTransaction()
         {
-            string inputDate = this.GetInputWithAttemps(ExpenseTrackerResource.inputDate, Validator.IsValidDate) ?? string.Empty;
+            string inputDate = this.GetInputWithAttemps(ExpenseTrackerResource.inputDate, Validator.IsValidDate);
             if (string.IsNullOrEmpty(inputDate))
             {
                 return null;
@@ -479,15 +484,15 @@ namespace ExpenseTracker.View
         /// Gets expense details.
         /// </summary>
         /// <returns>An expense record.</returns>
-        private Expense? GetExpenseDetails()
+        private Expense GetExpenseDetails()
         {
-            string amountInput = this.GetInputWithAttemps(ExpenseTrackerResource.inputExpenseAmount, Validator.IsValidAmount) ?? string.Empty;
+            string amountInput = this.GetInputWithAttemps(ExpenseTrackerResource.inputExpenseAmount, Validator.IsValidAmount);
             if (string.IsNullOrEmpty(amountInput))
             {
                 return null;
             }
 
-            string categoryInput = this.GetInputWithAttemps(ExpenseTrackerResource.inputCategory, input => !string.IsNullOrEmpty(input)) ?? string.Empty;
+            string categoryInput = this.GetInputWithAttemps(ExpenseTrackerResource.inputCategory, input => !string.IsNullOrEmpty(input));
             if (string.IsNullOrEmpty(categoryInput))
             {
                 return null;
@@ -500,15 +505,15 @@ namespace ExpenseTracker.View
         /// Gets income details.
         /// </summary>
         /// <returns>An income record.</returns>
-        private Income? GetIncomeDetails()
+        private Income GetIncomeDetails()
         {
-            string amountInput = this.GetInputWithAttemps(ExpenseTrackerResource.inputIncomeAmount, Validator.IsValidAmount) ?? string.Empty;
+            string amountInput = this.GetInputWithAttemps(ExpenseTrackerResource.inputIncomeAmount, Validator.IsValidAmount);
             if (string.IsNullOrEmpty(amountInput))
             {
                 return null;
             }
 
-            string sourceInput = this.GetInputWithAttemps(ExpenseTrackerResource.inputSource, input => !string.IsNullOrEmpty(input)) ?? string.Empty;
+            string sourceInput = this.GetInputWithAttemps(ExpenseTrackerResource.inputSource, input => !string.IsNullOrEmpty(input));
             if (string.IsNullOrEmpty(sourceInput))
             {
                 return null;

@@ -1,4 +1,6 @@
-﻿using ExpenseTracker.Models;
+﻿using System;
+using System.Collections.Generic;
+using ExpenseTracker.Models;
 
 namespace ExpenseTracker.Repository
 {
@@ -52,6 +54,24 @@ namespace ExpenseTracker.Repository
         {
             this._expenseFile.SaveTransactionsFile(this._expenses);
             this._incomeFile.SaveTransactionsFile(this._incomes);
+        }
+
+        /// <summary>
+        /// Sets the current net balance to a specified value.
+        /// </summary>
+        /// <param name="newNetBalance">The new net balance amount to set.</param>
+        public void SetNetBalance(decimal newNetBalance)
+        {
+            this.NetBalance = newNetBalance;
+        }
+
+        /// <summary>
+        /// Retrieves the current net balance.
+        /// </summary>
+        /// <returns>The current net balance as a <see cref="decimal"/>.</returns>
+        public decimal GetNetBalance()
+        {
+            return this.NetBalance;
         }
 
         /// <summary>
