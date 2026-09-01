@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using LINQchallenges.Domain;
 using LINQchallenges.Infrastucture;
@@ -47,7 +48,7 @@ namespace LINQchallenges.Application
         /// <returns>True if the category exists; otherwise, false.</returns>
         public bool DoesCategoryExist(string categoryName)
         {
-            return this.GetAllProducts().Any(c => c.Category.Equals(categoryName));
+            return this.GetAllProducts().Any(c => c.Category.Equals(categoryName, StringComparison.OrdinalIgnoreCase));
         }
 
         /// <summary>
@@ -58,7 +59,7 @@ namespace LINQchallenges.Application
         /// <returns>An anonymous collection containing product names and prices.</returns>
         public IEnumerable<object> FilterbyCategoryAndPrice(string categoryName, decimal price)
         {
-            return this.GetAllProducts().Where(p => p.Category.Equals(categoryName) && p.Price > price)
+            return this.GetAllProducts().Where(p => p.Category.Equals(categoryName, StringComparison.OrdinalIgnoreCase) && p.Price > price)
                 .Select(p => new { p.ProductName, p.Price }).ToList();
         }
 
@@ -71,7 +72,7 @@ namespace LINQchallenges.Application
         public IEnumerable<Product> OrderCategoryByDescending(string categoryName, decimal price)
         {
             return this.GetAllProducts()
-                .Where(p => p.Category.Equals(categoryName) && p.Price > price)
+                .Where(p => p.Category.Equals(categoryName, StringComparison.OrdinalIgnoreCase) && p.Price > price)
                 .OrderByDescending(p => p.Price);
         }
 
@@ -84,7 +85,7 @@ namespace LINQchallenges.Application
         public decimal GetAverage(string categoryName, decimal price)
         {
             return this.GetAllProducts()
-                .Where(p => p.Category.Equals(categoryName) && p.Price > price)
+                .Where(p => p.Category.Equals(categoryName, StringComparison.OrdinalIgnoreCase) && p.Price > price)
                 .Average(p => p.Price);
         }
 

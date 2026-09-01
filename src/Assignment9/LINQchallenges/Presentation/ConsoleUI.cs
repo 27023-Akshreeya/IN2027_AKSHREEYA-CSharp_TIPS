@@ -86,7 +86,7 @@ namespace LINQchallenges.Presentation
         /// </summary>
         private void Task3()
         {
-            Console.Write("\nTask 5 - array manipulation using LINQ\n");
+            Console.Write("\nTask 3 - array manipulation using LINQ\n");
             int arraySize = this.GetNumericInput("Enter Array size:");
             if (arraySize <= 0)
             {
@@ -138,6 +138,7 @@ namespace LINQchallenges.Presentation
         /// <returns>A validated category name, or an empty string if invalid.</returns>
         private string GetProductCategory()
         {
+            Console.WriteLine("Available categories:\nElectronics, Books, Accessories, Furniture\n");
             Console.Write("Enter product Category:");
             string productCategory = Console.ReadLine() ?? string.Empty;
             if (productCategory.Equals(string.Empty) || !this._productManagementService.DoesCategoryExist(productCategory))
