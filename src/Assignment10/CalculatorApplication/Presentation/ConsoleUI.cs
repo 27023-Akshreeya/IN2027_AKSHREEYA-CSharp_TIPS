@@ -28,8 +28,8 @@ namespace CalculatorApplication.Presentation
             bool exit = false;
             while (!exit)
             {
-                Console.WriteLine("Select an operation:\n1. Add\n2. Subtract\n3. Multiply\n4. Divide");
-                string choice = this.GetUserInputWithAttempts("Enter your choice:", validator => validator.Equals("1") || validator.Equals("2") || validator.Equals("3") || validator.Equals("4"), "Invalid Choice!");
+                Console.WriteLine("Select an operation:\n1. Add\n2. Subtract\n3. Multiply\n4. Divide\n5. Exit");
+                string choice = this.GetUserInputWithAttempts("Enter your choice:", validator => validator.Equals("1") || validator.Equals("2") || validator.Equals("3") || validator.Equals("4") || validator.Equals("5"), "Invalid Choice!");
                 if (string.IsNullOrEmpty(choice))
                 {
                     this.DisplayMessage("No valid choice entered. Exiting.", ConsoleColor.Red);
@@ -54,13 +54,15 @@ namespace CalculatorApplication.Presentation
                         this.DisplayMessage("Division Operation", ConsoleColor.Green);
                         this.PerformOperation(CalculatorOperation.Divide);
                         break;
+                    case CalculatorOperation.Exit:
+                        exit = true;
+                        return;
                     default:
                         this.DisplayMessage("Invalid operation selected.", ConsoleColor.Red);
                         break;
                 }
 
                 exit = this.GetUserInputWithAttempts("Do you want to exit? (y/n):", input => input.ToLower().Equals("y") || input.ToLower().Equals("n"), "Invalid input! Please enter 'y' or 'n'.").ToLower().Equals("y");
-                Console.Clear();
             }
         }
 

@@ -32,6 +32,11 @@ namespace CalculatorApplication.Domain
         Divide,
 
         /// <summary>
+        /// Represents the exit operation to terminate the application.
+        /// </summary>
+        Exit,
+
+        /// <summary>
         /// Represents an unsupported or uninitialized state.
         /// </summary>
         Invalid,
