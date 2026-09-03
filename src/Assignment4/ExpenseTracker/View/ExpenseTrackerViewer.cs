@@ -32,6 +32,7 @@ namespace ExpenseTracker.View
         public void DisplayMenu()
         {
             bool exit = false;
+            this._service.GetAllFiles();
 
             while (!exit)
             {
@@ -93,6 +94,7 @@ namespace ExpenseTracker.View
 
                     case MenuChoices.Exit:
                         AnsiConsole.Markup(ExpenseTrackerResource.Exiting);
+                        this._service.SaveAllFiles();
                         exit = true;
                         return;
 

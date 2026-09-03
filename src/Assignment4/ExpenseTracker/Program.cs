@@ -6,19 +6,19 @@ using ExpenseTracker.View;
 namespace Assignments
 {
     /// <summary>
-    /// Entry point for the Expense Tracker application.
+    /// Represents the entry point for the expense tracking application.
     /// </summary>
     public class Program
     {
         /// <summary>
-        /// Application entry point that initializes and runs the expense tracker.
+        /// Initializes and runs the Expense Tracker application.
         /// </summary>
         /// <param name="args">Command-line arguments.</param>
         public static void Main(string[] args)
         {
             try
             {
-                var repo = new ExpenseTrackerRepository();
+                var repo = new ExpenseTrackerMemoryRepository();
                 var service = new ExpenseTrackerService(repo);
                 var view = new ExpenseTrackerViewer(service);
                 view.DisplayMenu();
@@ -27,6 +27,8 @@ namespace Assignments
             {
                 Console.WriteLine(ex.Message);
             }
+
+            Console.ReadKey();
         }
     }
 }

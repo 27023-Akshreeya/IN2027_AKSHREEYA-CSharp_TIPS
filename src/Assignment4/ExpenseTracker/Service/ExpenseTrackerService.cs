@@ -12,15 +12,31 @@ namespace ExpenseTracker.Service
     /// </summary>
     public class ExpenseTrackerService
     {
-        private readonly ExpenseTrackerRepository _repo;
+        private readonly IExpenseTrackerRepository _repo;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ExpenseTrackerService"/> class.
         /// </summary>
         /// <param name="repo">The repository used to store and retrieve transaction data. </param>
-        public ExpenseTrackerService(ExpenseTrackerRepository repo)
+        public ExpenseTrackerService(ExpenseTrackerMemoryRepository repo)
         {
             this._repo = repo;
+        }
+
+        /// <summary>
+        /// Loads all data files into the repository.
+        /// </summary>
+        public void GetAllFiles()
+        {
+            this._repo.LoadDataFromFiles();
+        }
+
+        /// <summary>
+        /// Saves all data files into the repository
+        /// </summary>
+        public void SaveAllFiles()
+        {
+            this._repo.SaveChangesToFiles();
         }
 
         /// <summary>
