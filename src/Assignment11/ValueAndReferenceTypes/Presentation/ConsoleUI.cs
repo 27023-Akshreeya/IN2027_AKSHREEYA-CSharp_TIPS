@@ -56,14 +56,26 @@ namespace ValueAndReferenceTypes.Presentation
                 this._service.ModifyStudentName(newStudent, newStudentName);
                 this._service.ModifyTeacherName(newTeacher, newTeacherName);
                 Console.WriteLine($"\nStudent name after modification: {newStudent.Name}");
-                Console.Write($"Teacher name after modification: {newTeacher.Name}");
+                Console.WriteLine($"Teacher name after modification: {newTeacher.Name}");
                 isValid = true;
             }
+        }
+
+        public void Task2()
+        {
+            Console.WriteLine("\nTask 2\nAllocating a large integer array");
+            var array = this._service.AllocateOnHeap();
+            Console.WriteLine($"Array allocation is done\nFirst element: {array[0]} | last element: {array[^1]}");
+            Console.WriteLine("Performing calculation with local value types on the stack");
+            Console.WriteLine($"Calculation done. Result: {this._service.AllocateOnStack()}");
         }
 
         public void Execute()
         {
             this.Task1();
+            this.Task2();
+            Console.WriteLine("Press any key to exit");
+            Console.ReadKey();
         }
     }
 }
