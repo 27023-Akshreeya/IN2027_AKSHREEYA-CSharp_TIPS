@@ -3,15 +3,25 @@ using ValueAndReferenceTypes.Application;
 
 namespace ValueAndReferenceTypes.Presentation
 {
+    /// <summary>
+    /// Handles user interaction and presentation logic for testing value and reference types.
+    /// </summary>
     public class ConsoleUI
     {
         private readonly ValueAndReferenceTypeService _service;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConsoleUI"/> class.
+        /// </summary>
+        /// <param name="service">The underlying logic service module.</param>
         public ConsoleUI(ValueAndReferenceTypeService service)
         {
             this._service = service;
         }
 
+        /// <summary>
+        /// Prompts user input to demonstrate reference mutating versus value copying behaviors.
+        /// </summary>
         public void Task1()
         {
             bool isValid = false;
@@ -61,6 +71,9 @@ namespace ValueAndReferenceTypes.Presentation
             }
         }
 
+        /// <summary>
+        /// Triggers execution paths for testing stack allocations and heavy heap allocations.
+        /// </summary>
         public void Task2()
         {
             Console.WriteLine("\nTask 2\nAllocating a large integer array");
@@ -70,6 +83,9 @@ namespace ValueAndReferenceTypes.Presentation
             Console.WriteLine($"Calculation done. Result: {this._service.AllocateOnStack()}");
         }
 
+        /// <summary>
+        /// Orchestrates sequential flow execution across all defined test tasks.
+        /// </summary>
         public void Execute()
         {
             this.Task1();
