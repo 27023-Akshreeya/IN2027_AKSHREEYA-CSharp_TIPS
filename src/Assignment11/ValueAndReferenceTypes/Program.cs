@@ -10,7 +10,7 @@ namespace Assignments
     public class Program
     {
         /// <summary>
-        /// Instantiates application modules and begins the user interface execution loop.
+        /// Instantiates application modules and begins the user interface execution.
         /// </summary>
         /// <param name="args">Command-line arguments.</param>
         public static void Main(string[] args)

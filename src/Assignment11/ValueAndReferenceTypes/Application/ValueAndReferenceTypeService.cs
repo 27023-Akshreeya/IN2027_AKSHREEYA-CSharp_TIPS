@@ -35,7 +35,8 @@ namespace ValueAndReferenceTypes.Application
         /// <param name="newStudentName">The new name to apply.</param>
         public void ModifyStudentName(Student newStudent, string newStudentName)
         {
-            newStudent.Name = newStudentName;
+            var student = newStudent;
+            student.Name = newStudentName;
         }
 
         /// <summary>
@@ -45,7 +46,8 @@ namespace ValueAndReferenceTypes.Application
         /// <param name="newTeacherName">The new name to apply.</param>
         public void ModifyTeacherName(Teacher newTeacher, string newTeacherName)
         {
-            newTeacher.Name = newTeacherName;
+            var teacher = newTeacher;
+            teacher.Name = newTeacherName;
         }
 
         /// <summary>
@@ -55,7 +57,7 @@ namespace ValueAndReferenceTypes.Application
         public int[] AllocateOnHeap()
         {
             Console.WriteLine("Allocating a large array on the Heap...");
-            int[] largeArray = new int[10_000_000];
+            int[] largeArray = new int[10000000];
             for (int i = 0; i < largeArray.Length; i++)
             {
                 largeArray[i] = i;
@@ -81,7 +83,7 @@ namespace ValueAndReferenceTypes.Application
             int b4 = 9;
             int b5 = 10;
             int sum = 0;
-            for (int i = 0; i < 50_000_000; i++)
+            for (int i = 0; i < 50000000; i++)
             {
                 sum += (a1 * b1) + (a2 * b2) + (a3 * b3) + (a4 * b4) + (a5 * b5) + i;
             }
