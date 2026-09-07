@@ -29,7 +29,6 @@ namespace IDisposableDemo.Infrastructure
         public void Write(string text)
         {
             this._streamWriter.WriteLine(text);
-            this._streamWriter.Flush();
         }
 
         /// <summary>

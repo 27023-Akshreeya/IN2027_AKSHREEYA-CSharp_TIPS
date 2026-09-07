@@ -23,7 +23,7 @@ namespace Assignments
                     writer.Write("this is a new line");
                 }
 
-                Console.WriteLine("Read file");
+                Console.WriteLine("Reading file");
 
                 using (var reader = new FileReader(filepath))
                 {
