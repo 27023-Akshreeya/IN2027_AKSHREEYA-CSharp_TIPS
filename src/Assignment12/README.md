@@ -3,14 +3,14 @@
 
 - These newly created arrays are continuously added to a list where the reference is retained by the list and is not being collected by the Garbage Collector resulting in a steady growth of managed heap memory.
 
-- Throws `System.OutOfMemoryException` due to memory leaks.
+- Eventually throws `System.OutOfMemoryException` because memory consumption continues to increase indefinitely.
 
 ![alt text](image.png)
 
 ## Task 2 - Optimized code
 
-- Replace the infintely running loop to a condition based loop 
-- Limited the total number of alloction by initializing a constant variable `AllocationCount` to `1000`
+- Replace the infinitely running loop to a condition based loop 
+- Limited the total number of alloction by introducing a constant variable `AllocationCount = 1000`
 - loop ends when the list count reaches the `AllocationCount` making the execution finite
 
 ## Task 3 - Comparision of memory usage and Role of memory profiler
