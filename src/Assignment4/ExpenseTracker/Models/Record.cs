@@ -8,6 +8,11 @@ namespace ExpenseTracker.Models
     /// </summary>
     public abstract class Record
     {
+        public Record(decimal amount)
+        {
+            this.Amount = amount;
+        }
+
         /// <summary>
         /// Gets or sets the date on which the transaction occurred.
         /// </summary>
@@ -23,5 +28,13 @@ namespace ExpenseTracker.Models
         /// The unique identifier of the transaction.
         /// </value>
         public Guid TransactionID { get; set; }
+
+        /// <summary>
+        /// Gets or sets amount
+        /// </summary>
+        /// <value>
+        /// amount
+        /// </value>
+        public decimal Amount { get; set; }
     }
 }

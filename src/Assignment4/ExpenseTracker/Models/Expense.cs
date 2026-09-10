@@ -19,18 +19,10 @@ namespace ExpenseTracker.Models
         /// The category to which the expense belongs (e.g., Food, Travel, Entertainment).
         /// </param>
         public Expense(decimal expenseAmount, string category)
+            : base(expenseAmount)
         {
-            this.ExpenseAmount = expenseAmount;
             this.Category = category;
         }
-
-        /// <summary>
-        /// Gets or sets the amount spent for this expense transaction.
-        /// </summary>
-        /// <value>
-        /// The amount spent for this expense transaction.
-        /// </value>
-        public decimal ExpenseAmount { get; set; }
 
         /// <summary>
         /// Gets or sets the category of the expense.

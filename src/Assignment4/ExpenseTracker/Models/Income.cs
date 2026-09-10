@@ -19,18 +19,10 @@ namespace ExpenseTracker.Models
         /// The source of the income (e.g., Salary, Freelancing, Investment).
         /// </param>
         public Income(decimal incomeAmount, string source)
+            : base(incomeAmount)
         {
-            this.IncomeAmount = incomeAmount;
             this.Source = source;
         }
-
-        /// <summary>
-        /// Gets or sets the amount received for this income transaction.
-        /// </summary>
-        /// <value>
-        /// The amount received for this income transaction.
-        /// </value>
-        public decimal IncomeAmount { get; set; }
 
         /// <summary>
         /// Gets or sets the source of the income.

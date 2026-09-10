@@ -36,47 +36,37 @@ namespace ExpenseTracker.Service
         }
 
         /// <summary>
-        /// Adds a new expense transaction.
+        /// Adds a transaction record and updates the repository's net balance.
         /// </summary>
-        /// <param name="newExpenseDetails"> The expense transaction details.</param>
-        /// <param name="transactionDate"> The date of the expense transaction.</param>
-        /// <returns>true if expense is added successfull, otherwise false</returns>
-        public bool AddExpenseTransaction(Expense newExpenseDetails, DateTime transactionDate)
+        /// <param name="newRecordDetails">The expense or income record to add.</param>
+        /// <param name="transactionDate">The date to assign to the transaction.</param>
+        /// <returns><see langword="true"/> if successfully added; otherwise, <see langword="false"/>.</returns>
+        public bool AddNewTransactionRecord(Record newRecordDetails, DateTime transactionDate)
         {
-            if (newExpenseDetails is null)
+            if (newRecordDetails is null)
             {
                 return false;
             }
 
-            newExpenseDetails.TransactionID = Guid.NewGuid();
-            newExpenseDetails.Date = transactionDate;
+            newRecordDetails.TransactionID = Guid.NewGuid();
+            newRecordDetails.Date = transactionDate;
             decimal netBalance = this._repo.GetNetBalance();
-            netBalance -= newExpenseDetails.ExpenseAmount;
-            this._repo.SetNetBalance(netBalance);
-            this._repo.AddExpense(newExpenseDetails);
-            return true;
-        }
-
-        /// <summary>
-        /// Adds a new income transaction.
-        /// </summary>
-        /// <param name="newIncomeDetails"> The income transaction details.</param>
-        /// <param name="transactionDate">The date of the income transaction.</param>
-        /// <returns>true if income is added successfull, otherwise false</returns>
-        public bool AddIncomeTransaction(Income newIncomeDetails, DateTime transactionDate)
-        {
-            if (newIncomeDetails is null)
+            if (newRecordDetails is Expense newExpenseDetails)
             {
-                return false;
+                netBalance -= newExpenseDetails.Amount;
+                this._repo.SetNetBalance(netBalance);
+                this._repo.AddExpense(newExpenseDetails);
+                return true;
+            }
+            else if (newRecordDetails is Income newIncomeDetails)
+            {
+                netBalance += newIncomeDetails.Amount;
+                this._repo.SetNetBalance(netBalance);
+                this._repo.AddIncome(newIncomeDetails);
+                return true;
             }
 
-            newIncomeDetails.TransactionID = Guid.NewGuid();
-            newIncomeDetails.Date = transactionDate;
-            decimal netBalance = this._repo.GetNetBalance();
-            netBalance += newIncomeDetails.IncomeAmount;
-            this._repo.SetNetBalance(netBalance);
-            this._repo.AddIncome(newIncomeDetails);
-            return true;
+            return false;
         }
 
         /// <summary>
@@ -92,90 +82,6 @@ namespace ExpenseTracker.Service
         public IReadOnlyList<Expense> GetExpenseRecords() => this._repo.GetExpense();
 
         /// <summary>
-        /// Updates an existing income transaction.
-        /// </summary>
-        /// <param name="updateRecordId">The unique identifier of the income transaction to update.</param>
-        /// <param name="updateInput"> The new value to be applied.</param>
-        /// <param name="updateTransaction">The transaction field to update. </param>
-        /// <returns>true if income is updated successfull, otherwise false</returns>
-        public bool UpdateIncomeTransaction(Guid updateRecordId, string updateInput, UpdateTransaction updateTransaction)
-        {
-            var records = this.GetIncomeRecords();
-            var existingTransaction = records.FirstOrDefault(x => x.TransactionID == updateRecordId);
-            if (existingTransaction is null)
-            {
-                return false;
-            }
-
-            var oldAmount = existingTransaction.IncomeAmount;
-            switch (updateTransaction)
-            {
-                case UpdateTransaction.Date:
-                    DateTime.TryParse(updateInput, out DateTime updateDate);
-                    existingTransaction.Date = updateDate;
-                    break;
-                case UpdateTransaction.Amount:
-                    decimal.TryParse(updateInput, out decimal updateAmount);
-                    existingTransaction.IncomeAmount = updateAmount;
-                    decimal netBalance = this._repo.GetNetBalance();
-                    netBalance -= oldAmount;
-                    netBalance += existingTransaction.IncomeAmount;
-                    this._repo.SetNetBalance(netBalance);
-                    break;
-                case UpdateTransaction.SourceorCategory:
-                    existingTransaction.Source = updateInput;
-                    break;
-                default:
-                    return false;
-            }
-
-            this._repo.UpdateIncomeRecords(existingTransaction);
-            return true;
-        }
-
-        /// <summary>
-        /// Updates an existing expense transaction.
-        /// </summary>
-        /// <param name="updateRecordId">The unique identifier of the expense transaction to update.</param>
-        /// <param name="updateInput">The new value to be applied.</param>
-        /// <param name="updateTransaction">true if income is updated successfull, otherwise false</param>
-        /// <returns>true if expense is updated successfull, otherwise false.</returns>
-        public bool UpdateExpenseTransaction(Guid updateRecordId, string updateInput, UpdateTransaction updateTransaction)
-        {
-            var records = this.GetExpenseRecords();
-            var existingTransaction = records.FirstOrDefault(x => x.TransactionID == updateRecordId);
-            if (existingTransaction is null)
-            {
-                return false;
-            }
-
-            var oldAmount = existingTransaction.ExpenseAmount;
-            switch (updateTransaction)
-            {
-                case UpdateTransaction.Date:
-                    DateTime.TryParse(updateInput, out DateTime updateDate);
-                    existingTransaction.Date = updateDate;
-                    break;
-                case UpdateTransaction.Amount:
-                    decimal.TryParse(updateInput, out decimal updateAmount);
-                    existingTransaction.ExpenseAmount = updateAmount;
-                    decimal netBalance = this._repo.GetNetBalance();
-                    netBalance -= oldAmount;
-                    netBalance -= existingTransaction.ExpenseAmount;
-                    this._repo.SetNetBalance(netBalance);
-                    break;
-                case UpdateTransaction.SourceorCategory:
-                    existingTransaction.Category = updateInput;
-                    break;
-                default:
-                    return false;
-            }
-
-            this._repo.UpdateExpenseRecords(existingTransaction);
-            return true;
-        }
-
-        /// <summary>
         /// Thia deletes an existing transaction
         /// </summary>
         /// <param name="deleteRecordId">the id to be deleted</param>
@@ -183,6 +89,11 @@ namespace ExpenseTracker.Service
         /// <returns>true if deletion is successfull, otherwise false</returns>
         public bool DeleteRecordTransaction(Guid deleteRecordId, RecordChoices recordChoice)
         {
+            if (!this.DoesTransactionExists(deleteRecordId, recordChoice))
+            {
+                return false;
+            }
+
             if (recordChoice.Equals(RecordChoices.IncomeRecords))
             {
                 var incomes = this.GetIncomeRecords();
@@ -190,7 +101,7 @@ namespace ExpenseTracker.Service
                 if (deleteIncomeRecord != null)
                 {
                     decimal netBalance = this._repo.GetNetBalance();
-                    netBalance -= deleteIncomeRecord.IncomeAmount;
+                    netBalance -= deleteIncomeRecord.Amount;
                     this._repo.SetNetBalance(netBalance);
                     this._repo.DeleteIncomeRecord(deleteRecordId);
                     return true;
@@ -203,11 +114,79 @@ namespace ExpenseTracker.Service
                 if (deleteExpenseRecord != null)
                 {
                     decimal netBalance = this._repo.GetNetBalance();
-                    netBalance += deleteExpenseRecord.ExpenseAmount;
+                    netBalance += deleteExpenseRecord.Amount;
                     this._repo.SetNetBalance(netBalance);
                     this._repo.DeleteExpenseRecord(deleteRecordId);
                     return true;
                 }
+            }
+
+            return false;
+        }
+
+        public Record GetRecordByTransactionID(Guid transactionID, RecordChoices record)
+        {
+            if (record is RecordChoices.ExpenseRecords)
+            {
+                return this.GetExpenseRecords().FirstOrDefault(t => t.TransactionID.Equals(transactionID));
+            }
+
+            return this.GetIncomeRecords().FirstOrDefault(t => t.TransactionID.Equals(transactionID));
+        }
+
+        public bool UpdateTransactionDate(Guid updateRecordId, DateTime date, RecordChoices record)
+        {
+            var updateRecord = this.GetRecordByTransactionID(updateRecordId, record);
+            if (updateRecord is Expense expenseTransaction && expenseTransaction != null)
+            {
+                expenseTransaction.Date = date;
+                return true;
+            }
+            else if (updateRecord is Income incomeTransaction && incomeTransaction != null)
+            {
+                incomeTransaction.Date = date;
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool UpdateTransactionAmount(Guid updateRecordId, string updateAmount, RecordChoices records)
+        {
+            var updateRecord = this.GetRecordByTransactionID(updateRecordId, records);
+            var oldAmount = updateRecord.Amount;
+            updateRecord.Amount = decimal.Parse(updateAmount);
+            decimal netBalance = this._repo.GetNetBalance();
+            if (updateRecord is Expense expenseTransaction && expenseTransaction != null)
+            {
+                netBalance += oldAmount;
+                netBalance -= expenseTransaction.Amount;
+                this._repo.SetNetBalance(netBalance);
+                return true;
+            }
+            else if (updateRecord is Income incomeTransaction && incomeTransaction != null)
+            {
+                netBalance -= oldAmount;
+                netBalance += incomeTransaction.Amount;
+                this._repo.SetNetBalance(netBalance);
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool UpdateTransactionDescription(Guid updateRecordId, string description, RecordChoices records)
+        {
+            var updateRecord = this.GetRecordByTransactionID(updateRecordId, records);
+            if (updateRecord is Expense expenseTransaction)
+            {
+                expenseTransaction.Category = description;
+                return true;
+            }
+            else if (updateRecord is Income incomeTransaction)
+            {
+                incomeTransaction.Source = description;
+                return true;
             }
 
             return false;

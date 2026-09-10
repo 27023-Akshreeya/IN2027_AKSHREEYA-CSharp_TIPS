@@ -25,6 +25,6 @@ namespace ExpenseTracker.Models.Enums
         /// <summary>
         /// Updates the transaction source (for income) or category (for expense).
         /// </summary>
-        SourceorCategory = 3,
+        SourceOrCategory = 3,
     }
 }

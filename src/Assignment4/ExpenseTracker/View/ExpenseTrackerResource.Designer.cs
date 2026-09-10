@@ -124,6 +124,15 @@ namespace ExpenseTracker.View {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enter your choice:.
+        /// </summary>
+        internal static string choice {
+            get {
+                return ResourceManager.GetString("choice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Close.
         /// </summary>
         internal static string Close {
@@ -138,6 +147,15 @@ namespace ExpenseTracker.View {
         internal static string Date {
             get {
                 return ResourceManager.GetString("Date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete operation:.
+        /// </summary>
+        internal static string DeleteOperation {
+            get {
+                return ResourceManager.GetString("DeleteOperation", resourceCulture);
             }
         }
         
@@ -316,6 +334,15 @@ namespace ExpenseTracker.View {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to [bold]Net Balance[/].
+        /// </summary>
+        internal static string NetBalance {
+            get {
+                return ResourceManager.GetString("NetBalance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 
         ///Main menu
         ///Select an option:.
@@ -341,6 +368,15 @@ namespace ExpenseTracker.View {
         internal static string Source {
             get {
                 return ResourceManager.GetString("Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [green]Successfully [/].
+        /// </summary>
+        internal static string Success {
+            get {
+                return ResourceManager.GetString("Success", resourceCulture);
             }
         }
         
@@ -430,6 +466,15 @@ namespace ExpenseTracker.View {
         internal static string updateIncomeRecord {
             get {
                 return ResourceManager.GetString("updateIncomeRecord", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update operation:.
+        /// </summary>
+        internal static string Updateoperation {
+            get {
+                return ResourceManager.GetString("Updateoperation", resourceCulture);
             }
         }
         

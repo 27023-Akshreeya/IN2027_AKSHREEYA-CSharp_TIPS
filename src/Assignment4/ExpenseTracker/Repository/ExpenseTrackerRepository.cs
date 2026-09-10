@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using ExpenseTracker.Models;
-using Spectre.Console;
 
 namespace ExpenseTracker.Repository
 {
@@ -80,7 +79,7 @@ namespace ExpenseTracker.Repository
             if (incomeRecord != null)
             {
                 incomeRecord.Source = updateIncome.Source;
-                incomeRecord.IncomeAmount = updateIncome.IncomeAmount;
+                incomeRecord.Amount = updateIncome.Amount;
                 incomeRecord.Date = updateIncome.Date;
             }
         }
@@ -97,7 +96,7 @@ namespace ExpenseTracker.Repository
             if (expenseRecord != null)
             {
                 expenseRecord.Category = updateExpense.Category;
-                expenseRecord.ExpenseAmount = updateExpense.ExpenseAmount;
+                expenseRecord.Amount = updateExpense.Amount;
                 expenseRecord.Date = updateExpense.Date;
             }
         }

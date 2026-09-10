@@ -256,4 +256,19 @@ Select an option:</value>
     <value>Empty record ! There are no transactions
 </value>
   </data>
+  <data name="DeleteOperation" xml:space="preserve">
+    <value>Delete operation:</value>
+  </data>
+  <data name="NetBalance" xml:space="preserve">
+    <value>[bold]Net Balance[/]</value>
+  </data>
+  <data name="Updateoperation" xml:space="preserve">
+    <value>Update operation:</value>
+  </data>
+  <data name="choice" xml:space="preserve">
+    <value>Enter your choice:</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>[green]Successfully [/]</value>
+  </data>
 </root>

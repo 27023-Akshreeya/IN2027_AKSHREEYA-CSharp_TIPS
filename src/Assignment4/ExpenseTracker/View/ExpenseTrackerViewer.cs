@@ -72,10 +72,6 @@ namespace ExpenseTracker.View
                         {
                             AnsiConsole.Markup(ExpenseTrackerResource.InvalidInput);
                         }
-                        else if (displayTransaction == RecordChoices.Empty)
-                        {
-                            AnsiConsole.Markup(ExpenseTrackerResource.empty);
-                        }
 
                         break;
 
@@ -84,7 +80,7 @@ namespace ExpenseTracker.View
                         break;
 
                     case MenuChoices.EditTransaction:
-                        this.GetTransactionId();
+                        this.UpdateTransactionID();
                         break;
 
                     case MenuChoices.DeleteTransaction:
@@ -101,7 +97,7 @@ namespace ExpenseTracker.View
                         break;
                 }
 
-                string exitchoice = this.GetInputWithAttemps(ExpenseTrackerResource.ExitConfirm, Validator.IsChoiceValid);
+                string exitchoice = this.GetInputWithAttempts(ExpenseTrackerResource.ExitConfirm, Validator.IsChoiceValid);
 
                 if (exitchoice.Equals(string.Empty))
                 {
@@ -117,20 +113,18 @@ namespace ExpenseTracker.View
         }
 
         /// <summary>
-        /// Gets validated user input.
+        /// Prompts the user for input and validates it, allowing up to three attempts.
         /// </summary>
-        /// <param name="input">Prompt message.</param>
-        /// <param name="validator">Input validator.</param>
-        /// <returns>Validated input or null.</returns>
-        private string GetInputWithAttemps(string input, InputValidator validator)
+        /// <param name="input">The display message or prompt for the user.</param>
+        /// <param name="validator">The function used to validate the user's input.</param>
+        /// <returns>The validated input string if successful; otherwise, an empty string.</returns>
+        private string GetInputWithAttempts(string input, InputValidator validator)
         {
             for (int tries = 3; tries > 0; tries--)
             {
                 Console.WriteLine($"\nAttempts remaining: {tries}");
                 AnsiConsole.Markup(input);
-
                 string userInput = Console.ReadLine() ?? string.Empty;
-
                 if (validator(userInput))
                 {
                     return userInput;
@@ -147,34 +141,26 @@ namespace ExpenseTracker.View
         /// </summary>
         private void GetDeleteId()
         {
-            Console.WriteLine("Delete operation:");
+            Console.WriteLine(ExpenseTrackerResource.DeleteOperation);
             var recordChoice = this.GetDisplayDetails();
             if (recordChoice.Equals(RecordChoices.Close))
             {
                 return;
             }
-            else if (recordChoice.Equals(RecordChoices.Empty))
-            {
-                AnsiConsole.Markup(ExpenseTrackerResource.empty);
-                return;
-            }
 
-            string transactionID = this.GetInputWithAttemps(ExpenseTrackerResource.InputTransactionID, input => Guid.TryParse(input, out _));
+            string transactionID = this.GetInputWithAttempts(ExpenseTrackerResource.InputTransactionID, input => Guid.TryParse(input, out _));
             if (!Guid.TryParse(transactionID, out Guid deleteRecordId))
             {
                 return;
             }
 
-            if (!this._service.DoesTransactionExists(deleteRecordId, recordChoice))
+            if (!this._service.DeleteRecordTransaction(deleteRecordId, recordChoice))
             {
                 AnsiConsole.Markup(ExpenseTrackerResource.InvalidInput);
                 return;
             }
 
-            if (this._service.DeleteRecordTransaction(deleteRecordId, recordChoice))
-            {
-                this.DisplaySuccess(ExpenseTrackerResource.RecordDeleted);
-            }
+            this.DisplaySuccess(ExpenseTrackerResource.RecordDeleted);
         }
 
         /// <summary>
@@ -186,23 +172,23 @@ namespace ExpenseTracker.View
             var totalIncome = this.ViewIncomeRecords(incomeRecords);
             var expenseRecords = this._service.GetExpenseRecords();
             var totalExpense = this.ViewExpenseRecords(expenseRecords);
-            this.DisplayNetbalance(totalIncome, totalExpense);
+            this.DisplayNetBalance(totalIncome, totalExpense);
         }
 
-        private void DisplayNetbalance(decimal totalIncome, decimal totalExpense)
+        private void DisplayNetBalance(decimal totalIncome, decimal totalExpense)
         {
             var table = new Table();
-            table.AddColumn("[bold]Net Balance[/]");
-            table.AddColumn($"[bold]{totalIncome + totalExpense}[/]");
+            table.AddColumn(ExpenseTrackerResource.NetBalance);
+            table.AddColumn($"[bold]{totalIncome - totalExpense}[/]");
             AnsiConsole.Write(table);
         }
 
         /// <summary>
         /// Updates a selected transaction.
         /// </summary>
-        private void GetTransactionId()
+        private void UpdateTransactionID()
         {
-            Console.WriteLine("Update operation:");
+            Console.WriteLine(ExpenseTrackerResource.Updateoperation);
             var recordChoice = this.GetDisplayDetails();
             if (recordChoice.Equals(RecordChoices.Close))
             {
@@ -214,7 +200,7 @@ namespace ExpenseTracker.View
                 return;
             }
 
-            string transactionID = this.GetInputWithAttemps(ExpenseTrackerResource.InputTransactionID, input => Guid.TryParse(input, out _));
+            string transactionID = this.GetInputWithAttempts(ExpenseTrackerResource.InputTransactionID, input => Guid.TryParse(input, out _));
             if (!Guid.TryParse(transactionID, out Guid updateRecordId) || !this._service.DoesTransactionExists(updateRecordId, recordChoice))
             {
                 AnsiConsole.Markup(ExpenseTrackerResource.InvalidInput);
@@ -230,7 +216,7 @@ namespace ExpenseTracker.View
                 Console.WriteLine(ExpenseTrackerResource.updateExpenseRecord);
             }
 
-            Console.Write("Enter your choice:");
+            Console.Write(ExpenseTrackerResource.choice);
             if (!byte.TryParse(Console.ReadLine(), out byte editChoice))
             {
                 AnsiConsole.Markup(ExpenseTrackerResource.InvalidInput);
@@ -240,72 +226,23 @@ namespace ExpenseTracker.View
             switch ((UpdateTransaction)editChoice)
             {
                 case UpdateTransaction.Date:
-                    var date = this.GetDateOfTransaction();
-                    if (recordChoice.Equals(RecordChoices.IncomeRecords))
-                    {
-                        if (this._service.UpdateIncomeTransaction(updateRecordId, date.ToString() ?? string.Empty, UpdateTransaction.Date))
-                        {
-                            this.DisplaySuccess(ExpenseTrackerResource.UpdatedIncome);
-                        }
-
-                        break;
-                    }
-
-                    if (this._service.UpdateExpenseTransaction(updateRecordId, date.ToString() ?? string.Empty, UpdateTransaction.Date))
-                    {
-                        this.DisplaySuccess(ExpenseTrackerResource.UpdatedExpense);
-                    }
-
-                    break;
-                case UpdateTransaction.Amount:
-                    string amountInput = this.GetInputWithAttemps(ExpenseTrackerResource.InputAmount, Validator.IsValidAmount);
-                    if (string.IsNullOrWhiteSpace(amountInput))
+                    if (!this.UpdateDate(recordChoice, updateRecordId))
                     {
                         return;
                     }
 
-                    if (recordChoice.Equals(RecordChoices.IncomeRecords))
+                    break;
+                case UpdateTransaction.Amount:
+                    if (!this.UpdateAmount(recordChoice, updateRecordId))
                     {
-                        if (this._service.UpdateIncomeTransaction(updateRecordId, amountInput, UpdateTransaction.Amount))
-                        {
-                            this.DisplaySuccess(ExpenseTrackerResource.UpdatedIncome);
-                        }
-
-                        break;
-                    }
-
-                    if (this._service.UpdateExpenseTransaction(updateRecordId, amountInput, UpdateTransaction.Amount))
-                    {
-                        this.DisplaySuccess(ExpenseTrackerResource.UpdatedExpense);
+                        return;
                     }
 
                     break;
-                case UpdateTransaction.SourceorCategory:
-                    if (recordChoice.Equals(RecordChoices.IncomeRecords))
+                case UpdateTransaction.SourceOrCategory:
+                    if (!this.UpdateDescription(recordChoice, updateRecordId))
                     {
-                        string sourceInput = this.GetInputWithAttemps(ExpenseTrackerResource.inputSource, input => !string.IsNullOrEmpty(input));
-                        if (string.IsNullOrEmpty(sourceInput))
-                        {
-                            return;
-                        }
-
-                        if (this._service.UpdateIncomeTransaction(updateRecordId, sourceInput, UpdateTransaction.SourceorCategory))
-                        {
-                            this.DisplaySuccess(ExpenseTrackerResource.UpdatedIncome);
-                        }
-                    }
-                    else
-                    {
-                        string categoryInput = this.GetInputWithAttemps(ExpenseTrackerResource.inputCategory, input => !string.IsNullOrEmpty(input));
-                        if (string.IsNullOrEmpty(categoryInput))
-                        {
-                            return;
-                        }
-
-                        if (this._service.UpdateExpenseTransaction(updateRecordId, categoryInput, UpdateTransaction.SourceorCategory))
-                        {
-                            this.DisplaySuccess(ExpenseTrackerResource.UpdatedExpense);
-                        }
+                        return;
                     }
 
                     break;
@@ -313,6 +250,93 @@ namespace ExpenseTracker.View
                     AnsiConsole.Markup(ExpenseTrackerResource.InvalidInput);
                     return;
             }
+        }
+
+        private bool UpdateDescription(RecordChoices recordChoice, Guid updateRecordId)
+        {
+            if (recordChoice.Equals(RecordChoices.IncomeRecords))
+            {
+                string sourceInput = this.GetInputWithAttempts(ExpenseTrackerResource.inputSource, input => !string.IsNullOrEmpty(input));
+                if (string.IsNullOrEmpty(sourceInput))
+                {
+                    return false;
+                }
+
+                if (this._service.UpdateTransactionDescription(updateRecordId, sourceInput, RecordChoices.IncomeRecords))
+                {
+                    this.DisplaySuccess(ExpenseTrackerResource.UpdatedIncome);
+                    return true;
+                }
+            }
+            else
+            {
+                string categoryInput = this.GetInputWithAttempts(ExpenseTrackerResource.inputCategory, input => !string.IsNullOrEmpty(input));
+                if (string.IsNullOrEmpty(categoryInput))
+                {
+                    return false;
+                }
+
+                if (this._service.UpdateTransactionDescription(updateRecordId, categoryInput, RecordChoices.ExpenseRecords))
+                {
+                    this.DisplaySuccess(ExpenseTrackerResource.UpdatedExpense);
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private bool UpdateDate(RecordChoices recordChoice, Guid updateRecordId)
+        {
+            string date = this.GetDateOfTransaction();
+            if (string.IsNullOrEmpty(date))
+            {
+                return false;
+            }
+
+            if (recordChoice.Equals(RecordChoices.IncomeRecords) && this._service.UpdateTransactionDate(updateRecordId, DateTime.Parse(date), RecordChoices.IncomeRecords))
+            {
+                this.DisplaySuccess(ExpenseTrackerResource.UpdatedIncome);
+                return true;
+            }
+            else if (this._service.UpdateTransactionDate(updateRecordId, DateTime.Parse(date), RecordChoices.ExpenseRecords))
+            {
+                this.DisplaySuccess(ExpenseTrackerResource.UpdatedExpense);
+                return true;
+            }
+
+            this.DisplayFailure("Update failed");
+            return false;
+        }
+
+        private bool UpdateAmount(RecordChoices recordChoice, Guid updateRecordId)
+        {
+            string amountInput = this.GetInputWithAttempts(ExpenseTrackerResource.InputAmount, Validator.IsValidAmount);
+            if (string.IsNullOrWhiteSpace(amountInput))
+            {
+                return false;
+            }
+
+            if (recordChoice.Equals(RecordChoices.IncomeRecords) && this._service.UpdateTransactionAmount(updateRecordId, amountInput, RecordChoices.IncomeRecords))
+            {
+                this.DisplaySuccess(ExpenseTrackerResource.UpdatedIncome);
+                return true;
+            }
+            else if (this._service.UpdateTransactionAmount(updateRecordId, amountInput, RecordChoices.ExpenseRecords))
+            {
+                this.DisplaySuccess(ExpenseTrackerResource.UpdatedExpense);
+                return true;
+            }
+
+            this.DisplayFailure("Update failed");
+            return false;
+        }
+
+        private void DisplayFailure(string message)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(message);
+            Console.ResetColor();
         }
 
         /// <summary>
@@ -376,8 +400,8 @@ namespace ExpenseTracker.View
 
             foreach (var item in incomeRecord)
             {
-                totalIncomeAmount += item.IncomeAmount;
-                table.AddRow(item.Date.ToString("yyyy-MM-dd"), item.TransactionID.ToString(), item.Source, item.IncomeAmount.ToString());
+                totalIncomeAmount += item.Amount;
+                table.AddRow(item.Date.ToString("yyyy-MM-dd"), item.TransactionID.ToString(), item.Source, item.Amount.ToString());
             }
 
             var table2 = new Table();
@@ -403,8 +427,8 @@ namespace ExpenseTracker.View
             table.AddColumn(ExpenseTrackerResource.ExpenseAmountDiplay);
             foreach (var item in expenseRecord)
             {
-                totalExpenseAmount -= item.ExpenseAmount;
-                table.AddRow(item.Date.ToString("yyyy-MM-dd"), item.TransactionID.ToString(), item.Category, item.ExpenseAmount.ToString());
+                totalExpenseAmount += item.Amount;
+                table.AddRow(item.Date.ToString("yyyy-MM-dd"), item.TransactionID.ToString(), item.Category, item.Amount.ToString());
             }
 
             var table2 = new Table();
@@ -421,12 +445,13 @@ namespace ExpenseTracker.View
         /// </summary>
         private void GetAddDetails()
         {
-            DateTime? transactionDate = this.GetDateOfTransaction();
-            if (transactionDate is null)
+            string date = this.GetDateOfTransaction();
+            if (string.IsNullOrEmpty(date))
             {
                 return;
             }
 
+            DateTime.TryParse(date, out DateTime transactionDate);
             var newTransaction = AnsiConsole.Prompt(new SelectionPrompt<string>()
                 .Title(ExpenseTrackerResource.AddNewTransaction)
                 .AddChoices(new[]
@@ -437,7 +462,7 @@ namespace ExpenseTracker.View
             if (newTransaction.Equals(ExpenseTrackerResource.AddIncome))
             {
                 var newIncomeDetails = this.GetIncomeDetails();
-                if (newIncomeDetails != null && transactionDate != null && this._service.AddIncomeTransaction(newIncomeDetails, transactionDate.Value))
+                if (newIncomeDetails != null && this._service.AddNewTransactionRecord(newIncomeDetails, transactionDate))
                 {
                     this.DisplaySuccess(ExpenseTrackerResource.addedIncome);
                 }
@@ -445,7 +470,7 @@ namespace ExpenseTracker.View
             else
             {
                 var newExpenseDetails = this.GetExpenseDetails();
-                if (newExpenseDetails != null && transactionDate != null && this._service.AddExpenseTransaction(newExpenseDetails, transactionDate.Value))
+                if (newExpenseDetails != null && this._service.AddNewTransactionRecord(newExpenseDetails, transactionDate))
                 {
                     this.DisplaySuccess(ExpenseTrackerResource.addedExpense);
                 }
@@ -460,22 +485,16 @@ namespace ExpenseTracker.View
         /// <param name="operation">Operation performed.</param>
         private void DisplaySuccess(string operation)
         {
-            AnsiConsole.Markup($"[green]Successfully [/]{operation}\n");
+            AnsiConsole.Markup(ExpenseTrackerResource.Success + operation + "\n");
         }
 
         /// <summary>
         /// Gets the transaction date.
         /// </summary>
         /// <returns>The transaction date.</returns>
-        private DateTime? GetDateOfTransaction()
+        private string GetDateOfTransaction()
         {
-            string inputDate = this.GetInputWithAttemps(ExpenseTrackerResource.inputDate, Validator.IsValidDate);
-            if (string.IsNullOrEmpty(inputDate))
-            {
-                return null;
-            }
-
-            return DateTime.Parse(inputDate);
+            return this.GetInputWithAttempts(ExpenseTrackerResource.inputDate, Validator.IsValidDate);
         }
 
         /// <summary>
@@ -484,13 +503,13 @@ namespace ExpenseTracker.View
         /// <returns>An expense record.</returns>
         private Expense GetExpenseDetails()
         {
-            string amountInput = this.GetInputWithAttemps(ExpenseTrackerResource.inputExpenseAmount, Validator.IsValidAmount);
+            string amountInput = this.GetInputWithAttempts(ExpenseTrackerResource.inputExpenseAmount, Validator.IsValidAmount);
             if (string.IsNullOrEmpty(amountInput))
             {
                 return null;
             }
 
-            string categoryInput = this.GetInputWithAttemps(ExpenseTrackerResource.inputCategory, input => !string.IsNullOrEmpty(input));
+            string categoryInput = this.GetInputWithAttempts(ExpenseTrackerResource.inputCategory, input => !string.IsNullOrEmpty(input));
             if (string.IsNullOrEmpty(categoryInput))
             {
                 return null;
@@ -505,13 +524,13 @@ namespace ExpenseTracker.View
         /// <returns>An income record.</returns>
         private Income GetIncomeDetails()
         {
-            string amountInput = this.GetInputWithAttemps(ExpenseTrackerResource.inputIncomeAmount, Validator.IsValidAmount);
+            string amountInput = this.GetInputWithAttempts(ExpenseTrackerResource.inputIncomeAmount, Validator.IsValidAmount);
             if (string.IsNullOrEmpty(amountInput))
             {
                 return null;
             }
 
-            string sourceInput = this.GetInputWithAttemps(ExpenseTrackerResource.inputSource, input => !string.IsNullOrEmpty(input));
+            string sourceInput = this.GetInputWithAttempts(ExpenseTrackerResource.inputSource, input => !string.IsNullOrEmpty(input));
             if (string.IsNullOrEmpty(sourceInput))
             {
                 return null;
