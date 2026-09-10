@@ -175,6 +175,11 @@ namespace ExpenseTracker.View
             this.DisplayNetBalance(totalIncome, totalExpense);
         }
 
+        /// <summary>
+        /// Displays the net balance based on total income and expenses.
+        /// </summary>
+        /// <param name="totalIncome">The total income amount.</param>
+        /// <param name="totalExpense">The total expense amount.</param>
         private void DisplayNetBalance(decimal totalIncome, decimal totalExpense)
         {
             var table = new Table();
@@ -252,6 +257,12 @@ namespace ExpenseTracker.View
             }
         }
 
+        /// <summary>
+        /// Updates the source or category of a transaction.
+        /// </summary>
+        /// <param name="recordChoice">The transaction type.</param>
+        /// <param name="updateRecordId">The transaction identifier.</param>
+        /// <returns>True if the update succeeds; otherwise, false.</returns>
         private bool UpdateDescription(RecordChoices recordChoice, Guid updateRecordId)
         {
             if (recordChoice.Equals(RecordChoices.IncomeRecords))
@@ -286,6 +297,12 @@ namespace ExpenseTracker.View
             return false;
         }
 
+        /// <summary>
+        /// Updates the date of a transaction.
+        /// </summary>
+        /// <param name="recordChoice">The transaction type.</param>
+        /// <param name="updateRecordId">The transaction identifier.</param>
+        /// <returns>True if the update succeeds; otherwise, false.</returns>
         private bool UpdateDate(RecordChoices recordChoice, Guid updateRecordId)
         {
             string date = this.GetDateOfTransaction();
@@ -309,6 +326,12 @@ namespace ExpenseTracker.View
             return false;
         }
 
+        /// <summary>
+        /// Updates the amount of a transaction.
+        /// </summary>
+        /// <param name="recordChoice">The transaction type.</param>
+        /// <param name="updateRecordId">The transaction identifier.</param>
+        /// <returns>True if the update succeeds; otherwise, false.</returns>
         private bool UpdateAmount(RecordChoices recordChoice, Guid updateRecordId)
         {
             string amountInput = this.GetInputWithAttempts(ExpenseTrackerResource.InputAmount, Validator.IsValidAmount);
@@ -332,6 +355,10 @@ namespace ExpenseTracker.View
             return false;
         }
 
+        /// <summary>
+        /// Displays unsuccessfull operation
+        /// </summary>
+        /// <param name="message">Un successfull</param>
         private void DisplayFailure(string message)
         {
             Console.ForegroundColor = ConsoleColor.Red;

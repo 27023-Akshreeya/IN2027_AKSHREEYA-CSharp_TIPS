@@ -82,7 +82,7 @@ namespace ExpenseTracker.Service
         public IReadOnlyList<Expense> GetExpenseRecords() => this._repo.GetExpense();
 
         /// <summary>
-        /// Thia deletes an existing transaction
+        /// This deletes an existing transaction
         /// </summary>
         /// <param name="deleteRecordId">the id to be deleted</param>
         /// <param name="recordChoice">where income or expense</param>
@@ -124,6 +124,12 @@ namespace ExpenseTracker.Service
             return false;
         }
 
+        /// <summary>
+        /// Retrieves a transaction record by its unique identifier.
+        /// </summary>
+        /// <param name="transactionID">The transaction identifier.</param>
+        /// <param name="record">The record type to search.</param>
+        /// <returns>The matching transaction record; otherwise, null.</returns>
         public Record GetRecordByTransactionID(Guid transactionID, RecordChoices record)
         {
             if (record is RecordChoices.ExpenseRecords)
@@ -134,6 +140,13 @@ namespace ExpenseTracker.Service
             return this.GetIncomeRecords().FirstOrDefault(t => t.TransactionID.Equals(transactionID));
         }
 
+        /// <summary>
+        /// Updates the date of an existing transaction.
+        /// </summary>
+        /// <param name="updateRecordId">The transaction identifier.</param>
+        /// <param name="date">The new transaction date.</param>
+        /// <param name="record">The record type.</param>
+        /// <returns>True if the update succeeds; otherwise, false.</returns>
         public bool UpdateTransactionDate(Guid updateRecordId, DateTime date, RecordChoices record)
         {
             var updateRecord = this.GetRecordByTransactionID(updateRecordId, record);
@@ -151,6 +164,13 @@ namespace ExpenseTracker.Service
             return false;
         }
 
+        /// <summary>
+        /// Updates the amount of an existing transaction and adjusts the net balance.
+        /// </summary>
+        /// <param name="updateRecordId">The transaction identifier.</param>
+        /// <param name="updateAmount">The new amount.</param>
+        /// <param name="records">The record type.</param>
+        /// <returns>True if the update succeeds; otherwise, false.</returns>
         public bool UpdateTransactionAmount(Guid updateRecordId, string updateAmount, RecordChoices records)
         {
             var updateRecord = this.GetRecordByTransactionID(updateRecordId, records);
@@ -175,6 +195,13 @@ namespace ExpenseTracker.Service
             return false;
         }
 
+        /// <summary>
+        /// Updates the category of an expense or the source of an income transaction.
+        /// </summary>
+        /// <param name="updateRecordId">The transaction identifier.</param>
+        /// <param name="description">The new category or source value.</param>
+        /// <param name="records">The record type.</param>
+        /// <returns>True if the update succeeds; otherwise, false.</returns>
         public bool UpdateTransactionDescription(Guid updateRecordId, string description, RecordChoices records)
         {
             var updateRecord = this.GetRecordByTransactionID(updateRecordId, records);

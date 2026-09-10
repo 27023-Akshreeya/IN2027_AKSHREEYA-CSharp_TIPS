@@ -8,6 +8,10 @@ namespace ExpenseTracker.Models
     /// </summary>
     public abstract class Record
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Record"/> class with a specified financial amount.
+        /// </summary>
+        /// <param name="amount">The monetary amount of the financial transaction.</param>
         public Record(decimal amount)
         {
             this.Amount = amount;
@@ -30,10 +34,10 @@ namespace ExpenseTracker.Models
         public Guid TransactionID { get; set; }
 
         /// <summary>
-        /// Gets or sets amount
+        /// Gets or sets the value of the financial transaction.
         /// </summary>
         /// <value>
-        /// amount
+        /// The monetary value of the transaction.
         /// </value>
         public decimal Amount { get; set; }
     }
