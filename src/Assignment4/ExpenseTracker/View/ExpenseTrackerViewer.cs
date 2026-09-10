@@ -37,7 +37,6 @@ namespace ExpenseTracker.View
             {
                 var panel = new Panel(new Rows(new Markup(ExpenseTrackerResource.ExpenseTracker))).Collapse();
                 AnsiConsole.Write(panel);
-
                 var choice = AnsiConsole.Prompt(
                     new SelectionPrompt<MenuChoices>()
                         .Title(ExpenseTrackerResource.OptionSelection)
@@ -67,7 +66,6 @@ namespace ExpenseTracker.View
 
                     case MenuChoices.ViewAllTransaction:
                         var displayTransaction = this.GetDisplayDetails();
-
                         if (displayTransaction == RecordChoices.None)
                         {
                             AnsiConsole.Markup(ExpenseTrackerResource.InvalidInput);
@@ -98,7 +96,6 @@ namespace ExpenseTracker.View
                 }
 
                 string exitchoice = this.GetInputWithAttempts(ExpenseTrackerResource.ExitConfirm, Validator.IsChoiceValid);
-
                 if (exitchoice.Equals(string.Empty))
                 {
                     continue;

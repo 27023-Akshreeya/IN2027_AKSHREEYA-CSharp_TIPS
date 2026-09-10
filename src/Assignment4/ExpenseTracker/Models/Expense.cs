@@ -3,14 +3,12 @@
 namespace ExpenseTracker.Models
 {
     /// <summary>
-    /// Represents an expense transaction recorded in the Expense Tracker.
     /// Inherits common transaction properties from the <see cref="Record"/> class.
     /// </summary>
     public class Expense : Record
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Expense"/> class
-        /// with the specified expense amount and category.
         /// </summary>
         /// <param name="expenseAmount">
         /// The amount spent in the expense transaction.

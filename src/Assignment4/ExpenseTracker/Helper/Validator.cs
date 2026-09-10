@@ -43,8 +43,7 @@ namespace ExpenseTracker.Helper
         }
 
         /// <summary>
-        /// Validates whether the user's choice is either 'Y' or 'N',
-        /// regardless of letter casing.
+        /// Validates whether the user's choice is either 'Y' or 'N', regardless of letter casing.
         /// </summary>
         /// <param name="choice">The user's choice input.</param>
         /// <returns>
@@ -52,7 +51,7 @@ namespace ExpenseTracker.Helper
         /// </returns>
         public static bool IsChoiceValid(string choice)
         {
-            if (string.IsNullOrEmpty(choice) || string.IsNullOrWhiteSpace(choice))
+            if (string.IsNullOrEmpty(choice))
             {
                 return false;
             }

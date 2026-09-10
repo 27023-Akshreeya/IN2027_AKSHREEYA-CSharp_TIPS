@@ -9,8 +9,7 @@ namespace ExpenseTracker.Models
     public class Income : Record
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Income"/> class
-        /// with the specified income amount and source.
+        /// Initializes a new instance of the <see cref="Income"/> class.
         /// </summary>
         /// <param name="incomeAmount">
         /// The amount received in the income transaction.

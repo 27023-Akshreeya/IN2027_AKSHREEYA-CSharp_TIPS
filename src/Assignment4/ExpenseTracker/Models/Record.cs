@@ -4,7 +4,6 @@ namespace ExpenseTracker.Models
 {
     /// <summary>
     /// Represents the base class for all financial records in the Expense Tracker application.
-    /// Provides common properties shared by income and expense transactions.
     /// </summary>
     public abstract class Record
     {
