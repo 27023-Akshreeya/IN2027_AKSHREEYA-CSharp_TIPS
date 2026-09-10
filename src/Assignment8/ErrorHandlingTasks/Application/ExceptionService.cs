@@ -4,8 +4,7 @@ using ErrorHandlingTasks.Domain;
 namespace ErrorHandlingTasks.Application
 {
     /// <summary>
-    /// Provides methods that demonstrate exception handling scenarios,
-    /// including division operations and array element access.
+    /// Provides methods demonstrating division operations and array element access.
     /// </summary>
     public class ExceptionService
     {
@@ -34,12 +33,21 @@ namespace ErrorHandlingTasks.Application
         {
             try
             {
-                return array[index];
+                return array[index - 1];
             }
             catch (IndexOutOfRangeException)
             {
                 throw new InvalidIndexAccessException($"Error : {index} is out of range!");
             }
+        }
+
+        /// <summary>
+        /// Throws an unhandled exception.
+        /// </summary>
+        /// <exception cref="Exception">Always thrown when this method is called.</exception>
+        public void UnhandledException()
+        {
+            throw new Exception("Task 4 - throwing unhandled exception");
         }
     }
 }

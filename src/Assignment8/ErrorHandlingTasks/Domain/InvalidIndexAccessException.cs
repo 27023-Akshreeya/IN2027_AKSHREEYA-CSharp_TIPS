@@ -8,8 +8,7 @@ namespace ErrorHandlingTasks.Domain
     public class InvalidIndexAccessException : Exception
     {
         /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="InvalidIndexAccessException"/> class with a specifiederror message.
+        /// Initializes a new instance of the <see cref="InvalidIndexAccessException"/> class with a specified error message.
         /// </summary>
         /// <param name="message">
         /// The message that describes the error.

@@ -24,6 +24,7 @@ ErrorHandlingTasks
 Contains business logic methods:
 - `PerformDivision()` - Performs division and handles divide-by-zero scenarios.
 - `AccessArrayElement()` - Retrieves an array element using a specified index.
+- `UnhandledException()` - Throws an unhandled exception to demonstrate global exception handling.
 
 ### ConsoleUI
 Handles user interaction:
@@ -31,7 +32,7 @@ Handles user interaction:
 - `Run()` - Executes all tasks.
 - `ExecuteDivisionOperation()` - Demonstrates division exception handling.
 - `ExecuteArrayAccessOperation()` - Demonstrates array access exception handling.
-- `DisplayErrorMessage()` - Displays errors.
+- `ThrowUnhandledException()` - Triggers an unhandled exception.
 - `DisplayMessage()` - Displays informational messages.
 
 ### InputValidator
@@ -43,7 +44,7 @@ Handles user interaction:
 
 ### Program
 - `Main()` - Application entry point.
-- `HandleUnhandledException()` - Handles uncaught exceptions globally.
+- `HandleUnhandledException()` - Handles uncaught exceptions globally and prints the exception stack trace.
 
 ## Exception Handling
 

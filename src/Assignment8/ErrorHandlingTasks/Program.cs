@@ -19,7 +19,6 @@ namespace Assignments
             var exceptionService = new ExceptionService();
             var consoleUI = new ConsoleUI(exceptionService);
             consoleUI.Run();
-            Console.ReadLine();
         }
 
         /// <summary>

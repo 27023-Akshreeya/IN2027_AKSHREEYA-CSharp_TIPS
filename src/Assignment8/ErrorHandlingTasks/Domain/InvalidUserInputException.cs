@@ -8,8 +8,7 @@ namespace ErrorHandlingTasks.Domain
     public class InvalidUserInputException : Exception
     {
         /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="InvalidUserInputException"/> class with a specified error message.
+        /// Initializes a new instance of the <see cref="InvalidUserInputException"/> class with a specified error message.
         /// </summary>
         /// <param name="message">
         /// The message that describes the error.

@@ -13,7 +13,6 @@ namespace ErrorHandlingTasks.Presentation
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ConsoleUI"/> class.
-        /// Initializes the console UI.
         /// </summary>
         /// <param name="service">Exception service instance.</param>
         public ConsoleUI(ExceptionService service)
@@ -25,7 +24,7 @@ namespace ErrorHandlingTasks.Presentation
         /// Gets a valid numeric input from the user.
         /// </summary>
         /// <param name="userPrompt">Input prompt.</param>
-        /// <returns>User-entered number.</returns>
+        /// <returns> User-entered number.</returns>
         /// <exception cref="InvalidUserInputException">
         /// Thrown when input is invalid.
         /// </exception>
@@ -48,12 +47,18 @@ namespace ErrorHandlingTasks.Presentation
         {
             this.ExecuteDivisionOperation();
             this.ExecuteArrayAccessOperation();
+            this.ThrowUnhandledException();
+        }
+
+        private void ThrowUnhandledException()
+        {
+            this._service.UnhandledException();
         }
 
         /// <summary>
         /// Executes the division operation.
         /// </summary>
-        public void ExecuteDivisionOperation()
+        private void ExecuteDivisionOperation()
         {
             Console.WriteLine("Executing task 1: Division");
             try
@@ -73,14 +78,14 @@ namespace ErrorHandlingTasks.Presentation
             }
             finally
             {
-                this.DisplayMessage("Error handling in Division is done successfully!", ConsoleColor.Green);
+                this.DisplayMessage("Error handling in Division is done successfully!", ConsoleColor.Blue);
             }
         }
 
         /// <summary>
         /// Executes the array access operation.
         /// </summary>
-        public void ExecuteArrayAccessOperation()
+        private void ExecuteArrayAccessOperation()
         {
             Console.WriteLine("Executing task 2: Accessing element in an array");
             try
@@ -106,7 +111,7 @@ namespace ErrorHandlingTasks.Presentation
             }
             finally
             {
-                this.DisplayMessage("Error handling in accessing an array is done successfully!", ConsoleColor.Green);
+                this.DisplayMessage("Error handling in accessing an array is done successfully!", ConsoleColor.Blue);
             }
         }
 
@@ -115,7 +120,7 @@ namespace ErrorHandlingTasks.Presentation
         /// </summary>
         /// <param name="message">Message to display</param>
         /// <param name="color">Color the message is to be displayed</param>
-        public void DisplayMessage(string message, ConsoleColor color)
+        private void DisplayMessage(string message, ConsoleColor color)
         {
             Console.ForegroundColor = color;
             Console.WriteLine($"{message}" + "\n");
