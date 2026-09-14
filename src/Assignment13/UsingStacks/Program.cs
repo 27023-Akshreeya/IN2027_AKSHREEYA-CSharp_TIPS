@@ -1,23 +1,22 @@
 ﻿using UsingStacks.Application;
 using UsingStacks.Presentation;
 
-namespace Assignments
+namespace Assignments;
+
+internal class Program
 {
-    internal class Program
+    public static void Main(string[] args)
     {
-        public static void Main(string[] args)
+        try
         {
-            try
-            {
-                var stackService = new StackService<char>();
-                var reversalService = new StringReversalService(stackService);
-                var viewer = new ConsoleUI(reversalService);
-                viewer.Run();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
+            var stackService = new StackService<char>();
+            var reversalService = new StringReversalService(stackService);
+            var viewer = new ConsoleUI(reversalService);
+            viewer.Run();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
         }
     }
 }

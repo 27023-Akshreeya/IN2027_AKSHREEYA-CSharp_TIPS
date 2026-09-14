@@ -1,17 +1,43 @@
 ﻿using UsingLists.Domain;
 
-namespace UsingLists.Application
+namespace UsingLists.Application;
+
+/// <summary>
+/// Defines book management operations.
+/// </summary>
+public interface IBookManagerService
 {
-    public interface IBookManagerService
-    {
-        bool ContainsBook(string bookTitle);
+    /// <summary>
+    /// Checks whether a book exists.
+    /// </summary>
+    /// <param name="bookTitle">Book title.</param>
+    /// <returns>True if the book exists; otherwise, false.</returns>
+    bool ContainsBook(string bookTitle);
 
-        Result CreateBook(Book book);
+    /// <summary>
+    /// Creates a new book.
+    /// </summary>
+    /// <param name="book">Book to create.</param>
+    /// <returns>The operation result.</returns>
+    Result CreateBook(Book book);
 
-        bool DeleteBook(string bookTitle);
+    /// <summary>
+    /// Deletes a book.
+    /// </summary>
+    /// <param name="bookTitle">Book title.</param>
+    /// <returns>True if deleted; otherwise, false.</returns>
+    bool DeleteBook(string bookTitle);
 
-        bool DoesBookExists(string bookTitle);
+    /// <summary>
+    /// Checks whether a book exists.
+    /// </summary>
+    /// <param name="bookTitle">Book title.</param>
+    /// <returns>True if the book exists; otherwise, false.</returns>
+    bool DoesBookExists(string bookTitle);
 
-        IEnumerable<Book> GetAllBooks();
-    }
+    /// <summary>
+    /// Retrieves all books.
+    /// </summary>
+    /// <returns>A collection of books.</returns>
+    IEnumerable<Book> GetAllBooks();
 }

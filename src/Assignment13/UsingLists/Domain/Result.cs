@@ -1,19 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace UsingLists.Domain;
 
-namespace UsingLists.Domain
+/// <summary>
+/// Represents the result of an operation.
+/// </summary>
+public class Result
 {
-    public class Result
-    {
-        public bool IsSuccess { get; set; }
+    /// <summary>
+    /// Gets or sets a value indicating whether gets or sets whether the operation succeeded.
+    /// </summary>
+    /// <value>Whether the operation succeeded.
+    /// </value>
+    public bool IsSuccess { get; set; }
 
-        public string Message { get; set; } = string.Empty;
+    /// <summary>
+    /// Gets or sets the operation message.
+    /// </summary>
+    /// <value>The operation message.
+    /// </value>
+    public string Message { get; set; } = string.Empty;
 
-        public static Result Success(string message) => new Result { IsSuccess = true, Message = message };
+    /// <summary>
+    /// Creates a successful result.
+    /// </summary>
+    /// <param name="message">Success message.</param>
+    /// <returns>A successful result.</returns>
+    public static Result Success(string message) => new Result { IsSuccess = true, Message = message };
 
-        public static Result Failure(string message) => new Result { IsSuccess = false, Message = message };
-    }
+    /// <summary>
+    /// Creates a failed result.
+    /// </summary>
+    /// <param name="message">Failure message.</param>
+    /// <returns>A failed result.</returns>
+    public static Result Failure(string message) => new Result { IsSuccess = false, Message = message };
 }

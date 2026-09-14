@@ -1,33 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UsingStacks.Application;
+﻿using UsingStacks.Application;
 
-namespace UsingStacks.Presentation
+namespace UsingStacks.Presentation;
+
+public class ConsoleUI
 {
-    public class ConsoleUI
+    private IReversalService<char> _reversalService;
+
+    public ConsoleUI(IReversalService<char> reversalService)
     {
-        private IReversalService<char> _reversalService;
+        this._reversalService = reversalService;
+    }
 
-        public ConsoleUI(IReversalService<char> reversalService)
+    public void Run()
+    {
+        Console.Write(StringReversalResource.Darshboard);
+        string orignalString = Console.ReadLine() ?? string.Empty;
+        if (string.IsNullOrEmpty(orignalString))
         {
-            this._reversalService = reversalService;
+            Console.WriteLine("Invalid input! string cant be empty");
+            return;
         }
 
-        public void Run()
-        {
-            Console.Write(StringReversalResource.Darshboard);
-            string orignalString = Console.ReadLine() ?? string.Empty;
-            if (string.IsNullOrEmpty(orignalString))
-            {
-                Console.WriteLine("Invalid input! string cant be empty");
-                return;
-            }
-
-            string reversedString = this._reversalService.Reverse(orignalString);
-            Console.WriteLine($"The original string : {orignalString}\nThe reversed string : {reversedString}");
-        }
+        string reversedString = this._reversalService.Reverse(orignalString);
+        Console.WriteLine($"The original string : {orignalString}\nThe reversed string : {reversedString}");
     }
 }

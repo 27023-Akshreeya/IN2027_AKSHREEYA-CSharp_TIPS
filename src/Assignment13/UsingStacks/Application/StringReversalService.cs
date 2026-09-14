@@ -1,47 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
-namespace UsingStacks.Application
+namespace UsingStacks.Application;
+
+public class StringReversalService : IReversalService<char>
 {
-    public class StringReversalService : IReversalService<char>
+    private IStackService<char> _stackService;
+
+    public StringReversalService(IStackService<char> stackService)
     {
-        private IStackService<char> _stackService;
+        this._stackService = stackService;
+    }
 
-        public StringReversalService(IStackService<char> stackService)
+    public string Reverse(string orignalString)
+    {
+        var charaterStack = this.PushToStack(orignalString);
+        return this.PopFromStack(charaterStack);
+    }
+
+    public string PopFromStack(StackService<char> charaterStack)
+    {
+        var sb = new StringBuilder(string.Empty);
+        while (charaterStack.Count > 0)
         {
-            this._stackService = stackService;
+            char character = charaterStack.Pop();
+            sb.Append(character);
         }
 
-        public string Reverse(string orignalString)
+        return sb.ToString();
+    }
+
+    public StackService<char> PushToStack(string orignalString)
+    {
+        var stack = new StackService<char>();
+        foreach (char charater in orignalString)
         {
-            var charaterStack = this.PushToStack(orignalString);
-            return this.PopFromStack(charaterStack);
+            stack.Push(charater);
         }
 
-        public string PopFromStack(StackService<char> charaterStack)
-        {
-            var sb = new StringBuilder(string.Empty);
-            while (charaterStack.Count > 0)
-            {
-                char character = charaterStack.Pop();
-                sb.Append(character);
-            }
-
-            return sb.ToString();
-        }
-
-        public StackService<char> PushToStack(string orignalString)
-        {
-            var stack = new StackService<char>();
-            foreach (char charater in orignalString)
-            {
-                stack.Push(charater);
-            }
-
-            return stack;
-        }
+        return stack;
     }
 }

@@ -1,11 +1,10 @@
-﻿namespace UsingStacks.Application
+﻿namespace UsingStacks.Application;
+
+public interface IStackService<T>
 {
-    public interface IStackService<T>
-    {
-        int Count { get; }
+    int Count { get; }
 
-        T Pop();
+    T Pop();
 
-        void Push(T item);
-    }
+    void Push(T item);
 }

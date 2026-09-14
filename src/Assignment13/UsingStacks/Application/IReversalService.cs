@@ -1,11 +1,10 @@
-﻿namespace UsingStacks.Application
+﻿namespace UsingStacks.Application;
+
+public interface IReversalService<T>
 {
-    public interface IReversalService<T>
-    {
-        string PopFromStack(StackService<T> charaterStack);
+    string PopFromStack(StackService<T> charaterStack);
 
-        StackService<T> PushToStack(string orignalString);
+    StackService<T> PushToStack(string orignalString);
 
-        string Reverse(string orignalString);
-    }
+    string Reverse(string orignalString);
 }
