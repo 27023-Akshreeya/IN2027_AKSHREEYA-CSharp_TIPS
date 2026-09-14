@@ -3,15 +3,25 @@ using UsingDictionary.Domain;
 
 namespace UsingDictionary.Presentation;
 
+/// <summary>
+/// Handles user interactions for student grade management.
+/// </summary>
 public class ConsoleUI
 {
     private readonly IStudentService _studentService;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ConsoleUI"/> class.
+    /// </summary>
+    /// <param name="studentGradeService">Student service.</param>
     public ConsoleUI(IStudentService studentGradeService)
     {
         this._studentService = studentGradeService;
     }
 
+    /// <summary>
+    /// Displays the main menu.
+    /// </summary>
     public void Menu()
     {
         bool exit = false;
@@ -46,6 +56,9 @@ public class ConsoleUI
         }
     }
 
+    /// <summary>
+    /// Adds new students and their grades.
+    /// </summary>
     private void AddNewStudents()
     {
         Console.WriteLine();
@@ -84,6 +97,9 @@ public class ConsoleUI
         }
     }
 
+    /// <summary>
+    /// Removes a student.
+    /// </summary>
     private void RemoveStudent()
     {
         Console.WriteLine();
@@ -107,6 +123,9 @@ public class ConsoleUI
         }
     }
 
+    /// <summary>
+    /// Searches for a student.
+    /// </summary>
     private void SearchStudent()
     {
         Console.WriteLine();
@@ -130,6 +149,9 @@ public class ConsoleUI
             $"Student: {studentName} | Grade: {grade}");
     }
 
+    /// <summary>
+    /// Displays all students and grades.
+    /// </summary>
     private void ViewAllStudents()
     {
         Console.WriteLine("\nStudents and Grades\n");
@@ -142,6 +164,13 @@ public class ConsoleUI
         }
     }
 
+    /// <summary>
+    /// Gets validated input from the user.
+    /// </summary>
+    /// <param name="input">Input prompt.</param>
+    /// <param name="validator">Input validator.</param>
+    /// <param name="invalidInput">Invalid input message.</param>
+    /// <returns>The validated input.</returns>
     private string GetInputWithAttempts(string input, InputValidation validator, string invalidInput)
     {
         for (int tries = 3; tries > 0; tries--)

@@ -2,18 +2,38 @@
 
 namespace Task6.Presentation;
 
+/// <summary>
+/// Handles user interactions.
+/// </summary>
 internal class ConsoleUI
 {
     private readonly NumberService _numberService;
     private readonly DictionaryService _dictionaryService;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ConsoleUI"/> class.
+    /// </summary>
+    /// <param name="numberService">Number service.</param>
+    /// <param name="dictionaryService">Dictionary service.</param>
     public ConsoleUI(NumberService numberService, DictionaryService dictionaryService)
     {
         this._numberService = numberService;
         this._dictionaryService = dictionaryService;
     }
 
-    public void ExecuteIEnumerable()
+    /// <summary>
+    /// Runs the application workflow.
+    /// </summary>
+    public void Run()
+    {
+        this.ExecuteIEnumerable();
+        this.ExcecuteIReadOnly();
+    }
+
+    /// <summary>
+    /// Demonstrates IEnumerable operations.
+    /// </summary>
+    private void ExecuteIEnumerable()
     {
         Console.WriteLine("Understanding IEnumberable");
         List<int> numbersList = new () { 1, 2, 3, 4, 5 };
@@ -35,17 +55,14 @@ internal class ConsoleUI
         Console.WriteLine($"Queue Sum : {this._numberService.SumOfElements(numbersQueue)}");
     }
 
-    public void ExcecuteIReadOnly()
+    /// <summary>
+    /// Demonstrates IReadOnlyDictionary operations.
+    /// </summary>
+    private void ExcecuteIReadOnly()
     {
         Console.WriteLine("Understanding IReadOnlyDictionary");
         var dictionary = this._dictionaryService.GenerateDictionary();
         Console.WriteLine("Dictionary:");
         this._dictionaryService.PrintDictionary(dictionary);
-    }
-
-    public void Run()
-    {
-        this.ExecuteIEnumerable();
-        this.ExcecuteIReadOnly();
     }
 }

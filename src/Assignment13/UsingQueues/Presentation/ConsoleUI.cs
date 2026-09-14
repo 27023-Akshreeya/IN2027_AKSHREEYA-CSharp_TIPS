@@ -3,15 +3,25 @@ using UsingQueues.Domain;
 
 namespace UsingQueues.Presentation;
 
+/// <summary>
+/// Handles user interactions for queue management.
+/// </summary>
 public class ConsoleUI
 {
     private readonly IQueueService _queueService;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ConsoleUI"/> class.
+    /// </summary>
+    /// <param name="queueService">Queue service.</param>
     public ConsoleUI(IQueueService queueService)
     {
         this._queueService = queueService;
     }
 
+    /// <summary>
+    /// Runs the queue operations workflow.
+    /// </summary>
     public void Run()
     {
         this.AddNewNames();
@@ -20,6 +30,9 @@ public class ConsoleUI
         this.DisplayCurrentQueue();
     }
 
+    /// <summary>
+    /// Removes the first person from the queue.
+    /// </summary>
     private void RemoveName()
     {
         Console.WriteLine("Remove first person from the queue");
@@ -27,6 +40,9 @@ public class ConsoleUI
         Console.WriteLine($"{removedPerson.Name} removed successfull");
     }
 
+    /// <summary>
+    /// Displays all people in the queue.
+    /// </summary>
     private void DisplayCurrentQueue()
     {
         int personCount = 0;
@@ -38,6 +54,9 @@ public class ConsoleUI
         }
     }
 
+    /// <summary>
+    /// Adds new people to the queue.
+    /// </summary>
     private void AddNewNames()
     {
         Console.WriteLine("Enter 5 Names of people you want to add");
@@ -58,6 +77,13 @@ public class ConsoleUI
         }
     }
 
+    /// <summary>
+    /// Gets validated input from the user.
+    /// </summary>
+    /// <param name="input">Input prompt.</param>
+    /// <param name="validator">Input validator.</param>
+    /// <param name="invalidInput">Invalid input message.</param>
+    /// <returns>The validated input.</returns>
     private string GetInputWithAttempts(string input, InputValidator validator, string invalidInput)
     {
         for (int tries = 3; tries > 0; tries--)

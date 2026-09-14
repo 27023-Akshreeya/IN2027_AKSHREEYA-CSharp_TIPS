@@ -5,9 +5,16 @@ using UsingQueues.Presentation;
 
 namespace Assignments;
 
+/// <summary>
+/// Entry point of the application.
+/// </summary>
 internal class Program
 {
-    static void Main(string[] args)
+    /// <summary>
+    /// Starts the queue management application.
+    /// </summary>
+    /// <param name="args">Command-line arguments.</param>
+    public static void Main(string[] args)
     {
         var repo = new PeopleQueueRepository<Person>();
         var service = new PeopleQueueService(repo);
