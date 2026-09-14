@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UsingLists.Domain;
 
 namespace UsingLists.Infrastructure
 {
@@ -15,14 +16,14 @@ namespace UsingLists.Infrastructure
             this._books = new List<T>();
         }
 
-        public void Add(T book)
+        public void AddBook(T book)
         {
             this._books.Add(book);
         }
 
-        public IReadOnlyList<T> GetBooks() => this._books;
+        public IEnumerable<T> GetBooks() => this._books;
 
-        internal void Remove(T bookTitle)
+        internal void RemoveBook(T bookTitle)
         {
             this._books.Remove(bookTitle);
         }

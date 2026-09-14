@@ -1,13 +1,14 @@
 ﻿using UsingLists.Application;
+using UsingLists.Domain;
 using UsingLists.Helper;
 
 namespace UsingLists.Presentation
 {
     public class ConsoleUI
     {
-        private BookManagerService<string> _bookManagerService;
+        private IBookManagerService _bookManagerService;
 
-        public ConsoleUI(BookManagerService<string> bookManagerService)
+        public ConsoleUI(IBookManagerService bookManagerService)
         {
             this._bookManagerService = bookManagerService;
         }
@@ -57,7 +58,7 @@ namespace UsingLists.Presentation
             Console.WriteLine("Book list");
             foreach (var book in books)
             {
-                Console.WriteLine($"{bookCount + 1}. {book}");
+                Console.WriteLine($"{bookCount + 1}. {book.Title}");
                 bookCount++;
             }
         }
@@ -68,9 +69,10 @@ namespace UsingLists.Presentation
             if (string.IsNullOrWhiteSpace(book))
             {
                 Console.WriteLine(BookManagerResource.invalidBook);
+                return;
             }
 
-            if (this._bookManagerService.FindBook(book))
+            if (this._bookManagerService.ContainsBook(book))
             {
                 Console.WriteLine($"{book} Found!");
             }
@@ -83,7 +85,7 @@ namespace UsingLists.Presentation
         private void RemoveBook()
         {
             string bookTitle = this.GetInputWithAttempts("Enter book name to delete:", InputValidator.IsBookValid, BookManagerResource.invalidBook);
-            if (this._bookManagerService.DeleteBook(bookTitle))
+            if (!string.IsNullOrEmpty(bookTitle) && this._bookManagerService.DeleteBook(bookTitle))
             {
                 Console.WriteLine("Book is deleted successfull");
             }
@@ -106,7 +108,7 @@ namespace UsingLists.Presentation
                     continue;
                 }
 
-                var result = this._bookManagerService.AddBook(book);
+                var result = this._bookManagerService.CreateBook(new Book(book));
                 if (!result.IsSuccess)
                 {
                     Console.WriteLine(result.Message);
