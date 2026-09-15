@@ -1,44 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace CalculatorApplication.Domain;
 
-namespace CalculatorApplication.Domain
+/// <summary>
+/// Specifies the type of mathematical operation to perform.
+/// </summary>
+public enum CalculatorOperation
 {
     /// <summary>
-    /// Specifies the type of mathematical operation to perform.
+    /// Represents addition.
     /// </summary>
-    public enum CalculatorOperation
-    {
-        /// <summary>
-        /// Represents addition.
-        /// </summary>
-        Add = 1,
+    Add = 1,
 
-        /// <summary>
-        /// Represents subtraction.
-        /// </summary>
-        Subtract,
+    /// <summary>
+    /// Represents subtraction.
+    /// </summary>
+    Subtract,
 
-        /// <summary>
-        /// Represents multiplication.
-        /// </summary>
-        Multiply,
+    /// <summary>
+    /// Represents multiplication.
+    /// </summary>
+    Multiply,
 
-        /// <summary>
-        /// Represents division.
-        /// </summary>
-        Divide,
+    /// <summary>
+    /// Represents division.
+    /// </summary>
+    Divide,
 
-        /// <summary>
-        /// Represents the exit operation to terminate the application.
-        /// </summary>
-        Exit,
+    /// <summary>
+    /// Represents the exit operation to terminate the application.
+    /// </summary>
+    Exit,
 
-        /// <summary>
-        /// Represents an unsupported or uninitialized state.
-        /// </summary>
-        Invalid,
-    }
+    /// <summary>
+    /// Represents an unsupported or uninitialized state.
+    /// </summary>
+    Invalid,
 }
