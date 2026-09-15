@@ -10,28 +10,19 @@ public class Expense : Record
     /// Initializes a new instance of the <see cref="Expense"/> class
         /// with the specified expense amount and category.
     /// </summary>
-    /// <param name="expenseAmount">
+    /// <param name="amount">
     /// The amount spent in the expense transaction.
     /// </param>
     /// <param name="category">
     /// The category to which the expense belongs (e.g., Food, Travel, Entertainment).
     /// </param>
-    public Expense(decimal expenseAmount, string category)
-        : base(expenseAmount)
+    public Expense(decimal amount, string category)
+        : base(amount)
     {
-            this.ExpenseAmount = expenseAmount;
         this.Category = category;
     }
 
-        /// <summary>
-        /// Gets or sets the amount spent for this expense transaction.
-        /// </summary>
-        /// <value>
-        /// The amount spent for this expense transaction.
-        /// </value>
-        public decimal ExpenseAmount { get; set; }
-
-        /// <summary>
+    /// <summary>
     /// Gets or sets the category of the expense.
     /// </summary>
     /// <value>

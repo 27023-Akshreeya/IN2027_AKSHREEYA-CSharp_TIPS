@@ -31,21 +31,16 @@ public class ExpenseTrackerViewer
     /// </summary>
     public void DisplayMenu()
     {
+        this._service.GetAllFiles();
         while (true)
         {
             this.DisplayHeader();
             var choice = this.MenuSelection();
-            this._service.GetAllFiles();
-
-            if (choice == MenuChoices.Exit)
-            {
-                break;
-            }
-
             this.ExecuteMenuAction(choice);
 
             if (this.GetInputWithAttempts(ExpenseTrackerResource.ExitConfirm, Validator.IsChoiceValid).Equals("Y", StringComparison.OrdinalIgnoreCase))
             {
+                this._service.SaveAllFiles();
                 break;
             }
         }
@@ -116,11 +111,10 @@ public class ExpenseTrackerViewer
                 this.GetDeleteId();
                 break;
 
-                    case MenuChoices.Exit:
-                        AnsiConsole.Markup(ExpenseTrackerResource.Exiting);
-                        this._service.SaveAllFiles();
-                        return;
-
+            case MenuChoices.Exit:
+                AnsiConsole.Markup(ExpenseTrackerResource.Exiting);
+                this._service.SaveAllFiles();
+                break;
             default:
                 AnsiConsole.Markup(ExpenseTrackerResource.InvalidInput);
                 break;

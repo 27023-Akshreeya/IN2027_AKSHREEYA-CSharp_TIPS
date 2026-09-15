@@ -60,4 +60,3 @@ public static class Validator
                  choice.Equals("y", StringComparison.OrdinalIgnoreCase);
     }
 }
-}

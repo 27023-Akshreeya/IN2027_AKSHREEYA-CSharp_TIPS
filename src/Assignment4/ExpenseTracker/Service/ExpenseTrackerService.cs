@@ -12,34 +12,34 @@ namespace ExpenseTracker.Service;
 /// </summary>
 public class ExpenseTrackerService
 {
-        private readonly IExpenseTrackerRepository _repo;
+    private readonly IExpenseTrackerRepository _repo;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ExpenseTrackerService"/> class.
     /// </summary>
     /// <param name="repo">The repository used to store and retrieve transaction data. </param>
-        public ExpenseTrackerService(ExpenseTrackerMemoryRepository repo)
+    public ExpenseTrackerService(ExpenseTrackerMemoryRepository repo)
     {
         this._repo = repo;
     }
 
     /// <summary>
-        /// Loads all data files into the repository.
-        /// </summary>
-        public void GetAllFiles()
-        {
-            this._repo.LoadDataFromFiles();
-        }
+    /// Loads all data files into the repository.
+    /// </summary>
+    public void GetAllFiles()
+    {
+        this._repo.LoadDataFromFiles();
+    }
 
-        /// <summary>
-        /// Saves all data files into the repository
-        /// </summary>
-        public void SaveAllFiles()
-        {
-            this._repo.SaveChangesToFiles();
-        }
+    /// <summary>
+    /// Saves all data files into the repository
+    /// </summary>
+    public void SaveAllFiles()
+    {
+        this._repo.SaveChangesToFiles();
+    }
 
-        /// <summary>
+    /// <summary>
     /// Determines whether a transaction exists for the specified transaction identifier.
     /// </summary>
     /// <param name="transactionID"> The unique identifier of the transaction to search for. </param>
@@ -217,9 +217,7 @@ public class ExpenseTrackerService
             incomeTransaction.Source = description;
             return true;
         }
-            }
 
         return false;
     }
-}
 }
