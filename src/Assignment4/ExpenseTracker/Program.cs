@@ -3,30 +3,30 @@ using ExpenseTracker.Repository;
 using ExpenseTracker.Service;
 using ExpenseTracker.View;
 
-namespace Assignments
+namespace Assignments;
+
+/// <summary>
+/// Entry point for the Expense Tracker application.
+/// </summary>
+public class Program
 {
     /// <summary>
-    /// Represents the entry point for the expense tracking application.
-    /// </summary>
-    public class Program
-    {
-        /// <summary>
         /// Initializes and runs the Expense Tracker application.
-        /// </summary>
-        /// <param name="args">Command-line arguments.</param>
-        public static void Main(string[] args)
+    /// </summary>
+    /// <param name="args">Command-line arguments.</param>
+    public static void Main(string[] args)
+    {
+        try
         {
-            try
-            {
                 var repo = new ExpenseTrackerMemoryRepository();
-                var service = new ExpenseTrackerService(repo);
-                var view = new ExpenseTrackerViewer(service);
-                view.DisplayMenu();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
+            var service = new ExpenseTrackerService(repo);
+            var view = new ExpenseTrackerViewer(service);
+            view.DisplayMenu();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
 
             Console.ReadKey();
         }
