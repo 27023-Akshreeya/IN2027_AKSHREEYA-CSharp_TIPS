@@ -5,7 +5,7 @@ namespace Assignments
     /// <summary>
     /// Contains the main execution logic for the memory optimization assignment.
     /// </summary>
-    internal class Program
+    public class Program
     {
         /// <summary>
         /// Serves as the entry point for the application.

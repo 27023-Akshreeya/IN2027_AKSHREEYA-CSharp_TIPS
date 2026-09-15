@@ -3,7 +3,7 @@
     /// <summary>
     /// Simulates memory consumption by allocating arrays sequentially.
     /// </summary>
-    internal class MemoryEater
+    public class MemoryEater
     {
         /// <summary>
         /// The maximum number of memory blocks to allocate.

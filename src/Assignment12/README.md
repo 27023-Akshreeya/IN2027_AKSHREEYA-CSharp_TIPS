@@ -5,7 +5,7 @@
 
 - Eventually throws `System.OutOfMemoryException` because memory consumption continues to increase indefinitely.
 
-![alt text](image.png)
+![alt text](BeforeOptimization.png)
 
 ## Task 2 - Optimized code
 
@@ -19,7 +19,7 @@
 * The program terminates the allocation operation instead of running indefinitely.
 * The optimization can be noted in the Memory graph , where we can notice the memory allocation stops after some time.
 
-![alt text](image-1.png)
+![alt text](AfterOptimization.png)
 
 ### How Visual Studio Memory Profiling Helps
 - The **Process Memory** graph helps identify continuously increasing memory usage. Helps us understand what actually is happening in the memory.
