@@ -26,7 +26,7 @@ namespace IDisposableDemo.Infrastructure
         /// Reads the entire file content.
         /// </summary>
         /// <returns>The file contents as a string, or null.</returns>
-        public string? ReadFile()
+        public string? GetFileContent()
         {
             return this._streamReader.ReadToEnd();
         }

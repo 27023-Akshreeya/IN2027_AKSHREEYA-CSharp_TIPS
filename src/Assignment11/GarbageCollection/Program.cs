@@ -21,8 +21,7 @@ namespace Assignments
                 new Structure { X = i };
             }
 
-            Console.WriteLine("Loop finished.");
-            Console.WriteLine("Triggering GC.Collect()");
+            Console.WriteLine("Loop finished.\nTriggering GC.Collect()");
             GC.Collect();
             GC.WaitForPendingFinalizers();
             GC.Collect();

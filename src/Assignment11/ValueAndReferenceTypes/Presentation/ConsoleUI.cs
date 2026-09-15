@@ -22,7 +22,7 @@ namespace ValueAndReferenceTypes.Presentation
         /// <summary>
         /// Prompts user input to demonstrate reference mutating versus value copying behaviors.
         /// </summary>
-        public void Task1()
+        public void HandleValueType()
         {
             bool isValid = false;
             while (!isValid)
@@ -74,7 +74,7 @@ namespace ValueAndReferenceTypes.Presentation
         /// <summary>
         /// Triggers execution paths for testing stack allocations and heavy heap allocations.
         /// </summary>
-        public void Task2()
+        public void HandleReferenceType()
         {
             Console.WriteLine("\nTask 2\nAllocating a large integer array");
             var array = this._service.AllocateOnHeap();
@@ -88,8 +88,8 @@ namespace ValueAndReferenceTypes.Presentation
         /// </summary>
         public void Execute()
         {
-            this.Task1();
-            this.Task2();
+            this.HandleValueType();
+            this.HandleReferenceType();
             Console.WriteLine("Press any key to exit");
             Console.ReadKey();
         }

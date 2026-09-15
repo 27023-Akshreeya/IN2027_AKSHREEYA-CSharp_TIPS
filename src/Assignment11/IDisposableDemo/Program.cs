@@ -27,7 +27,7 @@ namespace Assignments
 
                 using (var reader = new FileReader(filepath))
                 {
-                    var fileContent = reader.ReadFile();
+                    var fileContent = reader.GetFileContent();
                     Console.WriteLine(fileContent);
                 }
 
