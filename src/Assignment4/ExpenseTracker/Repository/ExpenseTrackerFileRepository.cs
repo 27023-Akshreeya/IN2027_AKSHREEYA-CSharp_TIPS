@@ -32,16 +32,9 @@ namespace ExpenseTracker.Repository
         /// <returns>A list containing all deserialized transactions, or an empty list if the file is empty.</returns>
         public List<T> LoadTransactionsFile()
         {
-            try
-    {
-                string readTransactions = File.ReadAllText(this._fileName);
-                var serializeTransaction = JsonSerializer.Deserialize<List<T>>(readTransactions) ?? new List<T>();
-                return serializeTransaction;
-            }
-            catch
-            {
-                throw;
-            }
+            string readTransactions = File.ReadAllText(this._fileName);
+            var serializeTransaction = JsonSerializer.Deserialize<List<T>>(readTransactions) ?? new List<T>();
+            return serializeTransaction;
         }
 
         /// <summary>

@@ -18,7 +18,7 @@ public class ExpenseTrackerService
     /// Initializes a new instance of the <see cref="ExpenseTrackerService"/> class.
     /// </summary>
     /// <param name="repo">The repository used to store and retrieve transaction data. </param>
-    public ExpenseTrackerService(ExpenseTrackerMemoryRepository repo)
+    public ExpenseTrackerService(IExpenseTrackerRepository repo)
     {
         this._repo = repo;
     }
