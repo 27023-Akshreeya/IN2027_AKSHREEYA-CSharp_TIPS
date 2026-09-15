@@ -79,14 +79,11 @@ namespace LINQchallenges.Application
         /// <summary>
         /// Calculates the average price of products in a category that exceed a minimum price.
         /// </summary>
-        /// <param name="categoryName">The name of the category.</param>
-        /// <param name="price">The minimum price threshold.</param>
+        /// <param name="products">Filter collection of products.</param>
         /// <returns>The average price of the filtered products.</returns>
-        public decimal GetAverage(string categoryName, decimal price)
+        public decimal GetAverage(IEnumerable<Product> products)
         {
-            return this.GetAllProducts()
-                .Where(p => p.Category.Equals(categoryName, StringComparison.OrdinalIgnoreCase) && p.Price > price)
-                .Average(p => p.Price);
+            return products.Average(p => p.Price);
         }
 
         /// <summary>

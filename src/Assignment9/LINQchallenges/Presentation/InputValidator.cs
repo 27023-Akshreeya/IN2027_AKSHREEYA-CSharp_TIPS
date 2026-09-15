@@ -20,7 +20,7 @@
         /// </summary>
         /// <param name="userInput">The input string to validate.</param>
         /// <returns>True if the input can be parsed as an integer; otherwise, false.</returns>
-        internal static bool IsNumberValid(string userInput)
+        public static bool IsNumberValid(string userInput)
         {
             return int.TryParse(userInput, out int _);
         }

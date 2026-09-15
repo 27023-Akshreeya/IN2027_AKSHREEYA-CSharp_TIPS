@@ -7,7 +7,7 @@ namespace LINQchallenges.Presentation
     /// <summary>
     /// Handles the console user interface and console-based output representation.
     /// </summary>
-    internal class ConsoleUI
+    public class ConsoleUI
     {
         private readonly ProductManagementService _productManagementService;
         private readonly ArrayManipulationService _arrayManipulationService;
@@ -187,7 +187,7 @@ namespace LINQchallenges.Presentation
 
             Console.WriteLine("Filtered product by category and price");
             var products = this._productManagementService.FilterbyCategoryAndPrice(category, price).ToList();
-            if (products.Count <= 0)
+            if (!products.Any())
             {
                 Console.WriteLine("Product does not exists under these condition");
                 return;
@@ -211,7 +211,7 @@ namespace LINQchallenges.Presentation
                 Console.WriteLine($"{item.ProductName} {item.Price}");
             }
 
-            Console.WriteLine($"\nAverage of Products: {this._productManagementService.GetAverage(category, price)}");
+            Console.WriteLine($"\nAverage of Products: {this._productManagementService.GetAverage(items).ToString("F2")}");
         }
     }
 }
