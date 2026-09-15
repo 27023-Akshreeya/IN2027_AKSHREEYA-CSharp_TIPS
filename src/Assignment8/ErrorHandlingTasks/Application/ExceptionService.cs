@@ -24,20 +24,20 @@ namespace ErrorHandlingTasks.Application
         /// <summary>
         /// Retrieves an element from the specified array using the provided index.
         /// </summary>
-        /// <param name="index">The position of the element to access.</param>
+        /// <param name="position">The position of the element to access.</param>
         /// <param name="array">The array from which the element is retrieved.</param>
         /// <returns>The value stored at the specified index.</returns>
         /// <exception cref="IndexOutOfRangeException"> Thrown when the specified index is outside the bounds of the array.
         /// </exception>
-        public int AccessArrayElement(int index, int[] array)
+        public int AccessArrayElement(int position, int[] array)
         {
             try
             {
-                return array[index - 1];
+                return array[position - 1];
             }
-            catch (IndexOutOfRangeException)
+            catch (IndexOutOfRangeException ex)
             {
-                throw new InvalidIndexAccessException($"Error : {index} is out of range!");
+                throw new InvalidIndexAccessException($"Error : {position} is out of range!", ex);
             }
         }
 

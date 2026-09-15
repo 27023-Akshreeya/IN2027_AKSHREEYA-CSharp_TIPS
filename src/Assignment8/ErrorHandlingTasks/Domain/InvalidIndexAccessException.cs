@@ -13,8 +13,11 @@ namespace ErrorHandlingTasks.Domain
         /// <param name="message">
         /// The message that describes the error.
         /// </param>
-        public InvalidIndexAccessException(string message)
-            : base(message)
+        /// <param name="innerException">
+        /// The inner exception message
+        /// </param>
+        public InvalidIndexAccessException(string message, Exception innerException)
+            : base(message, innerException)
         {
         }
     }

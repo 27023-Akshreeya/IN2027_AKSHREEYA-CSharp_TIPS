@@ -63,3 +63,11 @@ Handles user interaction:
 - Exception Propagation
 - Global Exception Handling
 - Layered Architecture (Presentation, Application, Domain)
+
+## Take Aways
+- Exception Handling prevents code from crashing due to runtime errors, where the common exceptions handling is done in try-catch-finally blocks
+- try-catch blocks separate logic from error handling routines, even though if-else statements may handle few checks it fails to handle all runtime error, and it also results in nested code, where as try-catch is more efficient
+- Using multiple catch blocks where it is ordered from most specific to most generic helps efficient logging and faster recovery
+- Stack trace gives the  the exact sequence of method calls leading up to a specific crash or exception
+- this helps us to analyze the exact line and context of the error 
+- Exception handling helps us understand what is the reason behind the crash and provides us with clues on why it might have occured 

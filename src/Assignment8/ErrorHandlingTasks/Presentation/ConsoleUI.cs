@@ -32,12 +32,12 @@ namespace ErrorHandlingTasks.Presentation
         {
             Console.Write(userPrompt);
             string userInput = Console.ReadLine() ?? string.Empty;
-            if (!InputValidator.IsNumberValid(userInput))
+            if (!int.TryParse(userInput, out int inputNumeric))
             {
                 throw new InvalidUserInputException(ErrorHandlingResource.invalidInput);
             }
 
-            return Convert.ToInt32(userInput);
+            return inputNumeric;
         }
 
         /// <summary>
@@ -60,13 +60,13 @@ namespace ErrorHandlingTasks.Presentation
         /// </summary>
         private void ExecuteDivisionOperation()
         {
-            Console.WriteLine("Executing task 1: Division");
+            this.DisplayMessage("Executing task 1: Division", ConsoleColor.White);
             try
             {
                 int dividend = this.GetNumericInput(ErrorHandlingResource.Numerator);
                 int divisor = this.GetNumericInput(ErrorHandlingResource.Denominator);
                 var result = this._service.PerformDivision(dividend, divisor);
-                Console.WriteLine($"Result : {result}");
+                this.DisplayMessage($"Result : {result}", ConsoleColor.Green);
             }
             catch (DivideByZeroException ex)
             {
@@ -78,7 +78,7 @@ namespace ErrorHandlingTasks.Presentation
             }
             finally
             {
-                this.DisplayMessage("Error handling in Division is done successfully!", ConsoleColor.Blue);
+                this.DisplayMessage("Division Operation Completed", ConsoleColor.Blue);
             }
         }
 
@@ -87,23 +87,33 @@ namespace ErrorHandlingTasks.Presentation
         /// </summary>
         private void ExecuteArrayAccessOperation()
         {
-            Console.WriteLine("Executing task 2: Accessing element in an array");
+            this.DisplayMessage("Executing task 2: Accessing element in an array", ConsoleColor.White);
             try
             {
                 int arraySize = this.GetNumericInput("Enter Array size:");
-                int[] array = new int[arraySize];
-                for (int i = 0; i < arraySize; i++)
+                if (arraySize == 0)
                 {
-                    array[i] = this.GetNumericInput($"Enter element {i + 1}:");
+                    this.DisplayMessage("Array size cant be zero!", ConsoleColor.Red);
+                    return;
+                }
+
+                int[] array = new int[arraySize];
+                for (int arrayIndex = 0; arrayIndex < arraySize; arrayIndex++)
+                {
+                    array[arrayIndex] = this.GetNumericInput($"Enter element {arrayIndex + 1}:");
                 }
 
                 int index = this.GetNumericInput("Enter the index of element you want to access:");
                 int result = this._service.AccessArrayElement(index, array);
-                Console.WriteLine($"Element is {result}");
+                this.DisplayMessage($"Element is {result}", ConsoleColor.Green);
             }
             catch (InvalidIndexAccessException ex)
             {
                 this.DisplayMessage(ex.Message, ConsoleColor.Red);
+                if (ex.InnerException != null)
+                {
+                    this.DisplayMessage($"Exception : {ex.InnerException.Message}", ConsoleColor.Red);
+                }
             }
             catch (InvalidUserInputException ex)
             {
@@ -111,7 +121,7 @@ namespace ErrorHandlingTasks.Presentation
             }
             finally
             {
-                this.DisplayMessage("Error handling in accessing an array is done successfully!", ConsoleColor.Blue);
+                this.DisplayMessage("Array access operation completed", ConsoleColor.Blue);
             }
         }
 

@@ -26,7 +26,7 @@ namespace Assignments
         /// </summary>
         /// <param name="sender">Event source.</param>
         /// <param name="e">Exception event data.</param>
-        public static void HandleUnhandledException(object sender, UnhandledExceptionEventArgs e)
+        private static void HandleUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             if (e.ExceptionObject is Exception exception)
             {
