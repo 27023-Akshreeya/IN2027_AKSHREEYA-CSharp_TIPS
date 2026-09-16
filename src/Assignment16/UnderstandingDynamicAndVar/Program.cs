@@ -1,8 +1,8 @@
 ﻿namespace Assignments
 {
-    internal class Program
+    public class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             var value = "Hello World!";
             Console.WriteLine($"Understanding var keyword\nValue before reassigning : {value}" +
