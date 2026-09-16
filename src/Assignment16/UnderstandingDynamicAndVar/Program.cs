@@ -4,7 +4,12 @@
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            var integer = 110;
+            var word = "Hello";
+
+            dynamic dynamicInterger = 123;
+            dynamic dynamicWord = "sd";
+            dynamicInterger = "hi";
         }
     }
 }
