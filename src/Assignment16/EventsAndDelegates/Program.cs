@@ -1,4 +1,4 @@
-﻿namespace ImplementingEventsandDelegates
+﻿namespace EventsAndDelegates
 {
     internal class Program
     {
