@@ -59,8 +59,7 @@
         /// <returns>The product of the numbers.</returns>
         private static int ProductOfNumbers(List<int> numbers)
         {
-            var product = numbers.Aggregate(1, (current, next) => current * next);
-            Console.WriteLine($"Product of numbers: {product}");
+            var product = numbers.Aggregate(1, (runningProduct, next) => runningProduct * next);
             return product;
         }
     }
