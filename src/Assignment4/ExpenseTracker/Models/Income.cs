@@ -9,14 +9,14 @@ public class Income : Record
     /// <summary>
     /// Initializes a new instance of the <see cref="Income"/> class.
     /// </summary>
-    /// <param name="incomeAmount">
+    /// <param name="amount">
     /// The amount received in the income transaction.
     /// </param>
     /// <param name="source">
     /// The source of the income (e.g., Salary, Freelancing, Investment).
     /// </param>
-    public Income(decimal incomeAmount, string source)
-        : base(incomeAmount)
+    public Income(decimal amount, string source)
+        : base(amount)
     {
         this.Source = source;
     }
