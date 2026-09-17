@@ -46,6 +46,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemoryOptimization", "src\A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Assignment16", "Assignment16", "{1241BCF9-5190-4A9A-A032-6A3D819C0EDF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnderstandingDynamicAndVar", "src\Assignment16\UnderstandingDynamicAndVar\UnderstandingDynamicAndVar.csproj", "{5F729BD3-A2B4-48C2-98E7-A239F8B4E019}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -80,6 +82,10 @@ Global
 		{6BDC4C10-AA93-4D5B-84D3-DF71E42F4492}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6BDC4C10-AA93-4D5B-84D3-DF71E42F4492}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6BDC4C10-AA93-4D5B-84D3-DF71E42F4492}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F729BD3-A2B4-48C2-98E7-A239F8B4E019}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F729BD3-A2B4-48C2-98E7-A239F8B4E019}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F729BD3-A2B4-48C2-98E7-A239F8B4E019}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F729BD3-A2B4-48C2-98E7-A239F8B4E019}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -103,6 +109,7 @@ Global
 		{B3AB36F7-2E71-45CB-83BF-C1F1D8929512} = {DCAA095E-2796-41FA-A1D0-1134E29309E7}
 		{6BDC4C10-AA93-4D5B-84D3-DF71E42F4492} = {B3AB36F7-2E71-45CB-83BF-C1F1D8929512}
 		{1241BCF9-5190-4A9A-A032-6A3D819C0EDF} = {DCAA095E-2796-41FA-A1D0-1134E29309E7}
+		{5F729BD3-A2B4-48C2-98E7-A239F8B4E019} = {1241BCF9-5190-4A9A-A032-6A3D819C0EDF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D4CECB66-8E11-49D9-AA1E-464EE0231450}
