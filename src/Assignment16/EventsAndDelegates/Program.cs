@@ -1,29 +1,30 @@
-﻿namespace EventsAndDelegates
-{
-    /// <summary>
-    /// j
-    /// </summary>
+﻿using System;
+
+namespace EventsAndDelegates
+{ /// <summary>
+  /// Core application execution entry point.
+  /// </summary>
     internal class Program
     {
         /// <summary>
-        /// lj
+        /// The main entry point for the console application.
         /// </summary>
-        /// <param name="args">l</param>
+        /// <param name="args">Command-line arguments.</param>
         public static void Main(string[] args)
         {
-            var notifer = new Notifer();
-            notifer.OnAction += PrintMessageToConsole;
-            notifer.DisplayOnAction("Hello world");
-            notifer.OnAction -= PrintMessageToConsole;
+            Notifier notifier = new Notifier();
+            notifier.OnAction += PrintMessageToConsole;
+            notifier.TriggerAction("Hello world");
+            notifier.OnAction -= PrintMessageToConsole;
         }
 
         /// <summary>
-        /// hj
+        /// Writes the received notification message directly to the console window.
         /// </summary>
-        /// <param name="message">f</param>
+        /// <param name="message">The string content to output.</param>
         public static void PrintMessageToConsole(string message)
         {
-            Console.WriteLine($"the recieved message is : {message}");
+            Console.WriteLine($"The received message is: {message}");
         }
     }
 }
