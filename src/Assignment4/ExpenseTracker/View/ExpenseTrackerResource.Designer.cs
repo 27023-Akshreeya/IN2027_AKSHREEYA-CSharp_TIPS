@@ -206,8 +206,7 @@ internal class ExpenseTrackerResource {
     }
     
     /// <summary>
-    ///   Looks up a localized string similar to [bold red]Exiting......[/]
-    ///.
+        ///   Looks up a localized string similar to [bold red]Exiting......[/][bold]Press any key to exit[/].
     /// </summary>
     internal static string Exiting {
         get {
