@@ -1,73 +1,68 @@
-﻿using UsingLists.Domain;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UsingLists.Domain;
 using UsingLists.Infrastructure;
 
 namespace UsingLists.Application;
 
 /// <summary>
-/// Provides book management services.
+/// j
 /// </summary>
-public class BookManagerService : IBookManagerService
+/// <typeparam name="TEntity">jhg</typeparam>
+/// <typeparam name="TValue">kk</typeparam>
+public class BookManagerService<TEntity, TValue> : IBookManagerService<TEntity, TValue>
+    where TEntity : class, IIdentifier<TValue>
 {
-    private BookManagerRepository<Book> _bookManagerRepository;
+    private BookManagerRepository<TEntity, TValue> _bookManagerRepository;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="BookManagerService"/> class.
+    /// Initializes a new instance of the <see cref="BookManagerService{TEntity, TValue}"/> class.
     /// </summary>
-    /// <param name="bookManagerRepository">Book repository.</param>
-    public BookManagerService(BookManagerRepository<Book> bookManagerRepository)
+    /// <param name="bookManagerRepository">InfrastructureLayer object</param>
+    public BookManagerService(BookManagerRepository<TEntity, TValue> bookManagerRepository)
     {
         this._bookManagerRepository = bookManagerRepository;
     }
 
     /// <summary>
-    /// Creates a new book.
+    /// Creates a new book if it does not already exist.
     /// </summary>
-    /// <param name="book">Book to create.</param>
-    /// <returns>The operation result.</returns>
-    public Result CreateBook(Book book)
+    /// <param name="newBook">The book entity to add.</param>
+    /// <returns>A result indicating whether the operation succeeded or failed.</returns>
+    public bool CreateBook(TEntity newBook)
     {
-        if (this.DoesBookExists(book.Title))
-        {
-            return Result.Failure("Book already exists, Duplicates arent allowed");
-        }
-
-        this._bookManagerRepository.AddBook(book);
-        return Result.Success("Book Added successfully");
-    }
-
-    /// <summary>
-    /// Checks whether a book exists.
-    /// </summary>
-    /// <param name="bookTitle">Book title.</param>
-    /// <returns>True if the book exists; otherwise, false.</returns>
-    public bool DoesBookExists(string bookTitle)
-    {
-        return this.GetAllBooks().Any(x => x.Title.Equals(bookTitle));
-    }
-
-    /// <summary>
-    /// Checks whether a book exists.
-    /// </summary>
-    /// <param name="bookTitle">Book title.</param>
-    /// <returns>True if the book exists; otherwise, false.</returns>
-    public bool ContainsBook(string bookTitle)
-    {
-        return this.DoesBookExists(bookTitle);
-    }
-
-    /// <summary>
-    /// Deletes a book.
-    /// </summary>
-    /// <param name="bookTitle">Book title.</param>
-    /// <returns>True if deleted; otherwise, false.</returns>
-    public bool DeleteBook(string bookTitle)
-    {
-        if (!this.DoesBookExists(bookTitle))
+        if (this.DoesBookExists(newBook.Value))
         {
             return false;
         }
 
-        var book = this.GetAllBooks().FirstOrDefault(x => x.Title.Equals(bookTitle));
+        this._bookManagerRepository.AddBook(newBook);
+        return true;
+    }
+
+    /// <summary>
+    /// Determines whether the specified book exists in the collection.
+    /// </summary>
+    /// <param name="book">The book in the collection.</param>
+    /// <returns>true if the book exists; otherwise, false.</returns>
+    public bool DoesBookExists(TValue book)
+    {
+        return this.GetAllBooks().Any(x => x.Value.Equals(book));
+    }
+
+    /// <summary>
+    /// Removes the specified book from the collection if it exists.
+    /// </summary>
+    /// <param name="deleteBook">The book to remove.</param>
+    /// <returns>true if the book was removed; otherwise, false.</returns>
+    public bool DeleteBook(TValue deleteBook)
+    {
+        if (!this.DoesBookExists(deleteBook))
+        {
+            return false;
+        }
+
+        var book = this.GetAllBooks().FirstOrDefault(x => x.Value.Equals(deleteBook));
         if (book != null)
         {
             this._bookManagerRepository.RemoveBook(book);
@@ -78,8 +73,8 @@ public class BookManagerService : IBookManagerService
     }
 
     /// <summary>
-    /// Retrieves all books.
+    /// Retrieves all books from the repository.
     /// </summary>
-    /// <returns>A collection of books.</returns>
-    public IEnumerable<Book> GetAllBooks() => this._bookManagerRepository.GetBooks();
+    /// <returns>An enumerable collection of book entities.</returns>
+    public IEnumerable<TEntity> GetAllBooks() => this._bookManagerRepository.GetBooks();
 }

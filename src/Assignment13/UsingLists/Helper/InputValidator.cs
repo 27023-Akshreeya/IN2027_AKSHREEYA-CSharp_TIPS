@@ -1,4 +1,6 @@
-﻿namespace UsingLists.Helper;
+﻿using System;
+
+namespace UsingLists.Helper;
 
 /// <summary>
 /// Represents an input validation method.
@@ -25,16 +27,6 @@ public static class InputValidator
         }
 
         return int.TryParse(input, out int choice) && choice > 0 && choice <= 5;
-    }
-
-    /// <summary>
-    /// Validates a book name.
-    /// </summary>
-    /// <param name="input">Book name.</param>
-    /// <returns>True if valid; otherwise, false.</returns>
-    public static bool IsBookValid(string input)
-    {
-        return !string.IsNullOrEmpty(input);
     }
 
     /// <summary>

@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents a book.
 /// </summary>
-public class Book
+public class Book : IIdentifier<string>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="Book"/> class.
@@ -19,5 +19,12 @@ public class Book
     /// </summary>
     /// <value>The book title.
     /// </value>
-    public string Title { get; set; }
+    public string Title { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets the title of the current instance.
+    /// </summary>
+    /// <value> The title of the current instance.</placeholder>
+    /// </value>
+    public string Value => this.Title;
 }

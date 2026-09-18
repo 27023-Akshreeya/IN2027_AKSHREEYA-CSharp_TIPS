@@ -1,4 +1,5 @@
-﻿using UsingLists.Application;
+﻿using System;
+using UsingLists.Application;
 using UsingLists.Domain;
 using UsingLists.Helper;
 
@@ -9,13 +10,13 @@ namespace UsingLists.Presentation;
 /// </summary>
 public class ConsoleUI
 {
-    private IBookManagerService _bookManagerService;
+    private IBookManagerService<Book, string> _bookManagerService;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ConsoleUI"/> class.
     /// </summary>
     /// <param name="bookManagerService">Book management service.</param>
-    public ConsoleUI(IBookManagerService bookManagerService)
+    public ConsoleUI(IBookManagerService<Book, string> bookManagerService)
     {
         this._bookManagerService = bookManagerService;
     }
@@ -89,7 +90,7 @@ public class ConsoleUI
             return;
         }
 
-        if (this._bookManagerService.ContainsBook(book))
+        if (this._bookManagerService.DoesBookExists(book))
         {
             Console.WriteLine($"{book} Found!");
         }
@@ -104,7 +105,7 @@ public class ConsoleUI
     /// </summary>
     private void RemoveBook()
     {
-        string bookTitle = this.GetInputWithAttempts("Enter book name to delete:", InputValidator.IsBookValid, BookManagerResource.invalidBook);
+        string bookTitle = this.GetInputWithAttempts("Enter book name to delete:", input => !string.IsNullOrEmpty(input), BookManagerResource.invalidBook);
         if (!string.IsNullOrEmpty(bookTitle) && this._bookManagerService.DeleteBook(bookTitle))
         {
             Console.WriteLine("Book is deleted successfull");
@@ -123,22 +124,20 @@ public class ConsoleUI
         Console.WriteLine(BookManagerResource.addBook);
         for (int bookCount = 0; bookCount < 5; bookCount++)
         {
-            string book = this.GetInputWithAttempts(BookManagerResource.GetBook + $"no {bookCount + 1}: ", InputValidator.IsBookValid, BookManagerResource.invalidBook);
+            string book = this.GetInputWithAttempts(BookManagerResource.GetBook + $"no {bookCount + 1}: ", input => !string.IsNullOrEmpty(input), BookManagerResource.invalidBook);
             if (string.IsNullOrWhiteSpace(book))
             {
-                Console.WriteLine($"Couldn't add book {book}!" +
-                    $"Enter a valid book");
+                Console.WriteLine($"Couldn't add book {book}!Enter a valid book");
                 continue;
             }
 
-            var result = this._bookManagerService.CreateBook(new Book(book));
-            if (!result.IsSuccess)
+            if (!this._bookManagerService.CreateBook(new Book(book)))
             {
-                Console.WriteLine(result.Message);
+                Console.WriteLine("Book already exists, Duplicates arent allowed");
                 continue;
             }
 
-            Console.WriteLine(result.Message);
+            Console.WriteLine("Book Added successfully");
         }
     }
 

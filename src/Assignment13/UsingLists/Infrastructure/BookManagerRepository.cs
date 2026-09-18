@@ -1,43 +1,47 @@
-﻿namespace UsingLists.Infrastructure;
+﻿using System.Collections.Generic;
+using UsingLists.Domain;
+
+namespace UsingLists.Infrastructure;
 
 /// <summary>
-/// Repository for managing book data.
+/// Repository for managing entity data.
 /// </summary>
-/// <typeparam name="T">Type of book entity.</typeparam>
-public class BookManagerRepository<T>
+/// <typeparam name="TEntity">Type of book entity.</typeparam>
+/// <typeparam name="TValue">Type of the identifier value.</typeparam>
+public class BookManagerRepository<TEntity, TValue> : IBookManagerRepository<TEntity, TValue>
+    where TEntity : class, IIdentifier<TValue>
 {
-    private readonly List<T> _books;
+    private readonly List<TEntity> _books;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="BookManagerRepository{T}"/> class.
-    /// Initializes a new repository instance.
+    /// Initializes a new instance of the <see cref="BookManagerRepository{TEntity, TValue}"/> class.
     /// </summary>
     public BookManagerRepository()
     {
-        this._books = new List<T>();
+        this._books = new List<TEntity>();
     }
 
     /// <summary>
-    /// Adds a book to the repository.
+    /// Adds an entity to the repository.
     /// </summary>
-    /// <param name="book">Book to add.</param>
-    public void AddBook(T book)
+    /// <param name="book">Entity to add.</param>
+    public void AddBook(TEntity book)
     {
         this._books.Add(book);
     }
 
     /// <summary>
-    /// Retrieves all books.
+    /// Retrieves all entities.
     /// </summary>
-    /// <returns>The collection of books.</returns>
-    public IEnumerable<T> GetBooks() => this._books;
+    /// <returns>The collection of entities.</returns>
+    public IEnumerable<TEntity> GetBooks() => this._books;
 
     /// <summary>
-    /// Removes a book from the repository.
+    /// Removes an entity from the repository.
     /// </summary>
-    /// <param name="bookTitle">Book to remove.</param>
-    internal void RemoveBook(T bookTitle)
+    /// <param name="book">Entity to remove.</param>
+    public void RemoveBook(TEntity book)
     {
-        this._books.Remove(bookTitle);
+        this._books.Remove(book);
     }
 }
