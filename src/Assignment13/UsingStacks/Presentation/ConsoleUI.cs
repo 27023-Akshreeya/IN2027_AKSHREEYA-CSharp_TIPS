@@ -27,11 +27,11 @@ public class ConsoleUI
         string orignalString = Console.ReadLine() ?? string.Empty;
         if (string.IsNullOrEmpty(orignalString))
         {
-            Console.WriteLine("Invalid input! string cant be empty");
+            Console.WriteLine(StringReversalResource.Invalid);
             return;
         }
 
         string reversedString = this._reversalService.Reverse(orignalString);
-        Console.WriteLine($"The original string : {orignalString}\nThe reversed string : {reversedString}");
+        Console.WriteLine(StringReversalResource.OriginalString + orignalString + StringReversalResource.reversedString + "\n" + reversedString);
     }
 }

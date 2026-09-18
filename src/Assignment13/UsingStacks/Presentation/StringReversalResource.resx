@@ -122,4 +122,13 @@
 
 Enter string :</value>
   </data>
+  <data name="Invalid" xml:space="preserve">
+    <value>Invalid input! string cant be empty</value>
+  </data>
+  <data name="OriginalString" xml:space="preserve">
+    <value>The original string : </value>
+  </data>
+  <data name="reversedString" xml:space="preserve">
+    <value>The reversed string : </value>
+  </data>
 </root>
