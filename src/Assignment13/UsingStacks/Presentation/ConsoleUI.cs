@@ -32,6 +32,6 @@ public class ConsoleUI
         }
 
         string reversedString = this._reversalService.Reverse(orignalString);
-        Console.WriteLine(StringReversalResource.OriginalString + orignalString + StringReversalResource.reversedString + "\n" + reversedString);
+        Console.WriteLine(StringReversalResource.OriginalString + orignalString + "\n" + StringReversalResource.reversedString + reversedString);
     }
 }

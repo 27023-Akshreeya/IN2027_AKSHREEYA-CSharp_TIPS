@@ -70,6 +70,24 @@ namespace UsingLists.Presentation {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Book Added successfully.
+        /// </summary>
+        internal static string AdditionSuccessfull {
+            get {
+                return ResourceManager.GetString("AdditionSuccessfull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Book list.
+        /// </summary>
+        internal static string Booklist {
+            get {
+                return ResourceManager.GetString("Booklist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enter your choice : .
         /// </summary>
         internal static string Choice {
@@ -79,11 +97,38 @@ namespace UsingLists.Presentation {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This book does not exists in this list.
+        ///   Looks up a localized string similar to Enter book name to delete : .
+        /// </summary>
+        internal static string DeletionChoice {
+            get {
+                return ResourceManager.GetString("DeletionChoice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Book is deleted successfully.
+        /// </summary>
+        internal static string deletionSuccess {
+            get {
+                return ResourceManager.GetString("deletionSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Book does not exist.
         /// </summary>
         internal static string DoesNotExists {
             get {
                 return ResourceManager.GetString("DoesNotExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you want to exit? [y/n]:.
+        /// </summary>
+        internal static string exitChoice {
+            get {
+                return ResourceManager.GetString("exitChoice", resourceCulture);
             }
         }
         
@@ -111,6 +156,15 @@ namespace UsingLists.Presentation {
         internal static string invalidChoice {
             get {
                 return ResourceManager.GetString("invalidChoice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Book already exists, Duplicates aren&apos;t allowed.
+        /// </summary>
+        internal static string InvalidDuplicate {
+            get {
+                return ResourceManager.GetString("InvalidDuplicate", resourceCulture);
             }
         }
         

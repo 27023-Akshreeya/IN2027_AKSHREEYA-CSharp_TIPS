@@ -52,7 +52,7 @@ public class ConsoleUI
                     break;
             }
 
-            string exitChoice = this.GetInputWithAttempts("Do you want to exit? [y/n]:", InputValidator.IsExitChoiceValid, BookManagerResource.invalidChoice);
+            string exitChoice = this.GetInputWithAttempts(BookManagerResource.exitChoice, InputValidator.IsExitChoiceValid, BookManagerResource.invalidChoice);
             if (string.IsNullOrWhiteSpace(exitChoice))
             {
                 exit = true;
@@ -69,7 +69,7 @@ public class ConsoleUI
     {
         var books = this._bookManagerService.GetAllBooks();
         int bookCount = 0;
-        Console.WriteLine("Book list");
+        Console.WriteLine(BookManagerResource.Booklist);
         foreach (var book in books)
         {
             Console.WriteLine($"{bookCount + 1}. {book.Title}");
@@ -105,14 +105,14 @@ public class ConsoleUI
     /// </summary>
     private void RemoveBook()
     {
-        string bookTitle = this.GetInputWithAttempts("Enter book name to delete:", input => !string.IsNullOrEmpty(input), BookManagerResource.invalidBook);
+        string bookTitle = this.GetInputWithAttempts(BookManagerResource.DeletionChoice, input => !string.IsNullOrEmpty(input), BookManagerResource.invalidBook);
         if (!string.IsNullOrEmpty(bookTitle) && this._bookManagerService.DeleteBook(bookTitle))
         {
-            Console.WriteLine("Book is deleted successfull");
+            Console.WriteLine(BookManagerResource.deletionSuccess);
         }
         else
         {
-            Console.WriteLine("Book does not exist");
+            Console.WriteLine(BookManagerResource.DoesNotExists);
         }
     }
 
@@ -133,11 +133,11 @@ public class ConsoleUI
 
             if (!this._bookManagerService.CreateBook(new Book(book)))
             {
-                Console.WriteLine("Book already exists, Duplicates arent allowed");
+                Console.WriteLine(BookManagerResource.InvalidDuplicate);
                 continue;
             }
 
-            Console.WriteLine("Book Added successfully");
+            Console.WriteLine(BookManagerResource.AdditionSuccessfull);
         }
     }
 

@@ -120,11 +120,26 @@
   <data name="addBook" xml:space="preserve">
     <value>Add 5 new Books</value>
   </data>
+  <data name="Booklist" xml:space="preserve">
+    <value>Book list</value>
+  </data>
   <data name="Choice" xml:space="preserve">
     <value>Enter your choice : </value>
   </data>
+  <data name="DeletionChoice" xml:space="preserve">
+    <value>Enter book name to delete : </value>
+  </data>
+  <data name="deletionSuccess" xml:space="preserve">
+    <value>Book is deleted successfully</value>
+  </data>
   <data name="DoesNotExists" xml:space="preserve">
-    <value>This book does not exists in this list</value>
+    <value>Book does not exist</value>
+  </data>
+  <data name="InvalidDuplicate" xml:space="preserve">
+    <value>Book already exists, Duplicates aren't allowed</value>
+  </data>
+  <data name="exitChoice" xml:space="preserve">
+    <value>Do you want to exit? [y/n]:</value>
   </data>
   <data name="GetBook" xml:space="preserve">
     <value>Enter book name </value>
@@ -145,5 +160,8 @@
   </data>
   <data name="SearchBook" xml:space="preserve">
     <value>Enter book title to search : </value>
+  </data>
+  <data name="AdditionSuccessfull" xml:space="preserve">
+    <value>Book Added successfully</value>
   </data>
 </root>
