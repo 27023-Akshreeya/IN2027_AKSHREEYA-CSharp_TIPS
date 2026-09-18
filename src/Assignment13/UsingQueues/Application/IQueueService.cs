@@ -3,26 +3,28 @@
 namespace UsingQueues.Application;
 
 /// <summary>
-/// Defines queue management operations.
+/// Defines operations for managing a queue of persons.
 /// </summary>
-public interface IQueueService
+/// <typeparam name="T">The type of person in the queue.</typeparam>
+public interface IQueueService<T>
+    where T : class
 {
     /// <summary>
     /// Adds a new person to the queue.
     /// </summary>
-    /// <param name="person">Person to add.</param>
+    /// <param name="item">Person to add.</param>
     /// <returns>True if added; otherwise, false.</returns>
-    bool AddNewPerson(Person person);
+    bool AddNewPerson(T item);
 
     /// <summary>
     /// Retrieves all persons in the queue.
     /// </summary>
     /// <returns>A collection of persons.</returns>
-    IEnumerable<Person> GetAllPersons();
+    IEnumerable<T> GetAllPersons();
 
     /// <summary>
     /// Removes and returns the first person in the queue.
     /// </summary>
     /// <returns>The removed person.</returns>
-    Person RemoveFirstPerson();
+    T RemoveFirstPerson();
 }

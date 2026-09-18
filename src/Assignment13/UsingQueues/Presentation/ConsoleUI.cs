@@ -8,13 +8,13 @@ namespace UsingQueues.Presentation;
 /// </summary>
 public class ConsoleUI
 {
-    private readonly IQueueService _queueService;
+    private readonly IQueueService<Person> _queueService;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ConsoleUI"/> class.
     /// </summary>
     /// <param name="queueService">Queue service.</param>
-    public ConsoleUI(IQueueService queueService)
+    public ConsoleUI(IQueueService<Person> queueService)
     {
         this._queueService = queueService;
     }

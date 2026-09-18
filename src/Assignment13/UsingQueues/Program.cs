@@ -17,7 +17,7 @@ internal class Program
     public static void Main(string[] args)
     {
         var repo = new PeopleQueueRepository<Person>();
-        var service = new PeopleQueueService(repo);
+        var service = new PeopleQueueService<Person>(repo);
         var view = new ConsoleUI(service);
         view.Run();
     }

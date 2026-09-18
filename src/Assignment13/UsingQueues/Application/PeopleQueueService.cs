@@ -4,17 +4,19 @@ using UsingQueues.Infrastructure;
 namespace UsingQueues.Application;
 
 /// <summary>
-/// Provides queue management services.
+/// Provides queue management operations for persons, including addition, removal, and retrieval.
 /// </summary>
-public class PeopleQueueService : IQueueService
+/// <typeparam name="T">The type representing a person in the queue.</typeparam>
+public class PeopleQueueService<T> : IQueueService<T>
+    where T : class
 {
-    private readonly PeopleQueueRepository<Person> _peopleQueueRepository;
+    private readonly PeopleQueueRepository<T> _peopleQueueRepository;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="PeopleQueueService"/> class.
+    /// Initializes a new instance of the <see cref="PeopleQueueService{T}"/> class.
     /// </summary>
     /// <param name="peopleQueueRepository">People queue repository.</param>
-    public PeopleQueueService(PeopleQueueRepository<Person> peopleQueueRepository)
+    public PeopleQueueService(PeopleQueueRepository<T> peopleQueueRepository)
     {
         this._peopleQueueRepository = peopleQueueRepository;
     }
@@ -24,7 +26,7 @@ public class PeopleQueueService : IQueueService
     /// </summary>
     /// <param name="person">Person to add.</param>
     /// <returns>True if added; otherwise, false.</returns>
-    public bool AddNewPerson(Person person)
+    public bool AddNewPerson(T person)
     {
         this._peopleQueueRepository.AddPerson(person);
         return true;
@@ -34,7 +36,7 @@ public class PeopleQueueService : IQueueService
     /// Removes and returns the first person in the queue.
     /// </summary>
     /// <returns>The removed person.</returns>
-    public Person RemoveFirstPerson()
+    public T RemoveFirstPerson()
     {
         return this._peopleQueueRepository.RemovePerson();
     }
@@ -43,5 +45,5 @@ public class PeopleQueueService : IQueueService
     /// Retrieves all persons in the queue.
     /// </summary>
     /// <returns>A collection of persons.</returns>
-    public IEnumerable<Person> GetAllPersons() => this._peopleQueueRepository.GetPeople();
+    public IEnumerable<T> GetAllPersons() => this._peopleQueueRepository.GetPeople();
 }
