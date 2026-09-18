@@ -7,14 +7,14 @@ namespace UsingLists.Infrastructure;
 /// Repository for managing entity data.
 /// </summary>
 /// <typeparam name="TEntity">Type of book entity.</typeparam>
-/// <typeparam name="TValue">Type of the identifier value.</typeparam>
-public class BookManagerRepository<TEntity, TValue> : IBookManagerRepository<TEntity, TValue>
-    where TEntity : class, IIdentifier<TValue>
+/// <typeparam name="TId">Type of the identifier value.</typeparam>
+public class BookManagerRepository<TEntity, TId> : IBookManagerRepository<TEntity, TId>
+    where TEntity : class, IIdentifier<TId>
 {
     private readonly List<TEntity> _books;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="BookManagerRepository{TEntity, TValue}"/> class.
+    /// Initializes a new instance of the <see cref="BookManagerRepository{TEntity, TId}"/> class.
     /// </summary>
     public BookManagerRepository()
     {

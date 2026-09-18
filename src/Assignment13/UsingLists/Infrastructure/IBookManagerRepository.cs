@@ -7,9 +7,9 @@ namespace UsingLists.Infrastructure;
 /// Defines repository operation for managing books
 /// </summary>
 /// <typeparam name="TEntity">The type of book entity</typeparam>
-/// <typeparam name="TValue">The type of books value</typeparam>
-public interface IBookManagerRepository<TEntity, TValue>
-    where TEntity : class, IIdentifier<TValue>
+/// <typeparam name="TId">The type of books value</typeparam>
+public interface IBookManagerRepository<TEntity, TId>
+    where TEntity : class, IIdentifier<TId>
 {
     /// <summary>
     /// Adds a book entity to the repository.

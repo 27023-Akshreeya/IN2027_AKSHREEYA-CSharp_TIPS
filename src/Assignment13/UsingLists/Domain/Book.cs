@@ -26,5 +26,5 @@ public class Book : IIdentifier<string>
     /// </summary>
     /// <value> The title of the current instance.</placeholder>
     /// </value>
-    public string Value => this.Title;
+    public string Id => this.Title;
 }
