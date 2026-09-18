@@ -1,19 +1,22 @@
-﻿using ContactManager.View;
+﻿using System;
+using ContactManager.Service;
+using ContactManager.View;
 
-namespace ContactManager;
-
-/// <summary>
-/// program class
-/// </summary>
-public class Program
+namespace ContactManager
 {
     /// <summary>
-    /// main scope
+    /// program class
     /// </summary>
-    /// <param name="args">argumenrs</param>
-    public static void Main(string[] args)
+    public class Program
     {
-        var contactViewer = new ContactViewer();
-        contactViewer.Menu();
+        /// <summary>
+        /// main scope
+        /// </summary>
+        /// <param name="args">argumenrs</param>
+        public static void Main(string[] args)
+        {
+            var contactViewer = new ContactViewer();
+            contactViewer.Menu();
+        }
     }
 }
