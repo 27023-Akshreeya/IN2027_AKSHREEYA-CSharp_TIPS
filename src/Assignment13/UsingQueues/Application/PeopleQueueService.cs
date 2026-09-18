@@ -25,11 +25,9 @@ public class PeopleQueueService<T> : IQueueService<T>
     /// Adds a new person to the queue.
     /// </summary>
     /// <param name="person">Person to add.</param>
-    /// <returns>True if added; otherwise, false.</returns>
-    public bool AddNewPerson(T person)
+    public void AddNewPerson(T person)
     {
         this._peopleQueueRepository.AddPerson(person);
-        return true;
     }
 
     /// <summary>

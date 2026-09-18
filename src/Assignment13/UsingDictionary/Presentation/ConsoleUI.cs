@@ -1,4 +1,5 @@
-﻿using UsingDictionary.Application;
+﻿using System;
+using UsingDictionary.Application;
 using UsingDictionary.Domain;
 
 namespace UsingDictionary.Presentation;
@@ -36,15 +37,12 @@ public class ConsoleUI
                 case "1":
                     this.AddNewStudents();
                     break;
-
                 case "2":
                     this.RemoveStudent();
                     break;
-
                 case "3":
                     this.SearchStudent();
                     break;
-
                 case "4":
                     this.ViewAllStudents();
                     break;
@@ -61,13 +59,11 @@ public class ConsoleUI
     /// </summary>
     private void AddNewStudents()
     {
-        Console.WriteLine();
-        Console.WriteLine("Enter details of 5 students");
+        Console.WriteLine("\nEnter details of 5 students");
 
         for (int studentCount = 0; studentCount < 5; studentCount++)
         {
             string studentName = this.GetInputWithAttempts($"Enter name of student no {studentCount + 1}: ", Helper.IsNameValid, "Invalid name!");
-
             if (string.IsNullOrWhiteSpace(studentName))
             {
                 Console.WriteLine("Couldn't add student.");
@@ -75,21 +71,16 @@ public class ConsoleUI
             }
 
             string gradeInput = this.GetInputWithAttempts("Enter student grade (0-100): ", Helper.IsGradeValid, "Invalid grade!");
-
             if (string.IsNullOrWhiteSpace(gradeInput))
             {
                 Console.WriteLine("Couldn't add student.");
                 continue;
             }
 
-            int grade = int.Parse(gradeInput);
-
-            Student student = new Student(studentName, grade);
-
+            var student = new Student(studentName, int.Parse(gradeInput));
             if (!this._studentService.AddNewStudent(student))
             {
-                Console.WriteLine(
-                    $"Student '{studentName}' already exists.");
+                Console.WriteLine($"Student '{studentName}' already exists.");
                 continue;
             }
 
@@ -102,25 +93,19 @@ public class ConsoleUI
     /// </summary>
     private void RemoveStudent()
     {
-        Console.WriteLine();
-
         string studentName = this.GetInputWithAttempts("Enter student name to remove: ", Helper.IsNameValid, "Invalid name!");
-
         if (string.IsNullOrWhiteSpace(studentName))
         {
             return;
         }
 
-        bool removed = this._studentService.RemoveStudent(studentName);
-
-        if (removed)
-        {
-            Console.WriteLine("Student removed successfully.");
-        }
-        else
+        if (!this._studentService.RemoveStudent(studentName))
         {
             Console.WriteLine("Student not found.");
+            return;
         }
+
+        Console.WriteLine("Student details deleted successfully deleted");
     }
 
     /// <summary>
@@ -128,25 +113,20 @@ public class ConsoleUI
     /// </summary>
     private void SearchStudent()
     {
-        Console.WriteLine();
-
         string studentName = this.GetInputWithAttempts("Enter student name to search: ", Helper.IsNameValid, "Invalid name!");
-
         if (string.IsNullOrWhiteSpace(studentName))
         {
             return;
         }
 
-        if (!this._studentService.StudentExists(studentName))
+        int grade = this._studentService.GetStudentGrade(studentName);
+        if (grade < 0)
         {
-            Console.WriteLine("Student not found.");
+            Console.WriteLine("Student does not exists");
             return;
         }
 
-        int grade = this._studentService.GetStudentGrade(studentName);
-
-        Console.WriteLine(
-            $"Student: {studentName} | Grade: {grade}");
+        Console.WriteLine($"Student: {studentName} | Grade: {grade}");
     }
 
     /// <summary>
@@ -155,10 +135,7 @@ public class ConsoleUI
     private void ViewAllStudents()
     {
         Console.WriteLine("\nStudents and Grades\n");
-
-        var students = this._studentService.GetAllStudents();
-
-        foreach (var student in students)
+        foreach (var student in this._studentService.GetAllStudents())
         {
             Console.WriteLine($"Student: {student.Key} | Grade: {student.Value}");
         }
@@ -176,9 +153,7 @@ public class ConsoleUI
         for (int tries = 3; tries > 0; tries--)
         {
             Console.Write($"\nAttempts remaining: {tries}\n{input}");
-
             string userInput = Console.ReadLine() ?? string.Empty;
-
             if (validator(userInput))
             {
                 return userInput;

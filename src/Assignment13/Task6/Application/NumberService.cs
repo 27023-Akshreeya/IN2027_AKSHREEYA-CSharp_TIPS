@@ -1,4 +1,6 @@
-﻿namespace Task6.Application;
+﻿using System.Collections.Generic;
+
+namespace Task6.Application;
 
 /// <summary>
 /// Provides number-related operations.

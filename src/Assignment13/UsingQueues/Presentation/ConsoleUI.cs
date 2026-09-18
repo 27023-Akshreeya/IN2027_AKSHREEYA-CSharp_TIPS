@@ -70,10 +70,8 @@ public class ConsoleUI
                 continue;
             }
 
-            if (this._queueService.AddNewPerson(new Person(name)))
-            {
-                Console.WriteLine("Name added successfully");
-            }
+            this._queueService.AddNewPerson(new Person(name));
+            Console.WriteLine("Name added successfully");
         }
     }
 

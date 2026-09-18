@@ -62,14 +62,8 @@ public class BookManagerService<TEntity, TId> : IBookManagerService<TEntity, TId
             return false;
         }
 
-        var book = this.GetAllBooks().FirstOrDefault(x => x.Id.Equals(deleteBook));
-        if (book != null)
-        {
-            this._bookManagerRepository.RemoveBook(book);
-            return true;
-        }
-
-        return false;
+        this._bookManagerRepository.RemoveBook(this.GetAllBooks().First(x => x.Id.Equals(deleteBook)));
+        return true;
     }
 
     /// <summary>

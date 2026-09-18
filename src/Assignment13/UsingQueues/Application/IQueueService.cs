@@ -13,8 +13,7 @@ public interface IQueueService<T>
     /// Adds a new person to the queue.
     /// </summary>
     /// <param name="item">Person to add.</param>
-    /// <returns>True if added; otherwise, false.</returns>
-    bool AddNewPerson(T item);
+    void AddNewPerson(T item);
 
     /// <summary>
     /// Retrieves all persons in the queue.

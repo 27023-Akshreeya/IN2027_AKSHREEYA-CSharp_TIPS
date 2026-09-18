@@ -1,4 +1,6 @@
-﻿using Task6.Application;
+﻿using System;
+using System.Collections.Generic;
+using Task6.Application;
 
 namespace Task6.Presentation;
 
@@ -63,6 +65,18 @@ internal class ConsoleUI
         Console.WriteLine("Understanding IReadOnlyDictionary");
         var dictionary = this._dictionaryService.GenerateDictionary();
         Console.WriteLine("Dictionary:");
-        this._dictionaryService.PrintDictionary(dictionary);
+        this.PrintDictionary(dictionary);
+    }
+
+    /// <summary>
+    /// Displays dictionary contents.
+    /// </summary>
+    /// <param name="dictionary">Dictionary to display.</param>
+    private void PrintDictionary(IReadOnlyDictionary<string, int> dictionary)
+    {
+        foreach (KeyValuePair<string, int> item in dictionary)
+        {
+            Console.WriteLine($"{item.Key}: {item.Value}");
+        }
     }
 }

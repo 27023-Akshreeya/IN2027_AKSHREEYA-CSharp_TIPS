@@ -1,4 +1,5 @@
-﻿using UsingDictionary.Domain;
+﻿using System.Collections.Generic;
+using UsingDictionary.Domain;
 
 namespace UsingDictionary.Application;
 
@@ -18,7 +19,7 @@ public interface IStudentService
     /// Retrieves all students and grades.
     /// </summary>
     /// <returns>A collection of students and grades.</returns>
-    IEnumerable<KeyValuePair<string, int>> GetAllStudents();
+    Dictionary<string, int> GetAllStudents();
 
     /// <summary>
     /// Gets a student's grade.
@@ -39,5 +40,5 @@ public interface IStudentService
     /// </summary>
     /// <param name="studentName">Student name.</param>
     /// <returns>True if the student exists; otherwise, false.</returns>
-    bool StudentExists(string studentName);
+    bool DoesStudentExists(string studentName);
 }

@@ -96,7 +96,7 @@ public class ConsoleUI
         }
         else
         {
-            Console.WriteLine("This book does not exists in this list");
+            Console.WriteLine(BookManagerResource.DoesNotExists);
         }
     }
 

@@ -1,4 +1,7 @@
-﻿namespace Task6.Application;
+﻿using System;
+using System.Collections.Generic;
+
+namespace Task6.Application;
 
 /// <summary>
 /// Provides dictionary-related operations.
@@ -19,17 +22,5 @@ public class DictionaryService
         };
 
         return dictionary;
-    }
-
-    /// <summary>
-    /// Displays dictionary contents.
-    /// </summary>
-    /// <param name="dictionary">Dictionary to display.</param>
-    public void PrintDictionary(IReadOnlyDictionary<string, int> dictionary)
-    {
-        foreach (KeyValuePair<string, int> item in dictionary)
-        {
-            Console.WriteLine($"{item.Key}: {item.Value}");
-        }
     }
 }

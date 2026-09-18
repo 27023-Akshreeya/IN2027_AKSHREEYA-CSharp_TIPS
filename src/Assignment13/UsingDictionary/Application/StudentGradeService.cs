@@ -1,4 +1,6 @@
-﻿using UsingDictionary.Domain;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UsingDictionary.Domain;
 using UsingDictionary.Infrastructure;
 
 namespace UsingDictionary.Application;
@@ -26,12 +28,12 @@ public class StudentGradeService : IStudentService
     /// <returns>True if added; otherwise, false.</returns>
     public bool AddNewStudent(Student student)
     {
-        if (this._studentGradeRepository.ContainsKey(student.Name))
+        if (this.DoesStudentExists(student.Name))
         {
             return false;
         }
 
-        this._studentGradeRepository.Add(student.Name, student.Grade);
+        this._studentGradeRepository.AddStudent(student.Name, student.Grade);
 
         return true;
     }
@@ -43,7 +45,13 @@ public class StudentGradeService : IStudentService
     /// <returns>True if removed; otherwise, false.</returns>
     public bool RemoveStudent(string studentName)
     {
-        return this._studentGradeRepository.Remove(studentName);
+        if (!this.DoesStudentExists(studentName))
+        {
+            return false;
+        }
+
+        this._studentGradeRepository.RemoveStudent(studentName);
+        return true;
     }
 
     /// <summary>
@@ -51,9 +59,9 @@ public class StudentGradeService : IStudentService
     /// </summary>
     /// <param name="studentName">Student name.</param>
     /// <returns>True if the student exists; otherwise, false.</returns>
-    public bool StudentExists(string studentName)
+    public bool DoesStudentExists(string studentName)
     {
-        return this._studentGradeRepository.ContainsKey(studentName);
+        return this.GetAllStudents().ContainsKey(studentName);
     }
 
     /// <summary>
@@ -63,15 +71,21 @@ public class StudentGradeService : IStudentService
     /// <returns>The student's grade.</returns>
     public int GetStudentGrade(string studentName)
     {
-        return this._studentGradeRepository.Get(studentName);
+        if (!this.DoesStudentExists(studentName))
+        {
+            return -1;
+        }
+
+        return this.GetAllStudents()[studentName];
     }
 
     /// <summary>
     /// Retrieves all students and grades.
     /// </summary>
     /// <returns>A collection of students and grades.</returns>
-    public IEnumerable<KeyValuePair<string, int>> GetAllStudents()
+    public Dictionary<string, int> GetAllStudents()
     {
-        return this._studentGradeRepository.GetAllStudents();
+        return this._studentGradeRepository.GetAllStudents()
+            .ToDictionary(pair => pair.Key, pair => pair.Value);
     }
 }
