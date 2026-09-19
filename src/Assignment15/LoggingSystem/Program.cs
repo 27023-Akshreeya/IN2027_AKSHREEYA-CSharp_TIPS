@@ -1,8 +1,10 @@
-﻿using System.Diagnostics;
-using LoggingSystem;
+﻿using LoggingSystem;
 
 namespace Assignments
 {
+    /// <summary>
+    /// 
+    /// </summary>
     internal class Program
     {
         private static void Main()
