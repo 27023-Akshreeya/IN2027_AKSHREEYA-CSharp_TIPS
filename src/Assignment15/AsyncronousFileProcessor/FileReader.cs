@@ -4,7 +4,7 @@ using System.Text;
 namespace AsyncronousFileProcessor
 {
     /// <summary>
-    /// Provides asynchronous methods to benchmark file reading and process data concurrently.
+    /// Provides asynchronous methods to read and process data concurrently.
     /// </summary>
     public class FileReader
     {
