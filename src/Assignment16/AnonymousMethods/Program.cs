@@ -18,7 +18,7 @@
             DisplayArray(array, "Array after sorting");
 
             Console.WriteLine("Using anonymous method to sort a list of strings:");
-            List<string> list = new List<string> { "apple", "date", "cherry", "elderberry", "banana" };
+            var list = new List<string> { "apple", "date", "cherry", "elderberry", "banana" };
             DisplayList(list, "List before sorting");
             CustomListSort(list);
             DisplayList(list, "List after sorting");
