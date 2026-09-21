@@ -4,7 +4,7 @@ namespace EventsAndDelegates
 { /// <summary>
   /// Core application execution entry point.
   /// </summary>
-    internal class Program
+    public class Program
     {
         /// <summary>
         /// The main entry point for the console application.
@@ -12,7 +12,7 @@ namespace EventsAndDelegates
         /// <param name="args">Command-line arguments.</param>
         public static void Main(string[] args)
         {
-            Notifier notifier = new Notifier();
+            var notifier = new Notifier();
             notifier.OnAction += PrintMessageToConsole;
             notifier.TriggerAction("Hello world");
             notifier.OnAction -= PrintMessageToConsole;
