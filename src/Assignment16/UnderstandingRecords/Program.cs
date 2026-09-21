@@ -35,11 +35,22 @@ namespace UnderstandingRecords
             };
             DisplayBook(book3);
 
-            CheckEquality(book1, book2);
+            CheckEquality(book1, book2, $"{book1.Title} and {book2.Title}");
+            CheckEquality(book2, book3, $"{book2.Title} and {book3.Title}");
             UpdateBook(book3);
-
             var novel1 = new Novel("Pride and Prejudice", "Jane Austen", 9780141439518);
             UpdateNovel(novel1);
+            CreateNewBook(book3);
+        }
+
+        private static void CreateNewBook(Book book)
+        {
+            var copyBook = book;
+            var modifyCopy = copyBook with { Title = "Animal Farm", ISBN = 9780451012890 };
+            Console.WriteLine("Original Book");
+            DisplayBook(book);
+            Console.WriteLine("Modifiyed copy of the book");
+            DisplayBook(modifyCopy);
         }
 
         /// <summary>
@@ -64,15 +75,8 @@ namespace UnderstandingRecords
             Console.WriteLine("Mutablity of record class");
 
             // book3.isbn = 9780547928237;
-            // above snippet would throw an error because the property is set as "init" only and
-            // cant be changed unless explicitly declared to "set".
-            Console.WriteLine("Update book using \"with\" keyword");
-            var copyBook = book;
-            var modifyCopy = copyBook with { Title = "Animal Farm", ISBN = 9780451012890 };
-            Console.WriteLine("Original Book");
-            DisplayBook(book);
-            Console.WriteLine("Modifiyed copy of the book");
-            DisplayBook(modifyCopy);
+            Console.WriteLine("\"book3.isbn = 9780547928237\" would throw an error because the property is set as \"init\" " +
+                "only and cant be changed unless explicitly declared to \"set\"\n");
         }
 
         /// <summary>
@@ -80,26 +84,26 @@ namespace UnderstandingRecords
         /// </summary>
         /// <param name="book1">First book.</param>
         /// <param name="book2">Second book.</param>
-        private static void CheckEquality(Book book1, Book book2)
+        private static void CheckEquality(Book book1, Book book2, string description)
         {
             Console.WriteLine("Checking equality of book values");
             if (book1 == book2)
             {
-                Console.WriteLine("Both books consists of same values");
+                Console.WriteLine(description + " consists of same values\n");
             }
             else
             {
-                Console.WriteLine("Both book values are different");
+                Console.WriteLine(description + " are different\n");
             }
 
             Console.WriteLine("Checking equality of book references");
             if (ReferenceEquals(book1, book2))
             {
-                Console.WriteLine("Reference of the books are same");
+                Console.WriteLine("Reference of the books are same\n");
             }
             else
             {
-                Console.WriteLine("Reference of the books are not same");
+                Console.WriteLine("Reference of the books are not same\n");
             }
         }
 
@@ -110,7 +114,7 @@ namespace UnderstandingRecords
         private static void DisplayBook(Book book)
         {
             var (title, author, isbn) = book;
-            Console.WriteLine($"[Book ISBN : {isbn}]Book title: {title} written by {author}");
+            Console.WriteLine($"[Book ISBN : {isbn}]Book title: {title} written by {author}\n");
         }
 
         /// <summary>
@@ -119,7 +123,7 @@ namespace UnderstandingRecords
         /// <param name="novel">Novel to display.</param>
         private static void DisplayNovel(Novel novel)
         {
-            Console.WriteLine($"[Book ISBN : {novel.isbn}]Book title: {novel.title} written by {novel.author}");
+            Console.WriteLine($"[Book ISBN : {novel.isbn}]Book title: {novel.title} written by {novel.author}\n");
         }
     }
 }
