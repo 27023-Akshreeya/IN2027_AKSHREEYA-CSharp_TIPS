@@ -11,7 +11,9 @@ public class Program
 {
     private static void Main(string[] args)
     {
-        List<Shape> shapes = new List<Shape>
+        try
+        {
+            var shapes = new List<Shape>
         {
             new Circle(5),
             new Rectangle(10, 5),
@@ -19,15 +21,20 @@ public class Program
             null,
         };
 
-        foreach (Shape shape in shapes)
-        {
-            DisplayShapeDetails(shape);
+            foreach (Shape shape in shapes)
+            {
+                DisplayShapeDetails(shape);
+            }
+
+            var square = new Square(6);
+
+            // DisplayShapeDetails(square);
+            // this will throw a compile time error stating that "Argument 1: cannot convert from 'PatternMatching.Square' to 'PatternMatching.Shape'"
         }
-
-        var square = new Square(6);
-
-        // DisplayShapeDetails(square);
-        // this will throw a compile time error stating that "Argument 1: cannot convert from 'PatternMatching.Square' to 'PatternMatching.Shape'"
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
     }
 
     private static void DisplayShapeDetails(Shape shape)
