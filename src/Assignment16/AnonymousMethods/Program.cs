@@ -11,23 +11,30 @@
         /// <param name="args">The command-line arguments.</param>
         public static void Main(string[] args)
         {
-            Console.WriteLine("Using anonymous method to sort an integer array:");
-            int[] array = { 42, 7, 89, 14, 56, 33, 91, 2, 78, 65 };
-            DisplayArray(array, "Array before sorting");
-            CustomArraySort(array);
-            DisplayArray(array, "Array after sorting");
+            try
+            {
+                Console.WriteLine("Using anonymous method to sort an integer array:");
+                int[] array = { 42, 7, 89, 14, 56, 33, 91, 2, 78, 65 };
+                DisplayArray(array, "Array before sorting");
+                CustomArraySort(array);
+                DisplayArray(array, "Array after sorting");
 
-            Console.WriteLine("Using anonymous method to sort a list of strings:");
-            var list = new List<string> { "apple", "date", "cherry", "elderberry", "banana" };
-            DisplayList(list, "List before sorting");
-            CustomListSort(list);
-            DisplayList(list, "List after sorting");
+                Console.WriteLine("Using anonymous method to sort a list of strings:");
+                var list = new List<string> { "apple", "date", "cherry", "elderberry", "banana" };
+                DisplayList(list, "List before sorting");
+                CustomListSort(list);
+                DisplayList(list, "List after sorting");
 
-            Console.WriteLine("Using anonymous method to sort a string array:");
-            string[] array2 = { "Volvo", "BMW", "Ford", "Mazda" };
-            DisplayArray(array2, "Array before sorting");
-            CustomArraySort(array2);
-            DisplayArray(array2, "Array after sorting");
+                Console.WriteLine("Using anonymous method to sort a string array:");
+                string[] array2 = { "Volvo", "BMW", "Ford", "Mazda" };
+                DisplayArray(array2, "Array before sorting");
+                CustomArraySort(array2);
+                DisplayArray(array2, "Array after sorting");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         /// <summary>
