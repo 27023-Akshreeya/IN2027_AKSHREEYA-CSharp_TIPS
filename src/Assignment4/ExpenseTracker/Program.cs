@@ -11,14 +11,14 @@ namespace Assignments;
 public class Program
 {
     /// <summary>
-    /// Application entry point that initializes and runs the expense tracker.
+    /// Initializes and runs the Expense Tracker application.
     /// </summary>
     /// <param name="args">Command-line arguments.</param>
     public static void Main(string[] args)
     {
         try
         {
-            var repo = new ExpenseTrackerRepository();
+            var repo = new ExpenseTrackerMemoryRepository();
             var service = new ExpenseTrackerService(repo);
             var view = new ExpenseTrackerViewer(service);
             view.DisplayMenu();
@@ -27,5 +27,7 @@ public class Program
         {
             Console.WriteLine(ex.Message);
         }
+
+        Console.ReadKey();
     }
 }
