@@ -36,25 +36,25 @@ public class ConsoleUI
                 return;
             }
 
-            switch ((CalculatorOperation)int.Parse(choice))
+            switch ((Calculator)int.Parse(choice))
             {
-                case CalculatorOperation.Add:
+                case Calculator.Add:
                     this.DisplayMessage("Addition Operation", ConsoleColor.Green);
-                    this.PerformOperation(CalculatorOperation.Add);
+                    this.PerformOperation(Calculator.Add);
                     break;
-                case CalculatorOperation.Subtract:
+                case Calculator.Subtract:
                     this.DisplayMessage("Subtaction Operation", ConsoleColor.Green);
-                    this.PerformOperation(CalculatorOperation.Subtract);
+                    this.PerformOperation(Calculator.Subtract);
                     break;
-                case CalculatorOperation.Multiply:
+                case Calculator.Multiply:
                     this.DisplayMessage("Muplication Operation", ConsoleColor.Green);
-                    this.PerformOperation(CalculatorOperation.Multiply);
+                    this.PerformOperation(Calculator.Multiply);
                     break;
-                case CalculatorOperation.Divide:
+                case Calculator.Divide:
                     this.DisplayMessage("Division Operation", ConsoleColor.Green);
-                    this.PerformOperation(CalculatorOperation.Divide);
+                    this.PerformOperation(Calculator.Divide);
                     break;
-                case CalculatorOperation.Exit:
+                case Calculator.Exit:
                     exit = true;
                     return;
                 default:
@@ -70,7 +70,7 @@ public class ConsoleUI
     /// Requests numbers from the user and executes the calculation.
     /// </summary>
     /// <param name="operation">The operation type to execute.</param>
-    private void PerformOperation(CalculatorOperation operation)
+    private void PerformOperation(Calculator operation)
     {
         string firstInput = this.GetUserInputWithAttempts("Enter the first number:", Validator.IsInputValid, "Invalid number!");
         string secondInput = this.GetUserInputWithAttempts("Enter the second number:", Validator.IsInputValid, "Invalid number!");

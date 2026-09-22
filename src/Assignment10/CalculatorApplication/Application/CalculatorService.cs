@@ -8,14 +8,14 @@ namespace CalculatorApplication.Application;
 /// </summary>
 public class CalculatorService
 {
-    private readonly MathUtils _mathUtils;
+    private readonly MathUtilities _mathUtilities;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="CalculatorService"/> class.
     /// </summary>
     public CalculatorService()
     {
-        this._mathUtils = new MathUtils();
+        this._mathUtilities = new MathUtilities();
     }
 
     /// <summary>
@@ -25,7 +25,7 @@ public class CalculatorService
     /// <param name="a">The first operand.</param>
     /// <param name="b">The second operand.</param>
     /// <returns>A data transfer object containing the result or error message.</returns>
-    public CalculatorDTO Calculator(CalculatorOperation operation, int a, int b)
+    public CalculatorDTO Calculator(Calculator operation, int a, int b)
     {
         var output = new CalculatorDTO();
 
@@ -33,10 +33,10 @@ public class CalculatorService
         {
             output.Result = operation switch
             {
-                CalculatorOperation.Add => this._mathUtils.Add(a, b),
-                CalculatorOperation.Subtract => this._mathUtils.Subtract(a, b),
-                CalculatorOperation.Multiply => this._mathUtils.Multiply(a, b),
-                CalculatorOperation.Divide => this._mathUtils.Divide(a, b),
+                Domain.Calculator.Add => this._mathUtilities.Add(a, b),
+                Domain.Calculator.Subtract => this._mathUtilities.Subtract(a, b),
+                Domain.Calculator.Multiply => this._mathUtilities.Multiply(a, b),
+                Domain.Calculator.Divide => this._mathUtilities.Divide(a, b),
                 _ => throw new InvalidOperationException("Invalid Operation!")
             };
 

@@ -3,7 +3,7 @@
 /// <summary>
 /// Specifies the type of mathematical operation to perform.
 /// </summary>
-public enum CalculatorOperation
+public enum Calculator
 {
     /// <summary>
     /// Represents addition.
