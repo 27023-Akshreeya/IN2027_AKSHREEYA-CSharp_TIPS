@@ -13,34 +13,41 @@ namespace UnderstandingRecords
         /// <param name="args">Command-line arguments.</param>
         private static void Main(string[] args)
         {
-            var book1 = new Book
+            try
             {
-                Title = "To Kill a Mockingbird",
-                Author = "Harper Lee",
-                ISBN = 9780061120084,
-            };
-            DisplayBook(book1);
-            var book2 = new Book
-            {
-                Title = "To Kill a Mockingbird",
-                Author = "Harper Lee",
-                ISBN = 9780061120084,
-            };
-            DisplayBook(book2);
-            var book3 = new Book
-            {
-                Title = "1984",
-                Author = "George Orwell",
-                ISBN = 9780451524935,
-            };
-            DisplayBook(book3);
+                var book1 = new Book
+                {
+                    Title = "To Kill a Mockingbird",
+                    Author = "Harper Lee",
+                    ISBN = 9780061120084,
+                };
+                DisplayBook(book1);
+                var book2 = new Book
+                {
+                    Title = "To Kill a Mockingbird",
+                    Author = "Harper Lee",
+                    ISBN = 9780061120084,
+                };
+                DisplayBook(book2);
+                var book3 = new Book
+                {
+                    Title = "1984",
+                    Author = "George Orwell",
+                    ISBN = 9780451524935,
+                };
+                DisplayBook(book3);
 
-            CheckEquality(book1, book2, $"{book1.Title} and {book2.Title}");
-            CheckEquality(book2, book3, $"{book2.Title} and {book3.Title}");
-            UpdateBook(book3);
-            var novel1 = new Novel("Pride and Prejudice", "Jane Austen", 9780141439518);
-            UpdateNovel(novel1);
-            CreateNewBook(book3);
+                CheckEquality(book1, book2, $"{book1.Title} and {book2.Title}");
+                CheckEquality(book2, book3, $"{book2.Title} and {book3.Title}");
+                UpdateBook(book3);
+                var novel1 = new Novel("Pride and Prejudice", "Jane Austen", 9780141439518);
+                UpdateNovel(novel1);
+                CreateNewBook(book3);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         private static void CreateNewBook(Book book)
