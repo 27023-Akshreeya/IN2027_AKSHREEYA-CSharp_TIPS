@@ -11,13 +11,20 @@
         /// <param name="args">The command-line arguments.</param>
         private static void Main(string[] args)
         {
-            var numbers = new List<int> { 5, 2, 9, 1, 5, 6, 10, 3, 8, 12 };
-            Console.WriteLine($"Original list: {string.Join(", ", numbers)}");
-            var oddNumbers = FilterOddNumbers(numbers);
-            SquareNumbers(oddNumbers);
-            Console.WriteLine("Additional LINQ operations");
-            SortUniqueNumbers(numbers);
-            Console.WriteLine($"Product of numbers: {ProductOfNumbers(numbers)}");
+            try
+            {
+                var numbers = new List<int> { 5, 2, 9, 1, 5, 6, 10, 3, 8, 12 };
+                Console.WriteLine($"Original list: {string.Join(", ", numbers)}");
+                var oddNumbers = FilterOddNumbers(numbers);
+                SquareNumbers(oddNumbers);
+                Console.WriteLine("Additional LINQ operations");
+                SortUniqueNumbers(numbers);
+                Console.WriteLine($"Product of numbers: {ProductOfNumbers(numbers)}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         /// <summary>
