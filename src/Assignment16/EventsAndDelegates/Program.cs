@@ -12,10 +12,17 @@ namespace EventsAndDelegates
         /// <param name="args">Command-line arguments.</param>
         public static void Main(string[] args)
         {
-            var notifier = new Notifier();
-            notifier.OnAction += PrintMessageToConsole;
-            notifier.TriggerAction("Hello world");
-            notifier.OnAction -= PrintMessageToConsole;
+            try
+            {
+                var notifier = new Notifier();
+                notifier.OnAction += PrintMessageToConsole;
+                notifier.TriggerAction("Hello world");
+                notifier.OnAction -= PrintMessageToConsole;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         /// <summary>
