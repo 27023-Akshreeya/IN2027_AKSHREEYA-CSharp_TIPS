@@ -38,9 +38,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseTracker", "src\Assignment4\ExpenseTracker\ExpenseTracker.csproj", "{73CB22FE-7C55-7813-EF85-FE1F740AB9EF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Assignment12", "Assignment12", "{B3AB36F7-2E71-45CB-83BF-C1F1D8929512}"
-	ProjectSection(SolutionItems) = preProject
-		src\Assignment12\README.md = src\Assignment12\README.md
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemoryOptimization", "src\Assignment12\MemoryOptimization\MemoryOptimization.csproj", "{6BDC4C10-AA93-4D5B-84D3-DF71E42F4492}"
 EndProject
