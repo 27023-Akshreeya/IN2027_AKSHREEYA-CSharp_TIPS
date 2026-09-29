@@ -20,6 +20,20 @@ internal class FileWriter
     }
 
     /// <summary>
+    /// Buffers a processed string before transferring it directly to the target file stream.
+    /// </summary>
+    /// <param name="destination">file stream where the data will be written.</param>
+    /// <param name="processedString">The processed text data content to be saved.</param>
+    public static void WriteToMemoryStream(FileStream destination, string processedString)
+    {
+        byte[] processedBytes = Encoding.UTF8.GetBytes(processedString);
+        using var memoryStream = new MemoryStream();
+        memoryStream.Write(processedBytes, 0, processedBytes.Length);
+        memoryStream.Position = 0;
+        memoryStream.WriteTo(destination);
+    }
+
+    /// <summary>
     /// Generates a dummy file.
     /// </summary>
     /// <returns><see langword="true"/> if a new file was created; otherwise, <see langword="false"/>.</returns>
@@ -44,19 +58,5 @@ internal class FileWriter
         }
 
         return true;
-    }
-
-    /// <summary>
-    /// Buffers a processed string before transferring it directly to the target file stream.
-    /// </summary>
-    /// <param name="destination">file stream where the data will be written.</param>
-    /// <param name="processedString">The processed text data content to be saved.</param>
-    internal void WriteToMemoryStream(FileStream destination, string processedString)
-    {
-        byte[] processedBytes = Encoding.UTF8.GetBytes(processedString);
-        using var memoryStream = new MemoryStream();
-        memoryStream.Write(processedBytes, 0, processedBytes.Length);
-        memoryStream.Position = 0;
-        memoryStream.WriteTo(destination);
     }
 }
