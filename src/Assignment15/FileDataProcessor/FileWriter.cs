@@ -13,10 +13,10 @@ internal class FileWriter
     /// <summary>
     /// Initializes a new instance of the <see cref="FileWriter"/> class with a specified target file path.
     /// </summary>
-    /// <param name="filename">The path of the file to be managed.</param>
-    public FileWriter(string filename)
+    /// <param name="filePath">The path of the file to be managed.</param>
+    public FileWriter(string filePath)
     {
-        this._filePath = filename;
+        this._filePath = filePath;
     }
 
     /// <summary>
