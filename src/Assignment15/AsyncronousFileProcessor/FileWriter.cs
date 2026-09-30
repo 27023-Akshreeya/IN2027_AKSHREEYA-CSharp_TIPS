@@ -20,6 +20,21 @@ namespace AsyncronousFileProcessor
         }
 
         /// <summary>
+        /// Asynchronously buffers a processed string in memory before writing to the target stream.
+        /// </summary>
+        /// <param name="destination">The destination file stream.</param>
+        /// <param name="processedString">The text data to save.</param>
+        /// <returns> A <see cref="Task"/> representing the asynchronous operation.</placeholder></returns>
+        public static async Task WriteToMemoryStreamAsync(FileStream destination, string processedString)
+        {
+            byte[] processedBytes = Encoding.UTF8.GetBytes(processedString);
+            using var memoryStream = new MemoryStream();
+            await memoryStream.WriteAsync(processedBytes, 0, processedBytes.Length);
+            memoryStream.Position = 0;
+            await memoryStream.CopyToAsync(destination);
+        }
+
+        /// <summary>
         /// Asynchronously generates a 1 GB dummy file if it does not already exist.
         /// </summary>
         /// <returns>True if a new file was created; otherwise, false.</returns>
@@ -44,21 +59,6 @@ namespace AsyncronousFileProcessor
             }
 
             return true;
-        }
-
-        /// <summary>
-        /// Asynchronously buffers a processed string in memory before writing to the target stream.
-        /// </summary>
-        /// <param name="destination">The destination file stream.</param>
-        /// <param name="processedString">The text data to save.</param>
-        /// <returns> A <see cref="Task"/> representing the asynchronous operation.</placeholder></returns>
-        public static async Task WriteToMemoryStreamAsync(FileStream destination, string processedString)
-        {
-            byte[] processedBytes = Encoding.UTF8.GetBytes(processedString);
-            using var memoryStream = new MemoryStream();
-            await memoryStream.WriteAsync(processedBytes, 0, processedBytes.Length);
-            memoryStream.Position = 0;
-            await memoryStream.CopyToAsync(destination);
         }
     }
 }

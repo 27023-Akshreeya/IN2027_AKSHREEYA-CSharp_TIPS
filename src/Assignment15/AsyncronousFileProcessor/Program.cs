@@ -19,7 +19,6 @@ public class Program
 
             if (source1.Equals(string.Empty) || source2.Equals(string.Empty) || copy1.Equals(string.Empty) || copy2.Equals(string.Empty))
             {
-                Console.WriteLine("Invalid file path! ");
                 return;
             }
 
