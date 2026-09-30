@@ -22,15 +22,15 @@ public class FileWriter
     /// <summary>
     /// Buffers a processed string before transferring it directly to the target file stream.
     /// </summary>
-    /// <param name="destination">file stream where the data will be written.</param>
+    /// <param name="destinationFile">file stream where the data will be written.</param>
     /// <param name="processedString">The processed text data content to be saved.</param>
-    public static void WriteToMemoryStream(FileStream destination, string processedString)
+    public static void WriteToMemoryStream(FileStream destinationFile, string processedString)
     {
         byte[] processedBytes = Encoding.UTF8.GetBytes(processedString);
         using var memoryStream = new MemoryStream();
         memoryStream.Write(processedBytes, 0, processedBytes.Length);
         memoryStream.Position = 0;
-        memoryStream.WriteTo(destination);
+        memoryStream.WriteTo(destinationFile);
     }
 
     /// <summary>
