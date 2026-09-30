@@ -1,12 +1,12 @@
 ﻿using System.IO;
 using System.Text;
 
-namespace Assignments;
+namespace FileDataProcessor;
 
 /// <summary>
 /// Handles writing operations.
 /// </summary>
-internal class FileWriter
+public class FileWriter
 {
     private readonly string _filePath;
 
@@ -47,7 +47,7 @@ internal class FileWriter
             return false;
         }
 
-        byte[] dummyLine = System.Text.Encoding.ASCII.GetBytes("Dummy Line\n");
+        byte[] dummyLine = Encoding.ASCII.GetBytes("Dummy Line\n");
         using (FileStream fs = new FileStream(this._filePath, FileMode.Create, FileAccess.Write))
         {
             while (currentFileSize < content)
