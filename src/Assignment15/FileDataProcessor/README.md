@@ -1,4 +1,4 @@
-![alt text](image.png)
+![alt text](Output-1.png)
 
 - `CreateLargeFile()` : 1GB file is generated 
 - `ReadWithFileStream()` : Reads the file sequentially in small chunks of the mentioned bufferSize 

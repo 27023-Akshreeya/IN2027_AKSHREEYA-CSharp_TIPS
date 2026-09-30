@@ -1,8 +1,7 @@
 ﻿using System;
 using System.IO;
-using FileDataProcessor;
 
-namespace Assignments;
+namespace FileDataProcessor;
 
 /// <summary>
 /// Entry point for the application that manages file creation, reading, and data processing operations.
@@ -14,7 +13,7 @@ public class Program
         try
         {
             string sourceFilePath = GetFilePath();
-            if (sourceFilePath is null)
+            if (sourceFilePath.Equals(string.Empty))
             {
                 return;
             }
@@ -32,9 +31,13 @@ public class Program
 
             var reader = new FileReader(sourceFilePath);
             string destinationFile = GetFilePath();
-            Console.WriteLine($"FileStream Read Time: {reader.ReadWithFileStream()} ms");
-            Console.WriteLine($"BufferedStream Read Time: {reader.ReadWithBufferedStream()} ms");
-            Console.WriteLine($"Time taken to process data: {reader.ProcessData(destinationFile)}");
+            if (destinationFile.Equals(string.Empty))
+            {
+                return;
+            }
+
+            Console.WriteLine($"FileStream Read Time: {reader.ReadWithFileStream()} ms\nBufferedStream Read Time: {reader.ReadWithBufferedStream()} ms" +
+                $"\nTime taken to process data: {reader.ProcessData(destinationFile)}");
         }
         catch (UnauthorizedAccessException ex)
         {
@@ -56,12 +59,12 @@ public class Program
 
     private static string GetFilePath()
     {
-        Console.Write("Enter you files path:");
+        Console.Write("Enter file path:");
         var filePath = Console.ReadLine() ?? string.Empty;
         if (string.IsNullOrEmpty(filePath))
         {
             Console.WriteLine("Invalid file path!");
-            return null;
+            return string.Empty;
         }
 
         filePath = filePath.Trim('"', ' ');

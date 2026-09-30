@@ -1,22 +1,22 @@
 ﻿using System.IO;
 using System.Text;
 
-namespace Assignments;
+namespace FileDataProcessor;
 
 /// <summary>
 /// Handles writing operations.
 /// </summary>
-internal class FileWriter
+public class FileWriter
 {
     private readonly string _filePath;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FileWriter"/> class with a specified target file path.
     /// </summary>
-    /// <param name="filename">The path of the file to be managed.</param>
-    public FileWriter(string filename)
+    /// <param name="filePath">The path of the file to be managed.</param>
+    public FileWriter(string filePath)
     {
-        this._filePath = filename;
+        this._filePath = filePath;
     }
 
     /// <summary>
@@ -47,7 +47,7 @@ internal class FileWriter
             return false;
         }
 
-        byte[] dummyLine = System.Text.Encoding.ASCII.GetBytes("Dummy Line\n");
+        byte[] dummyLine = Encoding.ASCII.GetBytes("Dummy Line\n");
         using (FileStream fs = new FileStream(this._filePath, FileMode.Create, FileAccess.Write))
         {
             while (currentFileSize < content)
