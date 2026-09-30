@@ -13,10 +13,10 @@ namespace AsyncronousFileProcessor
         /// Initializes a new instance of the <see cref="FileWriter"/> class.
         /// Initializes the file writer with a target file path.
         /// </summary>
-        /// <param name="filename">The target file path.</param>
-        public FileWriter(string filename)
+        /// <param name="filePath">The target file path.</param>
+        public FileWriter(string filePath)
         {
-            this._filePath = filename;
+            this._filePath = filePath;
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace AsyncronousFileProcessor
         /// <param name="destination">The destination file stream.</param>
         /// <param name="processedString">The text data to save.</param>
         /// <returns> A <see cref="Task"/> representing the asynchronous operation.</placeholder></returns>
-        internal async Task WriteToMemoryStreamAsync(FileStream destination, string processedString)
+        public static async Task WriteToMemoryStreamAsync(FileStream destination, string processedString)
         {
             byte[] processedBytes = Encoding.UTF8.GetBytes(processedString);
             using var memoryStream = new MemoryStream();
