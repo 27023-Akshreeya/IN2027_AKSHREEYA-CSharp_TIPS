@@ -42,9 +42,21 @@ public class Program
             Console.WriteLine($"File 1 Core Execution Processing Time: {processingTimes[0]} ms\nFile 2 Core Execution Processing Time: {processingTimes[1]} ms" +
                 $"\nTotal Shared Total Concurrent Time: {concurrentWatch.ElapsedMilliseconds} ms");
         }
+        catch (UnauthorizedAccessException ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+        catch (DirectoryNotFoundException ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+        catch (IOException ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
         catch (Exception ex)
         {
-            Console.WriteLine($"{ex.Message}");
+            Console.WriteLine(ex.Message);
         }
     }
 
