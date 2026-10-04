@@ -7,6 +7,7 @@ namespace LoggingSystem
     /// </summary>
     public static class Logger
     {
+        private const string LogDirectory = @"C:\Users\akshreeya.thiyagaraj.SOLITONTECH\source\repos\IN2027_AKSHREEYA-CSharp_TIPS\src\Assignment15\LoggingSystem\ErrorLogger";
         private static ConcurrentDictionary<string, object> fileLock = new ConcurrentDictionary<string, object>();
 
         /// <summary>
@@ -18,7 +19,12 @@ namespace LoggingSystem
         {
             try
             {
-                string fileName = $"{userName}_errors.txt";
+                if (!Directory.Exists(LogDirectory))
+                {
+                    Directory.CreateDirectory(LogDirectory);
+                }
+
+                string fileName = Path.Combine(LogDirectory, $"{userName}_errors.txt");
                 object lockFile = fileLock.GetOrAdd(fileName, _ => new object());
 
                 lock (lockFile)
