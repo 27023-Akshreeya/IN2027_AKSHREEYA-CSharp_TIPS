@@ -1,11 +1,13 @@
-﻿namespace LoggingSystem
+﻿using System.Collections.Concurrent;
+
+namespace LoggingSystem
 {
     /// <summary>
     /// Provides thread-safe error logging functionality for multiple users.
     /// </summary>
     public static class Logger
     {
-        private static readonly object LockObject = new object();
+        private static ConcurrentDictionary<string, object> fileLock = new ConcurrentDictionary<string, object>();
 
         /// <summary>
         /// Writes an error message to the specified user's log file.
@@ -14,14 +16,26 @@
         /// <param name="errorMessage">Error message to be logged.</param>
         public static void LogError(string userName, string errorMessage)
         {
-            string fileName = userName + "_errors.txt";
-
-            lock (LockObject)
+            try
             {
-                using (StreamWriter writer = new StreamWriter(fileName, true))
+                string fileName = $"{userName}_errors.txt";
+                object lockFile = fileLock.GetOrAdd(fileName, _ => new object());
+
+                lock (lockFile)
                 {
-                    writer.WriteLine(DateTime.Now + " - " + errorMessage);
+                    using (StreamWriter writer = new StreamWriter(fileName, true))
+                    {
+                        writer.WriteLine($"{DateTime.UtcNow} - {errorMessage}");
+                    }
                 }
+            }
+            catch (IOException ioEx)
+            {
+                Console.WriteLine($"I/O error while logging for {userName}: {ioEx.Message}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Unexpected error while logging for {userName}: {ex.Message}");
             }
         }
     }

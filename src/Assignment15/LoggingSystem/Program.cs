@@ -1,11 +1,9 @@
-﻿using LoggingSystem;
-
-namespace Assignments
+﻿namespace LoggingSystem
 {
     /// <summary>
     /// Entry point for testing concurrent user error logging.
     /// </summary>
-    internal class Program
+    public class Program
     {
         /// <summary>
         /// Simulates multiple users logging errors simultaneously.
@@ -15,7 +13,12 @@ namespace Assignments
             List<Task> tasks = new List<Task>();
             for (int user = 1; user <= 5; user++)
             {
-                tasks.Add(Task.Run(() => Logger.LogError("User" + user, "Error occurred")));
+                int currentUser = user;
+                for (int entry = 1; entry <= 5; entry++)
+                {
+                    int currentEntry = entry;
+                    tasks.Add(Task.Run(() => Logger.LogError($"User{currentUser}", $"Error {currentEntry} occurred")));
+                }
             }
 
             Task.WaitAll(tasks.ToArray());
