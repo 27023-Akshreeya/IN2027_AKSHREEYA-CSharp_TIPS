@@ -12,8 +12,7 @@ namespace Assignments
             try
             {
                 using HttpClient client = new HttpClient();
-                string url = @"https://www.geeksforgeeks.org/c-sharp/c-sharp-tutorial/";
-                string content = await client.GetStringAsync(url);
+                string content = await client.GetStringAsync(@"https://www.geeksforgeeks.org/c-sharp/c-sharp-tutorial/");
                 Console.WriteLine(content);
             }
             catch (Exception ex)
