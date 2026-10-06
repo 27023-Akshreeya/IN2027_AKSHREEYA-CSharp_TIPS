@@ -1,0 +1,3 @@
+- The original code could cause a deadlock because it used `.Result` to synchronously wait for an asynchronous operation. 
+- This blocks the current thread while the awaited operation may need that thread to continue.
+- the issue is fixed by replacing `.Result` with `await`, allowing the thread to remain non-blocking while `SomeAsyncOperation()` completes. The Main method also uses await `DeadlockMethod()`.
