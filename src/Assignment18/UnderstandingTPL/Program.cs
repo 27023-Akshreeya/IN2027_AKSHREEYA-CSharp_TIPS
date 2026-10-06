@@ -1,7 +1,10 @@
 ﻿using System.Diagnostics;
 
-namespace Assignments
+namespace UnderstandingTPL
 {
+    /// <summary>
+    /// Demonstrates the use of Parallel.For and Parallel.ForEach to perform operations on a large array, comparing the performance of parallel and sequential processing.
+    /// </summary>
     internal class Program
     {
         private const int ArraySize = 500000000;
