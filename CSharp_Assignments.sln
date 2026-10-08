@@ -55,6 +55,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncronousFileProcessor", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileDataProcessor", "src\Assignment15\FileDataProcessor\FileDataProcessor.csproj", "{22340591-3D2D-4B54-EA89-6B4FC923BBDF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileProcessOptimization", "src\Assignment15\FileProcessOptimization\FileProcessOptimization.csproj", "{46C6FFEA-DE7C-ABD3-DC2E-78B9AFE07F7D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -105,6 +107,10 @@ Global
 		{22340591-3D2D-4B54-EA89-6B4FC923BBDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{22340591-3D2D-4B54-EA89-6B4FC923BBDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{22340591-3D2D-4B54-EA89-6B4FC923BBDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46C6FFEA-DE7C-ABD3-DC2E-78B9AFE07F7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46C6FFEA-DE7C-ABD3-DC2E-78B9AFE07F7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46C6FFEA-DE7C-ABD3-DC2E-78B9AFE07F7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46C6FFEA-DE7C-ABD3-DC2E-78B9AFE07F7D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
