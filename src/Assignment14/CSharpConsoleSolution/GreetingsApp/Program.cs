@@ -1,6 +1,4 @@
-﻿using MathApp;
-
-namespace GreetingsApp
+﻿namespace GreetingsApp
 {
     /// <summary>
     /// Contains the application's entry point and coordinates greeting display and math operations.
