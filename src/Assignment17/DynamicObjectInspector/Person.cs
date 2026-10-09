@@ -1,4 +1,6 @@
-﻿/// <summary>
+﻿using System;
+
+/// <summary>
 /// Represents a person with basic details that can be inspected and modified at runtime.
 /// </summary>
 internal class Person

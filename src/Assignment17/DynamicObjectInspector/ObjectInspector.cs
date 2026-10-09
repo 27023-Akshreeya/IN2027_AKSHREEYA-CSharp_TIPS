@@ -5,8 +5,6 @@ namespace DynamicObjectInspector;
 /// <summary>
 /// Inspects and manipulates the properties of an object at runtime.
 /// </summary>
-/// <remarks>Provides methods to display property values and update property values of the specified
-/// object.</remarks>
 public class ObjectInspector
 {
     /// <summary>
