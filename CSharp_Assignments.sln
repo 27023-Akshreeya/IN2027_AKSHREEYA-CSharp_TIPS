@@ -65,6 +65,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InspectAssemblyMetadata", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductManager", "src\Assignment17\ProductManager\ProductManager.csproj", "{890BB725-D8BB-AE62-673A-E11586AB9E4A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PluginHost", "PluginHost", "{BAEDB44A-62DE-46E8-8818-9104577748EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginSystem", "src\Assignment17\PluginHost\PluginSystem\PluginSystem.csproj", "{A1EAF90A-9870-4126-AFD6-90E9E27FF2A9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{940349AE-034F-45FC-AC0B-69671ABB5911}"
+	ProjectSection(SolutionItems) = preProject
+		src\Assignment17\PluginHost\Plugins\RandomNumberPlugin.dll = src\Assignment17\PluginHost\Plugins\RandomNumberPlugin.dll
+		src\Assignment17\PluginHost\Plugins\TimePlugin.dll = src\Assignment17\PluginHost\Plugins\TimePlugin.dll
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -131,6 +141,10 @@ Global
 		{890BB725-D8BB-AE62-673A-E11586AB9E4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{890BB725-D8BB-AE62-673A-E11586AB9E4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{890BB725-D8BB-AE62-673A-E11586AB9E4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1EAF90A-9870-4126-AFD6-90E9E27FF2A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1EAF90A-9870-4126-AFD6-90E9E27FF2A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1EAF90A-9870-4126-AFD6-90E9E27FF2A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1EAF90A-9870-4126-AFD6-90E9E27FF2A9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -165,6 +179,9 @@ Global
 		{527CE198-4D7E-4058-A749-5D8E168EEEAB} = {DCAA095E-2796-41FA-A1D0-1134E29309E7}
 		{FC0422D4-CFE4-4537-A90C-682CF25874CE} = {527CE198-4D7E-4058-A749-5D8E168EEEAB}
 		{890BB725-D8BB-AE62-673A-E11586AB9E4A} = {527CE198-4D7E-4058-A749-5D8E168EEEAB}
+		{BAEDB44A-62DE-46E8-8818-9104577748EF} = {527CE198-4D7E-4058-A749-5D8E168EEEAB}
+		{A1EAF90A-9870-4126-AFD6-90E9E27FF2A9} = {BAEDB44A-62DE-46E8-8818-9104577748EF}
+		{940349AE-034F-45FC-AC0B-69671ABB5911} = {BAEDB44A-62DE-46E8-8818-9104577748EF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D4CECB66-8E11-49D9-AA1E-464EE0231450}
