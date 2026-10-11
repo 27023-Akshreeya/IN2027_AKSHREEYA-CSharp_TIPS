@@ -1,4 +1,6 @@
-﻿/// <summary>
+﻿using System;
+
+/// <summary>
 /// Defines mathematical and validation operations for testing.
 /// </summary>
 public interface ICalculator
