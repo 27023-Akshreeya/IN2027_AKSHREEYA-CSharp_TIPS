@@ -15,6 +15,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PluginClass\PluginBase\PluginBase.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="PluginBase">
       <HintPath>..\..\..\..\..\..\..\Documents\projects\Practice\Plugins\PluginBase\bin\Debug\net6.0\PluginBase.dll</HintPath>
     </Reference>
