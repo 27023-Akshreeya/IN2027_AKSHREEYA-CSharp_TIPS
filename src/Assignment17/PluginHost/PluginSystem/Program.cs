@@ -1,8 +1,6 @@
 ﻿using System.Reflection;
 using PluginBase;
 
-namespace PluginHost;
-
 /// <summary>
 /// Entry point for the application that loads and executes plugins from a specified directory.
 /// </summary>

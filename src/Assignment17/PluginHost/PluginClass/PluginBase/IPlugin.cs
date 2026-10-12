@@ -1,9 +1,12 @@
-﻿namespace PluginBase
-{
-    public interface IPlugin
-    {
-        string Name { get; }
+﻿
+namespace PluginBase;
 
-        void Execute();
-    }
+/// <summary>
+/// Plugin interface
+/// </summary>
+public interface IPlugin
+{
+    string Name { get; }
+
+    void Execute();
 }
