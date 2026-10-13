@@ -5,6 +5,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<CSharpAnalyzer>true</CSharpAnalyzer>
+		<CSharpAnalyser>true</CSharpAnalyser>
 	</PropertyGroup>
 
 </Project>
